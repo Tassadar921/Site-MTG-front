@@ -14,21 +14,21 @@ export class HomePage implements OnInit{
   public imail;
   public confPassword;
 
-  private retour;
-
   public cname;
   public cpassword;
 
   public output='';
+
+  private retour;
 
   constructor(
     private http: HttpClient,
   ) {}
 
   ngOnInit() {
-    this.http.post('http://loginMTG.tassadar.ovh:8080/mail', 'a').subscribe(response => {
-      console.log(response);
-    });
+    // this.http.post('http://localhost:8080/mail', 'a').pipe().subscribe(response=>{
+    //   console.log(response);
+    // });
   }
 
   update=()=>{};
@@ -47,7 +47,7 @@ export class HomePage implements OnInit{
         mail: this.imail
       };
 
-      await this.http.post('http://loginMTG.tassadar.ovh:8080/signIn', data).subscribe(response => {
+      await this.http.post('http://localhost:8080/signIn', data).subscribe(response => {
         this.retour=response;
         this.output=this.retour.message;
       });
@@ -80,7 +80,7 @@ export class HomePage implements OnInit{
       name: this.cname,
       password: this.cpassword
     };
-    await this.http.post('http://loginMTG.tassadar.ovh:8080/login', data).pipe().subscribe(response => {
+    await this.http.post('http://localhost:8080/login', data).pipe().subscribe(response => {
       this.retour=response;
       this.output=this.retour.message;
       if(this.retour.co===true){
