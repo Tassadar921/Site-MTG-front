@@ -1,17 +1,87 @@
 <ion-content>
   <ion-grid id="grid">
+    <ion-row>
+      <ion-segment value="1">
+        <ion-segment-button value="1" (click)="switch(1)">Connexion</ion-segment-button>
+        <ion-segment-button value="0" (click)="switch(0)">Inscription</ion-segment-button>
+      </ion-segment>
+    </ion-row>
+
+    <div *ngIf="exists===0">
+      <div *ngIf="displayToken===0">
+        <ion-row>
+          <ion-col><h1>Inscripton :</h1></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input color="secondary" placeholder="Nickname" [(ngModel)]="iname" type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input color="secondary" placeholder="Password" [(ngModel)]="ipassword" type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input color="secondary" placeholder="Confirm password" [(ngModel)]="confPassword"
+                       type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input color="secondary" placeholder="Mail" [(ngModel)]="imail" type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="signUp()">Submit</ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div *ngIf="displayToken===1">
+        <ion-row>
+          <ion-col>
+            <ion-input color="secondary" placeholder="Token" [(ngModel)]="token" type="text"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="switchTokenDisplay()">Modifier entrées</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button (click)="submitToken()">Submit</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button (click)="signUp()">Renvoyer token</ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+
+    <div *ngIf="exists===1">
+      <ion-row>
+        <ion-col><h1>Connexion :</h1></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input color="secondary" placeholder="Nickname" [(ngModel)]="cname" type="text"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input color="secondary" placeholder="Password" [(ngModel)]="cpassword" type="text"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="signIn()">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
     <ion-row><ion-col><p>{{output}}</p></ion-col></ion-row>
-    <ion-row><ion-col><h1>Inscripton :</h1></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="nickname" [(ngModel)]="iname" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="password" [(ngModel)]="ipassword" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="confirm password" [(ngModel)]="confPassword" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="mail" [(ngModel)]="imail" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-button (click)="signUp()">Enter</ion-button></ion-col></ion-row>
-    <ion-row></ion-row>
-    <ion-row><ion-col><h1>Connexion :</h1></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="nickname" [(ngModel)]="cname" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-input color="secondary" placeholder="password" [(ngModel)]="cpassword" type="text"></ion-input></ion-col></ion-row>
-    <ion-row><ion-col><ion-button (click)="signIn()">Enter</ion-button></ion-col></ion-row>
+
   </ion-grid>
 
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component,OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {GlobalVarsService} from '../shared/services/global-vars.service';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +12,24 @@ export class HomePage implements OnInit{
 
   public iname;
   public ipassword;
-  public imail;
   public confPassword;
+  public imail;
+  public token;
+
 
   public cname;
   public cpassword;
 
+  public displayToken=0;
   public output='';
+
+  public exists = 1;
 
   private retour;
 
   constructor(
     private http: HttpClient,
+    private glob: GlobalVarsService,
   ) {}
 
   ngOnInit() {
@@ -31,9 +38,19 @@ export class HomePage implements OnInit{
     // });
   }
 
+  switch=(val)=>{ //toggle pour les components
+    this.exists=val;
+  };
+
   update=()=>{};
 
-  async signUp() {
+  switchTokenDisplay=()=>{
+    this.displayToken=0;
+  };
+
+  signUp() {
+
+    const data={mail:this.imail};
 
     this.output='';
 
@@ -41,15 +58,12 @@ export class HomePage implements OnInit{
 
       this.output='';
 
-      const data = {
-        name: this.iname,
-        password: this.ipassword,
-        mail: this.imail
-      };
-
-      await this.http.post('http://localhost:8080/signIn', data).subscribe(response => {
+      this.http.post('http://localhost:8080/mail', data).subscribe(response => {
         this.retour=response;
         this.output=this.retour.message;
+        if(this.retour.output===1){
+          this.displayToken=1;
+        }
       });
 
     }else{
@@ -75,16 +89,42 @@ export class HomePage implements OnInit{
     }
   }
 
-  async signIn(){
+  submitToken(){
+
+    const data = {
+      name: this.iname,
+      password: this.ipassword,
+      mail: this.imail
+    };
+
+    const token = {token:this.token};
+
+    this.http.post('http://localhost:8080/token', token).pipe().subscribe(response=>{
+      this.retour=response;
+      this.output=this.retour.message;
+      if(this.retour.output===1){
+        this.http.post('http://localhost:8080/signUp', data).pipe().subscribe(resp=>{
+          this.retour=resp;
+          this.output=this.retour.message;
+          if(this.retour.return===1) {
+            this.glob.setNickname(this.iname);
+            this.glob.setConnected(1);
+          }
+        });
+      }
+    });
+  };
+
+  signIn(){
     const data = {
       name: this.cname,
       password: this.cpassword
     };
-    await this.http.post('http://localhost:8080/login', data).pipe().subscribe(response => {
+    this.http.post('http://localhost:8080/login', data).pipe().subscribe(response => {
       this.retour=response;
       this.output=this.retour.message;
       if(this.retour.co===true){
-        console.log(data.name);
+        this.output=this.retour.message;
       }
     });
   }
