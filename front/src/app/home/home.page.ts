@@ -58,7 +58,7 @@ export class HomePage implements OnInit{
 
       this.output='';
 
-      this.http.post('http://localhost:8080/mail', data).subscribe(response => {
+      this.http.post('http://loginmtg.tassadar.ovh:8080/mail', data).subscribe(response => {
         this.retour=response;
         this.output=this.retour.message;
         if(this.retour.output===1){
@@ -99,11 +99,11 @@ export class HomePage implements OnInit{
 
     const token = {token:this.token};
 
-    this.http.post('http://localhost:8080/token', token).pipe().subscribe(response=>{
+    this.http.post('http://loginmtg.tassadar.ovh:8080/token', token).pipe().subscribe(response=>{
       this.retour=response;
       this.output=this.retour.message;
       if(this.retour.output===1){
-        this.http.post('http://localhost:8080/signUp', data).pipe().subscribe(resp=>{
+        this.http.post('http://loginmtg.tassadar.ovh:8080/signUp', data).pipe().subscribe(resp=>{
           this.retour=resp;
           this.output=this.retour.message;
           if(this.retour.return===1) {
@@ -116,16 +116,54 @@ export class HomePage implements OnInit{
   };
 
   signIn(){
-    const data = {
-      name: this.cname,
-      password: this.cpassword
-    };
-    this.http.post('http://localhost:8080/login', data).pipe().subscribe(response => {
-      this.retour=response;
-      this.output=this.retour.message;
-      if(this.retour.co===true){
-        this.output=this.retour.message;
+    if(this.cname && this.cpassword) {
+      const data = {
+        name: this.cname,
+        password: this.cpassword
+      };
+      this.http.post('http://loginmtg.tassadar.ovh:8080/login', data).pipe().subscribe(response => {
+        this.retour = response;
+        this.output = this.retour.message;
+        if (this.retour.co === true) {
+          this.output = this.retour.message;
+        }
+      });
+    }else{
+      if(!this.cname){
+        this.output='Nickname required';
+      }else{
+        if(!this.cpassword){
+          this.output='Password required';
+        }
       }
-    });
+    }
   }
+
+  updateSignIn=(e)=>{
+    if(e.key==='Enter'){
+      this.signIn();
+    }
+  };
+
+  updateSignUp=(e)=>{
+    if(e.key==='Enter'){
+      this.signUp();
+    }
+  };
+
+  updateToken=(e)=>{
+    if(e.key==='Enter'){
+      this.submitToken();
+    }
+  };
+
+  reset=()=>{
+    this.cname='';
+    this.cpassword='';
+    this.iname='';
+    this.ipassword='';
+    this.confPassword='';
+    this.imail='';
+    this.output='';
+  };
 }
