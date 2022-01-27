@@ -1,20 +1,17 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-grid id="grid">
+    <ion-row><ion-col><p>{{output}}</p></ion-col></ion-row>
+    <ion-row><ion-col><h1>Inscripton :</h1></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="nickname" [(ngModel)]="iname" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="password" [(ngModel)]="ipassword" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="confirm password" [(ngModel)]="confPassword" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="mail" [(ngModel)]="imail" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-button (click)="signUp()">Enter</ion-button></ion-col></ion-row>
+    <ion-row></ion-row>
+    <ion-row><ion-col><h1>Connexion :</h1></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="nickname" [(ngModel)]="cname" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-input color="secondary" placeholder="password" [(ngModel)]="cpassword" type="text"></ion-input></ion-col></ion-row>
+    <ion-row><ion-col><ion-button (click)="signIn()">Enter</ion-button></ion-col></ion-row>
+  </ion-grid>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
 </ion-content>

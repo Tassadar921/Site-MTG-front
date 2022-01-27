@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://loginMTG.tassadar.ovh",
+    "secure": false
+  }
+}
