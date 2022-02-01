@@ -1,6 +1,7 @@
 import { Component,OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GlobalVarsService} from '../shared/services/global-vars.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +11,17 @@ import {GlobalVarsService} from '../shared/services/global-vars.service';
 
 export class HomePage implements OnInit{
 
-  public iname;
-  public ipassword;
-  public confPassword;
-  public imail;
+  public iname='';
+  public ipassword='';
+  public confPassword='';
+  public imail='';
   public token;
 
 
-  public cname;
-  public cpassword;
+  public cname='';
+  public cpassword='';
+
+  public recupMail='';
 
   public displayToken=0;
   public output='';
@@ -27,30 +30,33 @@ export class HomePage implements OnInit{
 
   private retour;
 
+  //private url = 'http://loginmtg.tassadar.ovh:8080/';
+  private url = 'http://localhost:8080/';
+
   constructor(
     private http: HttpClient,
     private glob: GlobalVarsService,
+    private router: Router,
   ) {}
 
-  ngOnInit() {
-    // this.http.post('http://localhost:8080/mail', 'a').pipe().subscribe(response=>{
-    //   console.log(response);
-    // });
-  }
+  ngOnInit() {}
 
   switch=(val)=>{ //toggle pour les components
+    this.output='';
     this.exists=val;
   };
 
-  update=()=>{};
-
   switchTokenDisplay=()=>{
+    this.token='';
     this.displayToken=0;
   };
 
   signUp() {
 
-    const data={mail:this.imail};
+    const data={
+      mail:this.imail,
+      name: this.iname
+    };
 
     this.output='';
 
@@ -58,7 +64,7 @@ export class HomePage implements OnInit{
 
       this.output='';
 
-      this.http.post('http://loginmtg.tassadar.ovh:8080/mail', data).subscribe(response => {
+      this.http.post(this.url + 'mailToken', data).subscribe(response => {
         this.retour=response;
         this.output=this.retour.message;
         if(this.retour.output===1){
@@ -97,51 +103,66 @@ export class HomePage implements OnInit{
       mail: this.imail
     };
 
-    const token = {token:this.token};
+    const token = {
+      token: this.token,
+      mail: this.imail,
+    };
 
-    this.http.post('http://loginmtg.tassadar.ovh:8080/token', token).pipe().subscribe(response=>{
+    this.http.post(this.url + 'token', token).pipe().subscribe(response=>{
       this.retour=response;
       this.output=this.retour.message;
       if(this.retour.output===1){
-        this.http.post('http://loginmtg.tassadar.ovh:8080/signUp', data).pipe().subscribe(resp=>{
+        this.http.post(this.url + 'signUp', data).pipe().subscribe(resp=>{
           this.retour=resp;
           this.output=this.retour.message;
           if(this.retour.return===1) {
             this.glob.setNickname(this.iname);
             this.glob.setConnected(1);
+            this.router.navigateByUrl('/welcome');
           }
         });
       }
     });
   };
 
-  signIn(){
-    if(this.cname && this.cpassword) {
-      const data = {
-        name: this.cname,
-        password: this.cpassword
-      };
-      this.http.post('http://loginmtg.tassadar.ovh:8080/login', data).pipe().subscribe(response => {
-        this.retour = response;
-        this.output = this.retour.message;
-        if (this.retour.co === true) {
+  signIn(indice, nom, pass) {
+    const data = {
+      name: nom,
+      password: pass
+    };
+
+    if (indice === 1) {
+      if (nom!=='' && pass!=='') {
+        this.http.post(this.url + 'login', data).pipe().subscribe(response => {
+          this.retour = response;
           this.output = this.retour.message;
-        }
-      });
-    }else{
-      if(!this.cname){
-        this.output='Nickname required';
-      }else{
-        if(!this.cpassword){
-          this.output='Password required';
+          if (this.retour.co === true) {
+            this.login(nom);
+          }
+        });
+      } else {
+        if (nom==='') {
+          this.output = 'Nickname required';
+        } else {
+          if (pass==='') {
+            this.output = 'Password required';
+          }
         }
       }
+    }else{
+      console.log('bouh');
     }
-  }
+  };
+
+  login=(name)=>{
+    this.glob.setNickname(name);
+    this.glob.setConnected(true);
+    this.router.navigateByUrl('/welcome');
+  };
 
   updateSignIn=(e)=>{
     if(e.key==='Enter'){
-      this.signIn();
+      this.signIn(1, this.cname, this.cpassword);
     }
   };
 
@@ -155,6 +176,29 @@ export class HomePage implements OnInit{
     if(e.key==='Enter'){
       this.submitToken();
     }
+  };
+
+  updateResetPassword=(e)=>{
+    if(e.key==='Enter'){
+      this.resendPassword();
+    }
+  };
+
+  resendPassword=()=>{
+    const data={mail: this.recupMail};
+    this.http.post(this.url + 'resetPassword', data).pipe().subscribe(response =>{
+      this.retour=response;
+      this.output=this.retour.message;
+    });
+  };
+
+  backToLogin=()=>{
+    this.recupMail='';
+    this.exists=1;
+  };
+
+  sendPassword=()=>{
+    this.exists=2;
   };
 
   reset=()=>{

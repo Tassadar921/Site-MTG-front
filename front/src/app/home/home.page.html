@@ -68,7 +68,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-input clearInput="true" color="secondary" placeholder="Nickname" (keyup)="updateSignIn($event)" [(ngModel)]="cname" type="text"></ion-input>
+          <ion-input clearInput="true" color="secondary" placeholder="Nickname or email" (keyup)="updateSignIn($event)" [(ngModel)]="cname" type="text"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -81,7 +81,25 @@
           <ion-button (click)="reset()">Reset</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button (click)="signIn()">Submit</ion-button>
+          <ion-button (click)="signIn(1, this.cname, this.cpassword)">Submit</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="sendPassword()">Forgot password</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="exists===2">
+      <ion-row>
+        <ion-col>
+          <ion-input clearInput="true" color="secondary" placeholder="Email" (keyup)="updateResetPassword($event)" [(ngModel)]="recupMail" type="email"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="backToLogin()">Back to login</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="resendPassword()">Submit</ion-button>
         </ion-col>
       </ion-row>
     </div>

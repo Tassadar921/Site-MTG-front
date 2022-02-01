@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalVarsService {
 
-  private connected=0;
-  private nickname='';
+  private connected=1;
+  private nickname='Tassadar';
 
   constructor() { }
 
