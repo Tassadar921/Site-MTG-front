@@ -33,8 +33,8 @@ export class HomePage implements OnInit{
 
   private retour;
 
-  private url = 'http://loginmtg.tassadar.ovh:8080/';
-  // private url = 'http://localhost:8080/';
+  //private url = 'http://loginmtg.tassadar.ovh:8080/';
+  private url = 'http://localhost:8080/';
 
   constructor(
     private http: HttpClient,
