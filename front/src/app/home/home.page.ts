@@ -20,6 +20,9 @@ export class HomePage implements OnInit{
 
   public cname='';
   public cpassword='';
+  public cpass='';
+
+  public showPass = 1;
 
   public recupMail='';
 
@@ -30,8 +33,8 @@ export class HomePage implements OnInit{
 
   private retour;
 
-  //private url = 'http://loginmtg.tassadar.ovh:8080/';
-  private url = 'http://localhost:8080/';
+  private url = 'http://loginmtg.tassadar.ovh:8080/';
+  // private url = 'http://localhost:8080/';
 
   constructor(
     private http: HttpClient,
@@ -43,6 +46,7 @@ export class HomePage implements OnInit{
 
   switch=(val)=>{ //toggle pour les components
     this.output='';
+    this.showPass=1;
     this.exists=val;
   };
 
@@ -199,6 +203,14 @@ export class HomePage implements OnInit{
 
   sendPassword=()=>{
     this.exists=2;
+  };
+
+  showCPass=()=>{
+    if(this.showPass){
+      this.showPass=0;
+    }else{
+      this.showPass=1;
+    }
   };
 
   reset=()=>{
