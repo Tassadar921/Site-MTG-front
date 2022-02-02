@@ -22,7 +22,7 @@ export class HomePage implements OnInit{
   public cpassword='';
   public cpass='';
 
-  public showPass = 1;
+  public showPassword = 1;
 
   public recupMail='';
 
@@ -46,7 +46,7 @@ export class HomePage implements OnInit{
 
   switch=(val)=>{ //toggle pour les components
     this.output='';
-    this.showPass=1;
+    this.showPassword=1;
     this.exists=val;
   };
 
@@ -70,6 +70,7 @@ export class HomePage implements OnInit{
 
       this.http.post(this.url + 'mailToken', data).subscribe(response => {
         this.retour=response;
+        console.log(this.retour);
         this.output=this.retour.message;
         if(this.retour.output===1){
           this.displayToken=1;
@@ -115,6 +116,7 @@ export class HomePage implements OnInit{
     this.http.post(this.url + 'token', token).pipe().subscribe(response=>{
       this.retour=response;
       this.output=this.retour.message;
+      console.log(this.output);
       if(this.retour.output===1){
         this.http.post(this.url + 'signUp', data).pipe().subscribe(resp=>{
           this.retour=resp;
@@ -139,6 +141,7 @@ export class HomePage implements OnInit{
       if (nom!=='' && pass!=='') {
         this.http.post(this.url + 'login', data).pipe().subscribe(response => {
           this.retour = response;
+          console.log(this.retour);
           this.output = this.retour.message;
           if (this.retour.co === true) {
             this.login(nom);
@@ -199,17 +202,18 @@ export class HomePage implements OnInit{
   backToLogin=()=>{
     this.recupMail='';
     this.exists=1;
+    this.output='';
   };
 
   sendPassword=()=>{
     this.exists=2;
   };
 
-  showCPass=()=>{
-    if(this.showPass){
-      this.showPass=0;
+  showPass=()=>{
+    if(this.showPassword){
+      this.showPassword=0;
     }else{
-      this.showPass=1;
+      this.showPassword=1;
     }
   };
 

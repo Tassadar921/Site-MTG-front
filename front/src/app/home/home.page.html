@@ -25,9 +25,9 @@
           <ion-col>
             <ion-item color="none" shape="round">
               <ion-label color="secondary" position="floating">Password</ion-label>
-              <ion-input class="pass" clearInput="true" color="secondary" placeholder="Password" (keyup)="updateSignUp($event)" [(ngModel)]="ipassword" [type]="showPass ? 'password' : 'text'"></ion-input>
-              <ion-icon name="eye" slot="end" position="fixed" (click)="showCPass()" *ngIf="showPass"></ion-icon>
-              <ion-icon name="eye-off" slot="end" (click)="showCPass()" *ngIf="!showPass"></ion-icon>
+              <ion-input class="pass" clearInput="true" color="secondary" placeholder="Password" (keyup)="updateSignUp($event)" [(ngModel)]="ipassword" [type]="showPassword ? 'password' : 'text'"></ion-input>
+              <ion-icon name="eye" slot="end" (click)="showPass()" *ngIf="showPassword"></ion-icon>
+              <ion-icon name="eye-off" slot="end" (click)="showPass()" *ngIf="!showPassword"></ion-icon>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -35,9 +35,9 @@
           <ion-col>
             <ion-item color="none" shape="round">
               <ion-label color="secondary" position="floating">Password</ion-label>
-              <ion-input class="pass" clearInput="true" color="secondary" placeholder="Confirm password" (keyup)="updateSignUp($event)" [(ngModel)]="confPassword" [type]="showPass ? 'password' : 'text'"></ion-input>
-              <ion-icon name="eye" slot="end" (click)="showCPass()" *ngIf="showPass"></ion-icon>
-              <ion-icon name="eye-off" slot="end" (click)="showCPass()" *ngIf="!showPass"></ion-icon>
+              <ion-input class="pass" clearInput="true" color="secondary" placeholder="Confirm password" (keyup)="updateSignUp($event)" [(ngModel)]="confPassword" [type]="showPassword ? 'password' : 'text'"></ion-input>
+              <ion-icon name="eye" slot="end" (click)="showPass()" *ngIf="showPassword"></ion-icon>
+              <ion-icon name="eye-off" slot="end" (click)="showPass()" *ngIf="!showPassword"></ion-icon>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -97,9 +97,9 @@
         <ion-col>
           <ion-item color="none" shape="round">
             <ion-label color="secondary" position="floating">Password</ion-label>
-            <ion-input class="pass" clearInput="true" color="secondary" placeholder="Password" (keyup)="updateSignIn($event)" [(ngModel)]="cpassword" [type]="showPass ? 'password' : 'text'"></ion-input>
-            <ion-icon name="eye" slot="end" (click)="showCPass()" *ngIf="showPass"></ion-icon>
-            <ion-icon name="eye-off" slot="end" (click)="showCPass()" *ngIf="!showPass"></ion-icon>
+            <ion-input class="pass" clearInput="true" color="secondary" placeholder="Password" (keyup)="updateSignIn($event)" [(ngModel)]="cpassword" [type]="showPassword ? 'password' : 'text'"></ion-input>
+            <ion-icon name="eye" slot="end" (click)="showPass()" *ngIf="showPassword"></ion-icon>
+            <ion-icon name="eye-off" slot="end" (click)="showCPass()" *ngIf="!showPassword"></ion-icon>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -137,5 +137,6 @@
     <ion-row><ion-col><p>{{output}}</p></ion-col></ion-row>
 
   </ion-grid>
+
 
 </ion-content>
