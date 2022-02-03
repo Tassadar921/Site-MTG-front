@@ -70,7 +70,6 @@ export class HomePage implements OnInit{
 
       this.http.post(this.url + 'mailToken', data).subscribe(response => {
         this.retour=response;
-        console.log(this.retour);
         this.output=this.retour.message;
         if(this.retour.output===1){
           this.displayToken=1;
@@ -116,7 +115,6 @@ export class HomePage implements OnInit{
     this.http.post(this.url + 'checkToken', token).pipe().subscribe(response=>{
       this.retour=response;
       this.output=this.retour.message;
-      console.log(this.output);
       if(this.retour.output===1){
         this.http.post(this.url + 'signUp', data).pipe().subscribe(resp=>{
           this.retour=resp;
@@ -141,7 +139,6 @@ export class HomePage implements OnInit{
       if (nom!=='' && pass!=='') {
         this.http.post(this.url + 'login', data).pipe().subscribe(response => {
           this.retour = response;
-          console.log(this.retour);
           this.output = this.retour.message;
           if (this.retour.co === true) {
             this.login(nom);
@@ -156,8 +153,6 @@ export class HomePage implements OnInit{
           }
         }
       }
-    }else{
-      console.log('bouh');
     }
   };
 
