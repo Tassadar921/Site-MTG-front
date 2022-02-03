@@ -9,7 +9,7 @@
     </ion-row>
 
     <div *ngIf="exists===0">
-      <div *ngIf="displayToken===0">
+      <div *ngIf="displayToken===0"> <!-- ////////////////////// INPUT INSCRIPTION //////////////////////-->
         <ion-row>
           <ion-col><h1>Inscripton :</h1></ion-col>
         </ion-row>
@@ -58,7 +58,7 @@
           </ion-col>
         </ion-row>
       </div>
-      <div *ngIf="displayToken===1">
+      <div *ngIf="displayToken===1"> <!-- ////////////////////// INPUT TOKEN //////////////////////-->
         <ion-row>
           <ion-col>
             <ion-item color="none" shape="round">
@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <div *ngIf="exists===1">
+    <div *ngIf="exists===1"> <!-- ////////////////////// INPUT INSCRIPTION //////////////////////-->
       <ion-row>
         <ion-col><h1>Connexion :</h1></ion-col>
       </ion-row>
@@ -99,7 +99,7 @@
             <ion-label color="secondary" position="floating">Password</ion-label>
             <ion-input class="pass" clearInput="true" color="secondary" placeholder="Password" (keyup)="updateSignIn($event)" [(ngModel)]="cpassword" [type]="showPassword ? 'password' : 'text'"></ion-input>
             <ion-icon name="eye" slot="end" (click)="showPass()" *ngIf="showPassword"></ion-icon>
-            <ion-icon name="eye-off" slot="end" (click)="showCPass()" *ngIf="!showPassword"></ion-icon>
+            <ion-icon name="eye-off" slot="end" (click)="showPass()" *ngIf="!showPassword"></ion-icon>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -115,7 +115,7 @@
         </ion-col>
       </ion-row>
     </div>
-    <div *ngIf="exists===2">
+    <div *ngIf="exists===2"> <!-- ////////////////////// INPUT RESET PASSWORD //////////////////////-->
       <ion-row>
         <ion-col>
           <ion-item color="none" shape="round">

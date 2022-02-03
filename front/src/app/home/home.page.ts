@@ -113,7 +113,7 @@ export class HomePage implements OnInit{
       mail: this.imail,
     };
 
-    this.http.post(this.url + 'token', token).pipe().subscribe(response=>{
+    this.http.post(this.url + 'checkToken', token).pipe().subscribe(response=>{
       this.retour=response;
       this.output=this.retour.message;
       console.log(this.output);
@@ -121,7 +121,7 @@ export class HomePage implements OnInit{
         this.http.post(this.url + 'signUp', data).pipe().subscribe(resp=>{
           this.retour=resp;
           this.output=this.retour.message;
-          if(this.retour.return===1) {
+          if(this.retour.return===true) {
             this.glob.setNickname(this.iname);
             this.glob.setConnected(1);
             this.router.navigateByUrl('/welcome');
