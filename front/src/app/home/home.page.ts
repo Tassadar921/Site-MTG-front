@@ -42,7 +42,12 @@ export class HomePage implements OnInit{
     private router: Router,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.http.post(this.url + '', '').subscribe(response => {
+      this.retour=response;
+      console.log(this.retour);
+    });
+  }
 
   switch=(val)=>{ //toggle pour les components
     this.output='';
