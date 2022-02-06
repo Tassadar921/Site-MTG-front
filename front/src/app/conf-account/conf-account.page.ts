@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-conf-account',
@@ -24,6 +25,7 @@ export class ConfAccountPage implements AfterViewInit {
     private getVarInURL: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
+    private clipboard: Clipboard,
   ) { }
 
   ngAfterViewInit() {
@@ -65,6 +67,11 @@ export class ConfAccountPage implements AfterViewInit {
 
   forceRedirect=()=>{
     this.router.navigateByUrl('/welcome');
+  };
+
+  copy=()=>{
+    this.clipboard.copy('noreply.tassadar.ovh@gmail.com');
+    this.output='Email adress copied to clipboard !';
   };
 
 }

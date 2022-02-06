@@ -1,14 +1,14 @@
 <ion-grid>
-  <ion-row>
-    <ion-col>
-      <p>{{output}}</p>
-    </ion-col>
-  </ion-row>
   <ion-row *ngIf="redirect">
     <ion-button (click)="forceRedirect()">Click here if you're not redirected</ion-button>
   </ion-row>
   <ion-row *ngIf="!redirect">
-    <p>Something went wrong : retry to signUp</p>
-    <p>Send a mail to noreply.tassadar.ovh@gmail.com if the problem persists</p>
+    <div class="toLine">Something went wrong : retry to signUp</div>
+    <div class="toLine">Send a mail to &nbsp; <div id='adress' (click)='copy()'>noreply.tassadar.ovh@gmail.com</div> &nbsp; if the problem persists</div>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <p>{{output}}</p>
+    </ion-col>
   </ion-row>
 </ion-grid>
