@@ -2,6 +2,7 @@ import { Component,OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GlobalVarsService} from '../shared/services/global-vars.service';
 import { Router } from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -33,9 +34,6 @@ export class HomePage implements OnInit{
 
   private retour;
 
-  //private url = 'http://loginmtg.tassadar.ovh:8080/';
-  private url = 'http://localhost:8080/';
-
   constructor(
     private http: HttpClient,
     private glob: GlobalVarsService,
@@ -43,7 +41,7 @@ export class HomePage implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.http.post(this.url + '', '').subscribe(response => {
+    this.http.post(environment.urlBack + '', '').subscribe(response => {
       this.retour=response;
       console.log(this.retour);
     });
@@ -64,7 +62,8 @@ export class HomePage implements OnInit{
 
     const data={
       mail:this.imail,
-      name: this.iname
+      name: this.iname,
+      password: this.ipassword
     };
 
     this.output='';
@@ -73,7 +72,7 @@ export class HomePage implements OnInit{
 
       this.output='';
 
-      this.http.post(this.url + 'mailToken', data).subscribe(response => {
+      this.http.post(environment.urlBack + 'mailToken', data).subscribe(response => {
         this.retour=response;
         this.output=this.retour.message;
         if(this.retour.output===1){
@@ -104,36 +103,6 @@ export class HomePage implements OnInit{
     }
   }
 
-  submitToken(){
-
-    const data = {
-      name: this.iname,
-      password: this.ipassword,
-      mail: this.imail
-    };
-
-    const token = {
-      token: this.token,
-      mail: this.imail,
-    };
-
-    this.http.post(this.url + 'checkToken', token).pipe().subscribe(response=>{
-      this.retour=response;
-      this.output=this.retour.message;
-      if(this.retour.output===1){
-        this.http.post(this.url + 'signUp', data).pipe().subscribe(resp=>{
-          this.retour=resp;
-          this.output=this.retour.message;
-          if(this.retour.return===true) {
-            this.glob.setNickname(this.iname);
-            this.glob.setConnected(1);
-            this.router.navigateByUrl('/welcome');
-          }
-        });
-      }
-    });
-  };
-
   signIn(indice, nom, pass) {
     const data = {
       name: nom,
@@ -142,7 +111,7 @@ export class HomePage implements OnInit{
 
     if (indice === 1) {
       if (nom!=='' && pass!=='') {
-        this.http.post(this.url + 'login', data).pipe().subscribe(response => {
+        this.http.post(environment.urlBack + 'login', data).pipe().subscribe(response => {
           this.retour = response;
           this.output = this.retour.message;
           if (this.retour.co === true) {
@@ -159,6 +128,14 @@ export class HomePage implements OnInit{
         }
       }
     }
+  };
+
+  resendPassword=()=>{
+    const data={mail: this.recupMail};
+    this.http.post(environment.urlBack + 'resetPassword', data).pipe().subscribe(response =>{
+      this.retour=response;
+      this.output=this.retour.message;
+    });
   };
 
   login=(name)=>{
@@ -179,24 +156,10 @@ export class HomePage implements OnInit{
     }
   };
 
-  updateToken=(e)=>{
-    if(e.key==='Enter'){
-      this.submitToken();
-    }
-  };
-
   updateResetPassword=(e)=>{
     if(e.key==='Enter'){
       this.resendPassword();
     }
-  };
-
-  resendPassword=()=>{
-    const data={mail: this.recupMail};
-    this.http.post(this.url + 'resetPassword', data).pipe().subscribe(response =>{
-      this.retour=response;
-      this.output=this.retour.message;
-    });
   };
 
   backToLogin=()=>{

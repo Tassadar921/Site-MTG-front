@@ -58,27 +58,6 @@
           </ion-col>
         </ion-row>
       </div>
-      <div *ngIf="displayToken===1"> <!-- ////////////////////// INPUT TOKEN //////////////////////-->
-        <ion-row>
-          <ion-col>
-            <ion-item color="none" shape="round">
-              <ion-label color="secondary" position="floating">Token</ion-label>
-              <ion-input clearOnEdit="true" clearInput="true" color="secondary" placeholder="Token" (keyup)="updateToken($event)" [(ngModel)]="token" type="text"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="switchTokenDisplay()">Modifier entrées</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button (click)="submitToken()">Submit</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button (click)="signUp()">Renvoyer token</ion-button>
-          </ion-col>
-        </ion-row>
-      </div>
     </div>
 
     <div *ngIf="exists===1"> <!-- ////////////////////// INPUT INSCRIPTION //////////////////////-->
