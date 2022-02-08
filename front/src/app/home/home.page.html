@@ -34,7 +34,7 @@
         <ion-row>
           <ion-col>
             <ion-item color="none" shape="round">
-              <ion-label color="secondary" position="floating">Password</ion-label>
+              <ion-label color="secondary" position="floating">Confirm password</ion-label>
               <ion-input class="pass" clearInput="true" color="secondary" placeholder="Confirm password" (keyup)="updateSignUp($event)" [(ngModel)]="confPassword" [type]="showPassword ? 'password' : 'text'"></ion-input>
               <ion-icon name="eye" slot="end" (click)="showPass()" *ngIf="showPassword"></ion-icon>
               <ion-icon name="eye-off" slot="end" (click)="showPass()" *ngIf="!showPassword"></ion-icon>

@@ -2,10 +2,19 @@
   <ion-row *ngIf="redirect">
     <ion-button (click)="forceRedirect()">Click here if you're not redirected</ion-button>
   </ion-row>
-  <ion-row *ngIf="!redirect">
-    <div class="toLine">Something went wrong : retry to signUp</div>
-    <div class="toLine">Send a mail to &nbsp; <div id='adress' (click)='copy()'>noreply.tassadar.ovh@gmail.com</div> &nbsp; if the problem persists</div>
-  </ion-row>
+  <div *ngIf="!redirect">
+    <ion-row>
+      <div class="toLine">Something went wrong : retry to signUp</div>
+      <div class="toLine">Send a mail to &nbsp;
+        <div id='adress' (click)='copy()'>noreply.tassadar.ovh@gmail.com</div> &nbsp; if the problem persists
+      </div>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="toLogin()">Back to login</ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
   <ion-row>
     <ion-col>
       <p>{{output}}</p>

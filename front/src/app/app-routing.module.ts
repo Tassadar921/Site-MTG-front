@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'conf-account',
     loadChildren: () => import('./conf-account/conf-account.module').then( m => m.ConfAccountPageModule)
   },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
 
 
 

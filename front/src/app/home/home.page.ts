@@ -132,7 +132,7 @@ export class HomePage implements OnInit{
 
   resendPassword=()=>{
     const data={mail: this.recupMail};
-    this.http.post(environment.urlBack + 'resetPassword', data).pipe().subscribe(response =>{
+    this.http.post(environment.urlBack + 'sendResetPassword', data).pipe().subscribe(response =>{
       this.retour=response;
       this.output=this.retour.message;
     });

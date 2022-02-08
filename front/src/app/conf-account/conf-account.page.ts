@@ -1,6 +1,6 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { environment} from '../../environments/environment';
+import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import { Clipboard } from '@angular/cdk/clipboard';
 
@@ -9,7 +9,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
   templateUrl: './conf-account.page.html',
   styleUrls: ['./conf-account.page.scss'],
 })
-export class ConfAccountPage implements AfterViewInit {
+export class ConfAccountPage implements OnInit {
 
   public output;
   public redirect=false;
@@ -28,15 +28,13 @@ export class ConfAccountPage implements AfterViewInit {
     private clipboard: Clipboard,
   ) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.getVarInURL.queryParams.subscribe(params => {
-      console.log(params);
       this.token=params.token;
       this.username=params.name;
       this.mail=params.mail;
       this.password=params.password;
     });
-    console.log(this.mail);
 
     const data = {
       name: this.username,
@@ -67,6 +65,10 @@ export class ConfAccountPage implements AfterViewInit {
 
   forceRedirect=()=>{
     this.router.navigateByUrl('/welcome');
+  };
+
+  toLogin=()=>{
+    this.router.navigateByUrl('/home');
   };
 
   copy=()=>{
