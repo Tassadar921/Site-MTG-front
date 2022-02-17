@@ -1,53 +1,84 @@
 <ion-grid>
   <ion-row>
-    <ion-tabs>
-      <ion-tab-bar slot="top">
-
-        <ion-col id="test">
-          <ion-tab-button tab="welcome">
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Home</ion-label>
-          </ion-tab-button>
-        </ion-col>
-        <ion-col>
-          <ion-tab-button tab="game">
-            <ion-icon name="game-controller"></ion-icon>
-            <ion-label>Play</ion-label>
-          </ion-tab-button>
-        </ion-col>
-        <ion-col>
-          <ion-tab-button tab="searchBDD">
-            <ion-icon name="search"></ion-icon>
-            <ion-label>Search for cards</ion-label>
-          </ion-tab-button>
-        </ion-col>
-        <ion-col>
-          <ion-tab-button tab="deckbuilding">
-            <ion-icon name="hammer"></ion-icon>
-            <ion-label>Deckbuilding</ion-label>
-          </ion-tab-button>
-        </ion-col>
-        <ion-col>
-          <ion-tab-button tab="upDownLoad">
-            <ion-icon name="arrow-redo"></ion-icon>
-            <ion-label>Upload/Download deck</ion-label>
-          </ion-tab-button>
-        </ion-col>
-<!--        <ion-col>-->
-<!--          <ion-fab>-->
-<!--            <ion-fab-button slot="fixed">-->
-<!--              <ion-icon name="people"></ion-icon>-->
-<!--            </ion-fab-button>-->
-<!--            <ion-fab-list side="bottom">-->
-<!--              <p>{{glob.getNickname()}}</p>-->
-<!--              <ion-item (click)="redirect('settings')"></ion-item>-->
-<!--              <ion-icon ></ion-icon>-->
-<!--              <ion-icon ></ion-icon>-->
-<!--            </ion-fab-list>-->
-<!--          </ion-fab>-->
-<!--        </ion-col>-->
-
-      </ion-tab-bar>
-    </ion-tabs>
+    <ion-col>
+      <ion-header>
+        <ion-menu-button></ion-menu-button>
+      </ion-header>
+    </ion-col>
   </ion-row>
+
+  <!-- /////////////////////// MENU CONTENT /////////////////////// -->
+  <ion-menu side="start" menuId="custom" contentId="main" class="my-custom-menu">
+    <ion-header>
+      <ion-toolbar color="light">
+        <ion-title>{{glob.getNickname()}}</ion-title>
+        <ion-note slot="end" style="margin-right:10px;">
+          {{hour}}
+        </ion-note>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-list-header color="light">
+          <ion-icon name="book"></ion-icon>
+          <strong>Database</strong>
+        </ion-list-header>
+        <ion-item button="true" (click)="redirect('database')">
+          <ion-icon name="search"></ion-icon>
+          <ion-label color="secondary">Search</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-list-header color="light">
+          <ion-icon name="game-controller"></ion-icon>
+          <strong>Play</strong>
+        </ion-list-header>
+        <ion-item button="true" (click)="redirect('play')">
+          <ion-icon name="enter"></ion-icon>
+          <ion-label color="secondary">Enter</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-list-header color="light">
+          <ion-icon name="albums"></ion-icon>
+          <strong>Deck</strong>
+        </ion-list-header>
+        <ion-item button="true" (click)="redirect('updown-load')">
+          <ion-icon name="cloud-download"></ion-icon>
+          <ion-label color="secondary">Upload/Download deck</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item button="true" (click)="redirect('editor')">
+          <ion-icon name="create"></ion-icon>
+          <ion-label color="secondary">Deck editor</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-list-header color="light">
+          <ion-icon name="person"></ion-icon>
+          <strong>Account</strong>
+        </ion-list-header>
+        <ion-item button="true" (click)="redirect('settings')">
+          <ion-icon name="settings"></ion-icon>
+          <ion-label color="secondary">Settings</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item button="true" (click)="redirect('friends')">
+          <ion-icon name="people"></ion-icon>
+          <ion-label color="secondary">Friends</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item button="true" (click)="redirect('home')">
+          <ion-icon name="exit"></ion-icon>
+          <ion-label color="secondary">Disconnect</ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-grid>

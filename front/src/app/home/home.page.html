@@ -87,7 +87,7 @@
           <ion-button (click)="reset()">Reset</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button (click)="signIn(1, this.cname, this.cpassword)">Submit</ion-button>
+          <ion-button (click)="signIn(this.cname, this.cpassword)">Submit</ion-button>
         </ion-col>
         <ion-col>
           <ion-button (click)="sendPassword()">Forgot password</ion-button>
@@ -108,7 +108,7 @@
           <ion-button (click)="backToLogin()">Back to login</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button (click)="resendPassword()">Submit</ion-button>
+          <ion-button (click)="resetPassword()">Submit</ion-button>
         </ion-col>
       </ion-row>
     </div>

@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home', // A CHANGER
+    redirectTo: 'welcome', // A CHANGER
     pathMatch: 'full'
   },
   {
@@ -18,14 +18,35 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
-  },  {
+  },
+  {
     path: 'conf-account',
     loadChildren: () => import('./conf-account/conf-account.module').then( m => m.ConfAccountPageModule)
   },
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },  {
+    path: 'friends',
+    loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   },
+  {
+    path: 'editor',
+    loadChildren: () => import('./editor/editor.module').then( m => m.EditorPageModule)
+  },
+  {
+    path: 'updown-load',
+    loadChildren: () => import('./updown-load/updown-load.module').then( m => m.UpdownLoadPageModule)
+  },
+  {
+    path: 'play',
+    loadChildren: () => import('./play/play.module').then( m => m.PlayPageModule)
+  },
+  {
+    path: 'database',
+    loadChildren: () => import('./database/database.module').then( m => m.DatabasePageModule)
+  },
+
 
 
 

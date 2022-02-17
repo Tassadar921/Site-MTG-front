@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SettingsPageRoutingModule } from './settings-routing.module';
+import { FriendsPageRoutingModule } from './friends-routing.module';
 
-import { SettingsPage } from './settings.page';
+import { FriendsPage } from './friends.page';
 
 import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
 
@@ -15,8 +15,8 @@ import { MainMenuComponent } from '../shared/components/main-menu/main-menu.comp
     CommonModule,
     FormsModule,
     IonicModule,
-    SettingsPageRoutingModule
+    FriendsPageRoutingModule
   ],
-  declarations: [SettingsPage, MainMenuComponent]
+  declarations: [FriendsPage, MainMenuComponent]
 })
-export class SettingsPageModule {}
+export class FriendsPageModule {}

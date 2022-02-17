@@ -5,13 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalVarsService {
 
-  private connected=1;
+  private connected=true;
   private nickname='Tassadar';
 
   constructor() { }
 
   getConnected=()=>this.connected;
-  setConnected=(replace)=>this.connected=replace;
+  switchConnected=()=>this.connected ? this.connected=false : this.connected=true;
 
   getNickname=()=>this.nickname;
   setNickname=(replace)=>this.nickname=replace;

@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SettingsPageRoutingModule } from './settings-routing.module';
+import { PlayPageRoutingModule } from './play-routing.module';
 
-import { SettingsPage } from './settings.page';
+import { PlayPage } from './play.page';
 
 import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
 
@@ -15,8 +15,8 @@ import { MainMenuComponent } from '../shared/components/main-menu/main-menu.comp
     CommonModule,
     FormsModule,
     IonicModule,
-    SettingsPageRoutingModule
+    PlayPageRoutingModule
   ],
-  declarations: [SettingsPage, MainMenuComponent]
+  declarations: [PlayPage, MainMenuComponent]
 })
-export class SettingsPageModule {}
+export class PlayPageModule {}
