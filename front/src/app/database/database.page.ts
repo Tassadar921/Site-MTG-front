@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginService} from '../shared/services/login.service';
 
 @Component({
   selector: 'app-database',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DatabasePage implements OnInit {
 
-  constructor() { }
+  public retour;
+
+  constructor(
+    private loginServ: LoginService,
+  ) { }
 
   ngOnInit() {
+    this.loginServ.refresh();
   }
 
 }

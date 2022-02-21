@@ -44,7 +44,6 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.http.post(environment.urlBack + '', '').subscribe(response => {
       this.retour = response;
-      console.log(this.retour);
     });
   }
 

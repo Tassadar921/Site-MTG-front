@@ -4,10 +4,12 @@
   </ion-row>
   <div *ngIf="!redirect">
     <ion-row>
+      <ion-text color="white">
       <div class="toLine">Something went wrong : retry to signUp</div>
       <div class="toLine">Send a mail to &nbsp;
         <div id='adress' (click)='copy()'>noreply.tassadar.ovh@gmail.com</div> &nbsp; if the problem persists
       </div>
+      </ion-text>
     </ion-row>
     <ion-row>
       <ion-col>

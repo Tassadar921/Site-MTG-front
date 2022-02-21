@@ -35,9 +35,13 @@ export class MainMenuComponent implements OnInit {
           i=moment().format('h:mm:ss a').length;
         }
       }
-      this.hour = (Number(moment().format('h:mm:ss a').slice(0,cut))+12)
-        .toString()+moment().format('h:mm:ss a')
-        .slice(cut, moment().format('h:mm:ss a').length-6);
+      if(moment().format('h:mm:ss a')[0]==='1' && moment().format('h:mm:ss a')[1]==='2'){
+        this.hour = ('0' + moment().format('h:mm:ss a').slice(cut, moment().format('h:mm:ss a').length-6));
+      }else{
+        this.hour = (Number(moment().format('h:mm:ss a').slice(0,cut))+12)
+          .toString()+moment().format('h:mm:ss a')
+          .slice(cut, moment().format('h:mm:ss a').length-6);
+      }
     }else{
       this.hour = moment().format('h:mm:ss a')
         .slice(0, moment().format('h:mm:ss a').length-6);

@@ -1,1 +1,17 @@
 <app-main-menu></app-main-menu>
+<ion-grid>
+  <ion-list>
+    <ion-row *ngFor="let line of this.displayUsers">
+      <ion-col>
+        <div>
+        <ion-item>
+          <ion-label style="text-align:center;">
+            <ion-text>{{line.username}}</ion-text><br>
+            <ion-text id="italic">last connexion : {{line.lastConnected}}</ion-text>
+          </ion-label>
+        </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-grid>
