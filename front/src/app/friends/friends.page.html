@@ -1,17 +1,33 @@
 <app-main-menu></app-main-menu>
 <ion-grid>
-  <ion-list>
-    <ion-row *ngFor="let line of this.displayUsers">
-      <ion-col>
-        <div>
-        <ion-item>
-          <ion-label style="text-align:center;">
-            <ion-text>{{line.username}}</ion-text><br>
-            <ion-text id="italic">last connexion : {{line.lastConnected}}</ion-text>
-          </ion-label>
-        </ion-item>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-list>
+  <ion-row>
+    <ion-segment value="1">
+      <ion-segment-button value="0" (click)="switch(0)">My friends</ion-segment-button>
+      <ion-segment-button value="1" (click)="switch(1)">Add a friend</ion-segment-button>
+    </ion-segment>
+  </ion-row>
+    <div *ngIf="exists===1">
+      <ion-row>
+        <ion-col>
+          <ion-title class="title">Users :</ion-title>
+        </ion-col>
+      </ion-row>
+      <div *ngFor="let line of this.displayUsers" class="item">
+        <ion-row>
+          <ion-col>
+              <ion-label style="text-align:center;">
+                <ion-text>{{line.username}}</ion-text>
+                <br><br>
+                <ion-text class="italic">last connexion : {{line.lastConnected}}</ion-text>
+              </ion-label>
+            <br>
+          </ion-col>
+        </ion-row>
+        <ion-row style="text-align:center;">
+          <ion-col>
+            <ion-button (click)="addFriend(line.username)">Add as friend</ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
 </ion-grid>

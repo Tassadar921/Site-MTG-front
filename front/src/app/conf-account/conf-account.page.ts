@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import { Clipboard } from '@angular/cdk/clipboard';
+import {GlobalVarsService} from '../shared/services/global-vars.service';
 
 @Component({
   selector: 'app-conf-account',
@@ -26,6 +27,7 @@ export class ConfAccountPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private clipboard: Clipboard,
+    private glob: GlobalVarsService,
   ) { }
 
   ngOnInit() {
@@ -55,6 +57,7 @@ export class ConfAccountPage implements OnInit {
           this.retour=resp;
           this.output=this.retour.message;
           if(this.retour.return===true) {
+            this.glob.setNickname(this.username);
             this.redirect=true;
             this.router.navigateByUrl('/welcome');
           }

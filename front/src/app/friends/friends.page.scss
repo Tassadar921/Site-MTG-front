@@ -1,4 +1,16 @@
-#italic{
+.italic{
   font-style: italic;
   color:grey;
+}
+
+.title{
+  text-align:center;
+  margin-top:10px;
+  text-decoration:underline;
+}
+
+.item{
+  border: solid 1px white;
+  border-radius:40px;
+  margin-bottom:10px;
 }
