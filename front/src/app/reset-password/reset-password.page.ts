@@ -36,10 +36,12 @@ export class ResetPasswordPage implements OnInit {
       this.password=params.password;
     });
     const data={name: this.username};
+    this.http.post(environment.urlBack + '', '').pipe().subscribe(response =>{});
     this.http.post(environment.urlBack + 'getUserIdByUsername', data).pipe().subscribe(response =>{
       this.retour=response;
       this.output=this.retour.message;
       this.userId=this.retour.id;
+      console.log(this.userId);
     });
   }
 
@@ -63,6 +65,7 @@ export class ResetPasswordPage implements OnInit {
             id: this.userId,
             password: this.password
           };
+          console.log('data : ', data);
           this.http.post(environment.urlBack + 'resetPassword', data).pipe().subscribe(response =>{
             this.retour=response;
             this.output=this.retour.message;
