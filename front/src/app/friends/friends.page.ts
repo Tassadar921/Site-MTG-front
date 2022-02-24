@@ -30,11 +30,14 @@ export class FriendsPage implements OnInit {
     this.http.post(environment.urlBack + '', '').subscribe(response => {
       this.retour = response;
     });
-    this.http.post(environment.urlBack + 'getUsers', '').subscribe(response => {
+
+    const data = {name: this.glob.getNickname()};
+    this.http.post(environment.urlBack + 'getUserListExceptOne', data).subscribe(res => {
       this.loginServ.refresh();
-      this.retour = response;
+      this.retour = res;
       this.users = this.retour.output;
       this.displayUsersFunction(0);
+      console.log('list : ', this.displayUsers);
     });
   }
 
