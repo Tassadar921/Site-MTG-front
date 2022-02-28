@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import {lastValueFrom} from 'rxjs';
 import {HttpService} from '../../shared/services/http.service';
 import {Observable} from 'rxjs';
+import {defer, from} from 'rxjs';
 
 @Component({
   selector: 'app-add-friend',
@@ -49,7 +50,20 @@ export class AddFriendComponent implements OnInit {
     // });
 
     console.log('avant');
-    console.log('output : ', this.httpService.getUserFriends());
+    const test = new Promise((resolve, reject) => {
+      resolve(
+        this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
+          this.retour = res;
+          console.log('res : ', res); //return this.retour.links en async
+          return this.retour.links;
+          })
+      );
+      console.log('bouh');
+    });
+
+    test.then((value)=>{
+      console.log('test : ', value);
+    });
     console.log('après');
 
     this.http.post(environment.urlBack + 'getUserListExceptOne', data).subscribe(res => {
