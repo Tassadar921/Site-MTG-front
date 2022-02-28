@@ -1,0 +1,28 @@
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-title>
+        {{output}}
+      </ion-title>
+    </ion-col>
+  </ion-row>
+  <div *ngFor="let line of this.displayUsers">
+    <div class="item" *ngIf="!line.user.friend && !line.user.send && !line.user.receive">
+    <ion-row>
+      <ion-col>
+        <ion-label style="text-align:center;">
+          <ion-text>{{line.user.username}}</ion-text>
+          <br><br>
+          <ion-text class="italic">last connexion : <br>{{line.user.lastConnected}}</ion-text>
+        </ion-label>
+        <br>
+      </ion-col>
+    </ion-row>
+      <ion-row style="text-align:center;">
+        <ion-col>
+          <ion-button (click)="askFriend(line.user.username)" color="success">Ask</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+</ion-grid>

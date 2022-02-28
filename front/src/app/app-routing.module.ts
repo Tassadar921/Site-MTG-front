@@ -26,7 +26,8 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  },  {
+  },
+  {
     path: 'friends',
     loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   },
@@ -46,11 +47,6 @@ const routes: Routes = [
     path: 'database',
     loadChildren: () => import('./database/database.module').then( m => m.DatabasePageModule)
   },
-
-
-
-
-
 ];
 
 @NgModule({

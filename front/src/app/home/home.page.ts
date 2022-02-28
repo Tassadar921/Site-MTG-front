@@ -41,11 +41,7 @@ export class HomePage implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.http.post(environment.urlBack + '', '').subscribe(response => {
-      this.retour = response;
-    });
-  }
+  ngOnInit() {}
 
   switch = (val) => { //toggle pour les components
     this.output = '';
@@ -135,9 +131,9 @@ export class HomePage implements OnInit {
     });
   };
 
-  login = (name) => {
-    this.glob.setNickname(name);
-    this.glob.switchConnected();
+  login = async function(name) {
+    await this.glob.setNickname(name);
+    await this.glob.switchConnected();
     this.router.navigateByUrl('/welcome');
   };
 

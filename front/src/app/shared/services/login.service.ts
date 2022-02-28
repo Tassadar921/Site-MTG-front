@@ -17,9 +17,6 @@ export class LoginService {
   }
 
   refresh = () => {
-    this.http.post(environment.urlBack + '', '').subscribe(response => {
-      this.retour = response;
-    });
 
     const data = {
       name: this.glob.getNickname(),

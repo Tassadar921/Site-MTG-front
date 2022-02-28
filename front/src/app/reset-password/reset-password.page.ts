@@ -65,7 +65,6 @@ export class ResetPasswordPage implements OnInit {
             id: this.userId,
             password: this.password
           };
-          console.log('data : ', data);
           this.http.post(environment.urlBack + 'resetPassword', data).pipe().subscribe(response =>{
             this.retour=response;
             this.output=this.retour.message;
