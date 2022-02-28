@@ -3,6 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {LoginService} from '../../shared/services/login.service';
 import {GlobalVarsService} from '../../shared/services/global-vars.service';
 import {environment} from '../../../environments/environment';
+import {lastValueFrom} from 'rxjs';
+import {HttpService} from '../../shared/services/http.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-add-friend',
@@ -25,27 +28,34 @@ export class AddFriendComponent implements OnInit {
     private http: HttpClient,
     private loginServ: LoginService,
     private glob: GlobalVarsService,
+    private httpService: HttpService,
   ) {}
 
-  ngOnInit() {
-    this.displayUsersFunction(this.count);
+  async ngOnInit() {
+    await this.displayUsersFunction(this.count);
     this.loginServ.refresh();
 
-    console.log(this.displayUsers);
+    console.log('display : ', this.displayUsers);
   }
 
-  displayUsersFunction = (n) =>{ //////////////////// A DEBUG ASYNC ///////////////////////////////////////////
+  displayUsersFunction = async (n) => { //////////////////// A DEBUG ASYNC ///////////////////////////////////////////
 
     const data = {name: this.glob.getNickname()};
 
-    this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
-      this.retour = res;
-      this.friends = this.retour.links.sort();
-    });
+    // this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
+    //   this.retour = res;
+    //   this.friends = this.retour.links.sort();
+    //   console.log('test');
+    // });
+
+    console.log('avant');
+    console.log('output : ', this.httpService.getUserFriends());
+    console.log('après');
 
     this.http.post(environment.urlBack + 'getUserListExceptOne', data).subscribe(res => {
       this.retour = res;
       this.users = this.retour.output.sort();
+      console.log('ici');
     });
 
     this.http.post(environment.urlBack + 'getUserDemandsSent', data).subscribe(res => {
