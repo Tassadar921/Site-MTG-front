@@ -25,4 +25,19 @@ export class HttpService {
       return this.retour.links;
     });
   };
+
+  getUserFriend = async () => {
+    const data = {name: this.glob.getNickname()};
+
+    this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
+      const promise = new Promise((resolve, reject) => {
+        resolve(
+          this.retour=res;
+        )
+      })});
+
+    const result = await promise; // wait until the promise resolves (*)
+
+    return result;
+  };
 }

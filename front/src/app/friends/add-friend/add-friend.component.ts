@@ -35,6 +35,7 @@ export class AddFriendComponent implements OnInit {
   async ngOnInit() {
     await this.displayUsersFunction(this.count);
     this.loginServ.refresh();
+    console.log('retour service : ', this.httpService.getUserFriends());
 
     console.log('display : ', this.displayUsers);
   }
@@ -50,20 +51,7 @@ export class AddFriendComponent implements OnInit {
     // });
 
     console.log('avant');
-    const test = new Promise((resolve, reject) => {
-      resolve(
-        this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
-          this.retour = res;
-          console.log('res : ', res); //return this.retour.links en async
-          return this.retour.links;
-          })
-      );
-      console.log('bouh');
-    });
-
-    test.then((value)=>{
-      console.log('test : ', value);
-    });
+    console.log(await this.httpService.getUserFriends());
     console.log('après');
 
     this.http.post(environment.urlBack + 'getUserListExceptOne', data).subscribe(res => {

@@ -32,13 +32,14 @@ export class SeeFriendsComponent implements OnInit {
       this.retour = res;
       this.users = this.retour.output;
       this.displayUsersFunction(0);
+      console.log(this.displayUsers);
     });
   }
 
   displayUsersFunction = (n) =>{
     let friends;
     let end;
-    const start = 3*n;;
+    const start = 3*n;
 
     this.users.sort();
     this.displayUsers = [];
