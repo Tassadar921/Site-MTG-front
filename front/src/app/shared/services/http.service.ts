@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {GlobalVarsService} from './global-vars.service';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,25 +18,41 @@ export class HttpService {
 
   getUserFriends = async () => {
     const data = {name: this.glob.getNickname()};
-    await this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
+    await this.http.post<Array<string>>(environment.urlBack + 'getUserFriends', data).toPromise().then(res => {
       this.retour = res;
-      console.log('res : ', res); //return this.retour.links en async
-      return this.retour.links;
     });
+    return this.retour.links.sort();
   };
 
-  getUserFriend = async () => {
+  getUserListExceptOne = async () => {
     const data = {name: this.glob.getNickname()};
+    await this.http.post<Array<string>>(environment.urlBack + 'getUserListExceptOne', data).toPromise().then(res => {
+      this.retour = res;
+    });
+    return this.retour.output;
+  };
 
-    this.http.post(environment.urlBack + 'getUserFriends', data).subscribe(res => {
-      const promise = new Promise((resolve, reject) => {
-        resolve(
-          this.retour=res;
-        )
-      })});
+  getUserDemandsSent = async () => {
+    const data = {name: this.glob.getNickname()};
+    await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsSent', data).toPromise().then(res => {
+      this.retour = res;
+    });
+    return this.retour.demands;
+  };
 
-    const result = await promise; // wait until the promise resolves (*)
+  getUserDemandsReceived = async () => {
+    const data = {name: this.glob.getNickname()};
+    await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsReceived', data).toPromise().then(res => {
+      this.retour = res;
+    });
+    return this.retour.demands;
+  };
 
-    return result;
+  askFriend = async (username) => {
+    const data = {from: this.glob.getNickname(), to: username};
+    this.http.post(environment.urlBack + 'askFriend', data).subscribe(response => {
+      this.retour = response;
+    });
+    return this.retour.message;
   };
 }

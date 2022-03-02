@@ -18,7 +18,6 @@ export class HomePage implements OnInit {
   public imail = '';
   public token;
 
-
   public cname = '';
   public cpassword = '';
   public cpass = '';
