@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LoginService} from '../../shared/services/login.service';
-import {GlobalVarsService} from '../../shared/services/global-vars.service';
 import {HttpService} from '../../shared/services/http.service';
 
 @Component({
@@ -23,7 +22,6 @@ export class AddFriendComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private loginServ: LoginService,
-    private glob: GlobalVarsService,
     private httpService: HttpService,
   ) {}
 
@@ -48,7 +46,7 @@ export class AddFriendComponent implements OnInit {
     this.displayUsers = [];
 
     if(this.users.length>11*n+2) {
-      end = 3 * n + 4;
+      end = 3 * n + 2;
     }else{
       end = this.users.length;
     }

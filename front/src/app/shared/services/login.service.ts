@@ -18,14 +18,10 @@ export class LoginService {
 
   refresh = () => {
 
-    const data = {
-      name: this.glob.getNickname(),
-    };
+    const data = {name: this.glob.getNickname()};
 
-    this.http.post(environment.urlBack + 'lastConnected', data).subscribe(response => {
+    this.http.post<string>(environment.urlBack + 'lastConnected', data).toPromise().then(response => {
       this.retour = response;
     });
   };
-
-  getRetour=()=>this.retour;
 }

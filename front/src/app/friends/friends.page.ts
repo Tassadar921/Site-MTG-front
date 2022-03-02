@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {GlobalVarsService} from '../shared/services/global-vars.service';
+import {HttpService} from '../shared/services/http.service';
 
 @Component({
   selector: 'app-friends',
@@ -11,23 +9,20 @@ import {GlobalVarsService} from '../shared/services/global-vars.service';
 export class FriendsPage implements OnInit {
 
   public numberInvits;
-  public main = 1;
-  public secondary = 1;
-
-  private retour;
+  public main = 0;
+  public secondary = 0;
 
   constructor(
-    private http: HttpClient,
-    private glob: GlobalVarsService,
+    public httpService: HttpService,
   ) {}
 
-  ngOnInit() {
-    const data = {name: this.glob.getNickname()};
-    this.http.post(environment.urlBack + 'getUserDemandsReceived', data).subscribe(response => {
-      this.retour = response;
-      this.numberInvits=this.retour.demands.length;
-    });
+  async ngOnInit() {
+    this.numberInvits = await this.httpService.getUserDemandsReceivedLength();
   }
+
+  test = () => {
+    console.log('test friends');
+  };
 
   switchMain = (val) => this.main = val;
   switchSecondary = (val) => this.secondary = val;

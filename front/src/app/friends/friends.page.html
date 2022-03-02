@@ -1,7 +1,7 @@
 <app-main-menu></app-main-menu>
 <ion-grid>
   <ion-row>
-    <ion-segment value="1">
+    <ion-segment value="0">
       <ion-segment-button value="0" (click)="switchMain(0)">
         <ion-icon name="people"></ion-icon>
       </ion-segment-button>
@@ -20,13 +20,13 @@
   <div *ngIf="main===1">
     <ion-row>
       <ion-col>
-        <ion-segment value="1">
+        <ion-segment value="0">
           <ion-segment-button value="0" (click)="switchSecondary(0)">
             <ion-icon name="person-add"></ion-icon>
           </ion-segment-button>
           <ion-segment-button value="1" (click)="switchSecondary(1)">
             <ion-icon name="notifications"></ion-icon>
-            ({{numberInvits}})
+            ({{httpService.getTest()}})
           </ion-segment-button>
         </ion-segment>
       </ion-col>

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import{HttpClient} from "@angular/common/http";
-import {GlobalVarsService} from "../../shared/services/global-vars.service";
-import {LoginService} from "../../shared/services/login.service";
+import {LoginService} from '../../shared/services/login.service';
+import {HttpService} from '../../shared/services/http.service';
 
 @Component({
   selector: 'app-see-friends',
@@ -11,54 +9,54 @@ import {LoginService} from "../../shared/services/login.service";
 })
 export class SeeFriendsComponent implements OnInit {
 
-  public displayUsers = [];
+  public displayFriend = [];
   public output;
+  public count = 0;
 
-  private retour;
-  private users = [];
   private friends = [];
+  private users = [];
 
   constructor(
-    private http: HttpClient,
-    private glob: GlobalVarsService,
     private loginServ: LoginService,
+    private httpService: HttpService,
   ) {}
 
-  ngOnInit() {
-    const data = {name: this.glob.getNickname()};
-
-    this.http.post(environment.urlBack + 'getUserListExceptOne', data).subscribe(res => {
-      this.loginServ.refresh();
-      this.retour = res;
-      this.users = this.retour.output;
-      this.displayUsersFunction(0);
-      console.log(this.displayUsers);
-    });
+  async ngOnInit() {
+    this.loginServ.refresh();
+    this.displayFriendsFunction(this.count);
   }
 
-  displayUsersFunction = (n) =>{
-    let friends;
+  displayFriendsFunction = async (n) =>{
+
+    this.friends=await this.httpService.getUserFriends();
+    console.log(this.friends);
+
+    this.users=await this.httpService.getUserListExceptOne();
+
     let end;
     const start = 3*n;
 
-    this.users.sort();
-    this.displayUsers = [];
+    this.friends.sort();
+    this.displayFriend = [];
 
-    if(this.users.length>11*n+2) {
+    if(this.friends.length>11*n+2) {
       end = 3 * n + 2;
     }else{
-      end = this.users.length;
+      end = this.friends.length;
     }
     for (let i = start; i < end; i++) {
-      friends = false;
-      for(let k = 0; k<this.friends.length; k++){
-        if(this.friends[k]===this.users[i]){
-          friends = true;
-          k=this.friends.length;
+      for(let k=0; k<this.users.length;k++) {
+        if(this.users[k].username === this.friends[i]) {
+          this.displayFriend.unshift({friend: this.friends[i], lastConnected: this.users[k].lastConnected});
+          k=this.users.length;
         }
       }
-      this.displayUsers[i] = {user: this.users[i], friend: friends};
     }
+    this.count++;
+  };
+
+  invite=(username)=>{
+    //ON VERRA PLUS TARD
   };
 
 

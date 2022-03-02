@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {Clipboard} from '@angular/cdk/clipboard';
-import {GlobalVarsService} from '../../shared/services/global-vars.service';
-import {environment} from '../../../environments/environment';
+import {HttpService} from '../../shared/services/http.service';
 
 @Component({
   selector: 'app-demands',
@@ -15,31 +11,36 @@ export class DemandsComponent implements OnInit {
   public output;
   public demands;
 
-  private from;
   private retour;
 
   constructor(
-    private getVarInURL: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private clipboard: Clipboard,
-    private glob: GlobalVarsService,
-  ) { }
+    private httpService: HttpService,
+  ) {}
 
-  ngOnInit() {
-    const data = {name: this.glob.getNickname()};
-    this.http.post(environment.urlBack + 'getUserDemandsReceived', data).subscribe(response => {
-      this.retour = response;
-      this.demands = this.retour.demands;
-    });
+  async ngOnInit() {
+    this.demands = await this.httpService.getUserDemandsReceived();
   }
 
   addFriend=(username)=>{
-    const data = {user1: this.glob.getNickname(), user2: username};
-    this.http.post(environment.urlBack + 'addFriend', data).subscribe(response => {
-      this.retour = response;
-      this.output = this.retour.message;
-    });
+    if(this.removeDemand(username)) {
+      this.output = 'Something went wrong: retry later';
+    }else{
+      this.retour = this.httpService.addFriend(username);
+    }
   };
 
+  removeDemand=(username)=>{
+    this.retour = this.httpService.removeDemandReceived(username);
+    this.removeFromDemands(username);
+    return this.retour === 'done';
+  };
+
+  removeFromDemands=(username)=>{
+    for(let i=0; i<this.demands.length; i++){
+      if(this.demands[i]===username){
+        this.demands.splice(i,1);
+        i=this.demands.length;
+      }
+    }
+  };
 }
