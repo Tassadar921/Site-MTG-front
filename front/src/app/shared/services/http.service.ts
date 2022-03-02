@@ -83,4 +83,12 @@ export class HttpService {
     });
     return this.retour.message;
   };
+
+  deleteFriendship = async (username) => {
+    const data = {username1: username, username2: this.glob.getNickname()};
+    await this.http.post<string>(environment.urlBack + 'deleteFriendship', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour.message;
+  };
 }

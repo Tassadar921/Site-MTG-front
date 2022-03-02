@@ -14,15 +14,22 @@
         <ion-col>
           <ion-button color="success" (click)="invite(line)">Invite</ion-button>
         </ion-col>
+        <ion-col>
+          <ion-button color="danger" (click)="deleteFromFriends(line.friend)">Delete</ion-button>
+        </ion-col>
       </ion-row>
     </div>
   </div>
-  <ion-row>
+  <ion-row id="pages">
     <ion-col>
-  <ion-button><ion-icon name="arrow-undo"></ion-icon></ion-button>
+      <ion-button>
+        <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-col>
     <ion-col>
-  <ion-button><ion-icon name="arrow-redo"></ion-icon></ion-button>
+      <ion-button>
+        <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>

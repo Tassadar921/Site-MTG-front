@@ -18,6 +18,7 @@ export class AddFriendComponent implements OnInit {
   private demandsSent = [];
   private demandsReceived = [];
   private count = 0;
+  private p;
 
   constructor(
     private http: HttpClient,
@@ -26,6 +27,7 @@ export class AddFriendComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.p=this.loginServ.setPlatform();
     await this.displayUsersFunction(this.count);
     this.loginServ.refresh();
   }
@@ -46,7 +48,7 @@ export class AddFriendComponent implements OnInit {
     this.displayUsers = [];
 
     if(this.users.length>11*n+2) {
-      end = 3 * n + 2;
+      end = 3 * n + this.p;
     }else{
       end = this.users.length;
     }
