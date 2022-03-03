@@ -68,14 +68,6 @@ export class HttpService {
     return this.retour.message;
   };
 
-  removeDemandReceived = async (username) => {
-    const data = {from: username, to: this.glob.getNickname()};
-    await this.http.post<Array<string>>(environment.urlBack + 'removeDemandReceived', data).toPromise().then(response => {
-      this.retour = response;
-    });
-    return this.retour.output;
-  };
-
   addFriend = async (username) => {
     const data = {user1: this.glob.getNickname(), user2: username};
     await this.http.post<string>(environment.urlBack + 'addFriend', data).toPromise().then(response => {
@@ -87,6 +79,14 @@ export class HttpService {
   deleteFriendship = async (username) => {
     const data = {username1: username, username2: this.glob.getNickname()};
     await this.http.post<string>(environment.urlBack + 'deleteFriendship', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour.message;
+  };
+
+  deleteDemandReceived = async (username) => {
+    const data = {sender: username, receiver: this.glob.getNickname()};
+    await this.http.post<string>(environment.urlBack + 'deleteDemandReceived', data).toPromise().then(response => {
       this.retour = response;
     });
     return this.retour.message;

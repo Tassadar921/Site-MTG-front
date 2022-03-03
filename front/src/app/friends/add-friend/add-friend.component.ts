@@ -12,6 +12,7 @@ export class AddFriendComponent implements OnInit {
 
   public displayUsers = [];
   public output;
+  public test = 1234;
 
   private users = [];
   private friends = [];
@@ -31,6 +32,8 @@ export class AddFriendComponent implements OnInit {
     await this.displayUsersFunction(this.count);
     this.loginServ.refresh();
   }
+
+  getTest = () => this.test;
 
   displayUsersFunction = async (n) => {
 

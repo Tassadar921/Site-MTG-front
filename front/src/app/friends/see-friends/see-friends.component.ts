@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../shared/services/login.service';
 import {HttpService} from '../../shared/services/http.service';
 import {ActionSheetController} from '@ionic/angular';
@@ -10,11 +10,12 @@ import {ActionSheetController} from '@ionic/angular';
 })
 export class SeeFriendsComponent implements OnInit {
 
+  public friends = [];
   public displayFriend = [];
   public output;
   public count = 0;
+  public filter = '';
 
-  private friends = [];
   private users = [];
   private p;
 
@@ -22,41 +23,53 @@ export class SeeFriendsComponent implements OnInit {
     private loginServ: LoginService,
     private httpService: HttpService,
     private actionSheetController: ActionSheetController,
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
-    this.p=this.loginServ.setPlatform();
+    this.p = this.loginServ.setPlatform();
     this.loginServ.refresh();
-    await this.displayFriendsFunction(0);
+    this.users = await this.httpService.getUserListExceptOne();
+    await this.displayFriendsFunction(0, 0, '');
+    this.friends = await this.httpService.getUserFriends();
   }
 
   nextPage = async () => {
-    await this.displayFriendsFunction(this.count);
-    this.count++;
+    let start = this.p * this.count;
+    if (this.p * this.count + 2 < this.friends.length) {
+      this.count++;
+      start = this.p * this.count;
+    }
+    await this.displayFriendsFunction(this.count, start, this.filter);
   };
 
   previousPage = async () => {
-    this.count--;
-    await this.displayFriendsFunction(this.count);
+    if (this.count !== 0) {
+      this.count--;
+    }
+    const start = this.p * this.count;
+    await this.displayFriendsFunction(this.count, start, this.filter);
   };
 
-  displayFriendsFunction = async (n) => {
+  search = async (n, start, filter) => {
+    console.log('search');
+    this.count = 0;
+    await this.displayFriendsFunction(n, start, filter);
+  };
 
-    this.friends=await this.httpService.getUserFriends();
-    this.users=await this.httpService.getUserListExceptOne();
+  displayFriendsFunction = async (n, start, filter) => {
 
-    console.log(this.friends);
+    // console.log('filter : ', filter);
+    // console.log(this.filter);
+    this.friends = await this.httpService.getUserFriends();
+    this.users = await this.httpService.getUserListExceptOne();
 
     let end;
-    const start = 3*n;
 
     this.friends.sort();
     this.displayFriend = [];
 
-    if(start<this.friends.length) {
-      console.log('a');
-      console.log(this.friends.length);
-      console.log(11 * n + this.p);
+    if (start < this.friends.length) {
       if (this.friends.length > 11 * n + this.p) {
         end = 3 * n + this.p;
       } else {
@@ -66,9 +79,14 @@ export class SeeFriendsComponent implements OnInit {
       console.log('end : ', end);
       for (let i = start; i < end; i++) {
         for (let k = 0; k < this.users.length; k++) {
-          if (this.users[k].username === this.friends[i]) {
-            this.displayFriend.unshift({friend: this.friends[i], lastConnected: this.users[k].lastConnected});
-            k = this.users.length;
+          console.log(this.friends[i]);
+          if (this.friends[i].includes(filter) || this.friends[i].includes(filter.toUpperCase())) {
+            if (this.users[k].username === this.friends[i]) {
+              this.displayFriend.unshift({friend: this.friends[i], lastConnected: this.users[k].lastConnected});
+              k = this.users.length;
+            }
+          } else {
+            end += 1;
           }
         }
       }
@@ -79,27 +97,25 @@ export class SeeFriendsComponent implements OnInit {
   deleteFromFriends = async (username) => {
     const actionSheet = await this.actionSheetController.create({
       header: 'Confirm friendship deletion with ' + username + ' ?',
-      cssClass: 'my-custom-class',
       buttons: [{
         text: 'Yes',
         icon: 'checkmark',
         handler: async () => {
           await this.httpService.deleteFriendship(username);
-          await this.displayFriendsFunction(0);
+          await this.displayFriendsFunction(0, 0, this.filter);
           this.count = 0;
         }
-      },{
+      }, {
         text: 'No',
         icon: 'close',
-        handler: () => {}
+        handler: () => {
+        }
       }]
     });
     await actionSheet.present();
-};
-
-  invite=(username)=>{
-    //ON VERRA PLUS TARD
   };
 
-
+  invite = (username) => {
+    //ON VERRA PLUS TARD
+  };
 }

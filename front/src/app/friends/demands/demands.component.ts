@@ -10,6 +10,7 @@ export class DemandsComponent implements OnInit {
 
   public output;
   public demands;
+  public demandsLength;
 
   private retour;
 
@@ -19,28 +20,23 @@ export class DemandsComponent implements OnInit {
 
   async ngOnInit() {
     this.demands = await this.httpService.getUserDemandsReceived();
+    this.retour = await this.httpService.getUserDemandsReceived();
+    this.demandsLength = this.retour.length;
   }
 
-  addFriend=(username)=>{
-    if(this.removeDemand(username)) {
+  addFriend= async (username)=>{
+    if(await this.removeDemand(username)) {
       this.output = 'Something went wrong: retry later';
     }else{
-      this.retour = this.httpService.addFriend(username);
+      this.retour = await this.httpService.addFriend(username);
     }
   };
 
-  removeDemand=(username)=>{
-    this.retour = this.httpService.removeDemandReceived(username);
-    this.removeFromDemands(username);
+  removeDemand = async (username)=>{
+    this.retour = await this.httpService.deleteDemandReceived(username);
+    console.log(this.retour);
+    this.demands = await this.httpService.getUserDemandsReceived();
+    this.demandsLength = this.demands.length;
     return this.retour === 'done';
-  };
-
-  removeFromDemands=(username)=>{
-    for(let i=0; i<this.demands.length; i++){
-      if(this.demands[i]===username){
-        this.demands.splice(i,1);
-        i=this.demands.length;
-      }
-    }
   };
 }
