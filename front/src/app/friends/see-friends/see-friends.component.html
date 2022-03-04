@@ -2,6 +2,26 @@
   <ion-row>
     <ion-searchbar type='text' [(ngModel)]="filter"  (ionChange)="search(0,0, filter)"></ion-searchbar>
   </ion-row>
+  <ion-row style="text-align:center;">
+    <ion-col>
+      Page {{count+1}}/{{this.nbPages}}
+    </ion-col>
+  </ion-row>
+  <ion-row id="pages">
+    <ion-col>
+      <ion-button (click)="previousPage()">
+        <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col>
+      {{friends.length}}<br><ion-icon name="people"></ion-icon>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="nextPage()">
+        <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
   <div *ngFor="let line of displayFriend">
     <div class="item">
       <ion-row>
@@ -23,24 +43,4 @@
       </ion-row>
     </div>
   </div>
-  <ion-row style="text-align:center;">
-    <ion-col>
-      Page {{count+1}}
-    </ion-col>
-  </ion-row>
-  <ion-row id="pages">
-    <ion-col>
-      <ion-button (click)="previousPage()">
-        <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-    <ion-col>
-      {{friends.length}}<br><ion-icon name="people"></ion-icon>
-    </ion-col>
-    <ion-col>
-      <ion-button (click)="nextPage()">
-        <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
 </ion-grid>

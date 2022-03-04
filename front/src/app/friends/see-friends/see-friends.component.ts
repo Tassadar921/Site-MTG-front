@@ -15,6 +15,7 @@ export class SeeFriendsComponent implements OnInit {
   public output;
   public count = 0;
   public filter = '';
+  public nbPages;
 
   private users = [];
   private p;
@@ -27,16 +28,25 @@ export class SeeFriendsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.p = this.loginServ.setPlatform();
+    this.p = this.loginServ.setPlatform('see');
     this.loginServ.refresh();
     this.users = await this.httpService.getUserListExceptOne();
+    this.nbPages = this.getnbPages();
     await this.displayFriendsFunction(0, 0, '');
     this.friends = await this.httpService.getUserFriends();
   }
 
+  getnbPages = () => {
+    if(this.friends.length) {
+      return Math.ceil(this.friends.length / this.p);
+    }else{
+      return 1;
+    }
+  };
+
   nextPage = async () => {
     let start = this.p * this.count;
-    if (this.p * this.count + 2 < this.friends.length) {
+    if (this.p * this.count + this.p < this.friends.length) {
       this.count++;
       start = this.p * this.count;
     }
@@ -52,46 +62,40 @@ export class SeeFriendsComponent implements OnInit {
   };
 
   search = async (n, start, filter) => {
-    console.log('search');
     this.count = 0;
     await this.displayFriendsFunction(n, start, filter);
   };
 
   displayFriendsFunction = async (n, start, filter) => {
-
-    // console.log('filter : ', filter);
-    // console.log(this.filter);
     this.friends = await this.httpService.getUserFriends();
     this.users = await this.httpService.getUserListExceptOne();
 
     let end;
 
-    this.friends.sort();
     this.displayFriend = [];
 
     if (start < this.friends.length) {
-      if (this.friends.length > 11 * n + this.p) {
-        end = 3 * n + this.p;
+      if (this.friends.length > start + this.p) {
+        end = start + this.p;
       } else {
         end = this.friends.length;
       }
-      console.log('start : ', start);
-      console.log('end : ', end);
+
       for (let i = start; i < end; i++) {
-        for (let k = 0; k < this.users.length; k++) {
-          console.log(this.friends[i]);
-          if (this.friends[i].includes(filter) || this.friends[i].includes(filter.toUpperCase())) {
-            if (this.users[k].username === this.friends[i]) {
-              this.displayFriend.unshift({friend: this.friends[i], lastConnected: this.users[k].lastConnected});
-              k = this.users.length;
+        if (this.friends[i]) {
+          if (this.friends[i].toUpperCase().includes(filter.toUpperCase())) {
+            for (let k = 0; k < this.users.length; k++) {
+              if (this.users[k].username === this.friends[i]) {
+                this.displayFriend.push({friend: this.friends[i], lastConnected: this.users[k].lastConnected});
+                k = this.users.length;
+              }
             }
-          } else {
-            end += 1;
           }
         }
       }
     }
-    console.log(this.displayFriend);
+    this.nbPages = this.getnbPages();
+    //console.log(this.displayFriend);
   };
 
   deleteFromFriends = async (username) => {
@@ -116,6 +120,7 @@ export class SeeFriendsComponent implements OnInit {
   };
 
   invite = (username) => {
+    console.log('on va inviter ' + username.friend);
     //ON VERRA PLUS TARD
   };
 }

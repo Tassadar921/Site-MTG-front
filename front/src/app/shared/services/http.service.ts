@@ -33,7 +33,7 @@ export class HttpService {
     await this.http.post<Array<string>>(environment.urlBack + 'getUserFriends', data).toPromise().then(res => {
       this.retour = res;
     });
-    return this.retour.links.sort();
+    return this.retour.links;
   };
 
   getUserListExceptOne = async () => {
@@ -41,7 +41,7 @@ export class HttpService {
     await this.http.post<Array<string>>(environment.urlBack + 'getUserListExceptOne', data).toPromise().then(res => {
       this.retour = res;
     });
-    return this.retour.output.sort();
+    return this.retour.output;
   };
 
   getUserDemandsSent = async () => {
@@ -49,7 +49,7 @@ export class HttpService {
     await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsSent', data).toPromise().then(res => {
       this.retour = res;
     });
-    return this.retour.demands.sort();
+    return this.retour.demands;
   };
 
   getUserDemandsReceived = async () => {
@@ -57,7 +57,7 @@ export class HttpService {
     await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsReceived', data).toPromise().then(res => {
       this.retour = res;
     });
-    return this.retour.demands.sort();
+    return this.retour.demands;
   };
 
   askFriend = async (username) => {
@@ -84,9 +84,9 @@ export class HttpService {
     return this.retour.message;
   };
 
-  deleteDemandReceived = async (username) => {
-    const data = {sender: username, receiver: this.glob.getNickname()};
-    await this.http.post<string>(environment.urlBack + 'deleteDemandReceived', data).toPromise().then(response => {
+  deleteDemand = async (send, receive) => {
+    const data = {sender: send, receiver: receive};
+    await this.http.post<string>(environment.urlBack + 'deleteDemand', data).toPromise().then(response => {
       this.retour = response;
     });
     return this.retour.message;

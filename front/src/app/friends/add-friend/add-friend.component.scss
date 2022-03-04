@@ -1,7 +1,3 @@
-ion-title {
-  text-align: center;
-}
-
 .italic {
   font-style: italic;
   color: grey;
@@ -11,4 +7,12 @@ ion-title {
   border: solid 1px white;
   border-radius: 35px;
   margin-bottom: 10px;
+}
+
+#pages {
+  text-align:center;
+}
+
+ion-searchbar{
+  text-align:center;
 }

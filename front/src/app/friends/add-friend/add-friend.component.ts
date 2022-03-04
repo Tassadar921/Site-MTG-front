@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LoginService} from '../../shared/services/login.service';
 import {HttpService} from '../../shared/services/http.service';
+import {GlobalVarsService} from '../../shared/services/global-vars.service';
 
 @Component({
   selector: 'app-add-friend',
@@ -12,83 +13,137 @@ export class AddFriendComponent implements OnInit {
 
   public displayUsers = [];
   public output;
-  public test = 1234;
+  public nbPages;
+  public filter = '';
 
-  private users = [];
-  private friends = [];
-  private demandsSent = [];
-  private demandsReceived = [];
+  // private friends = [];
   private count = 0;
   private p;
+  private notFriends = [];
+  private filteredArray = [];
 
   constructor(
     private http: HttpClient,
     private loginServ: LoginService,
     private httpService: HttpService,
-  ) {}
+    private glob: GlobalVarsService,
+  ) {
+  }
 
   async ngOnInit() {
-    this.p=this.loginServ.setPlatform();
-    await this.displayUsersFunction(this.count);
+    this.p = this.loginServ.setPlatform('add');
+    this.nbPages = this.getnbPages();
+    await this.fillNotFriend(0, 0);
     this.loginServ.refresh();
   }
 
-  getTest = () => this.test;
-
-  displayUsersFunction = async (n) => {
-
-    this.friends = await this.httpService.getUserFriends();
-    this.users = await this.httpService.getUserListExceptOne();
-    this.demandsSent = await this.httpService.getUserDemandsSent();
-    this.demandsReceived = await this.httpService.getUserDemandsReceived();
-
-    let friends;
-    let end;
-    let sent;
-    let received;
-    const start = 3*n;
-
-    this.displayUsers = [];
-
-    if(this.users.length>11*n+2) {
-      end = 3 * n + this.p;
-    }else{
-      end = this.users.length;
+  getnbPages = () => {
+    if (this.notFriends.length) {
+      return Math.ceil(this.notFriends.length / this.p);
+    } else {
+      return 1;
     }
-    for (let i = start; i < end; i++) {
-      friends = false;
-      sent = false;
-      received = false;
-      for(let k = 0; k<this.friends.length; k++){
-        if(this.friends[k]===this.users[i].username){
-          friends = true;
-          k=this.friends.length;
-        }
-      }
-      for(let k = 0; k<this.demandsSent.length; k++){
-        if(this.demandsSent[k]===this.users[i].username){
-          sent = true;
-          k=this.demandsSent.length;
-        }
-      }
-      for(let k = 0; k<this.demandsReceived.length; k++){
-        if(this.demandsReceived[k]===this.users[i].username){
-          received = true;
-          k=this.demandsReceived.length;
-        }
-      }
-      if(!friends && !sent && !received){
-        this.displayUsers.unshift(this.users[i]);
-      }
-    }
-    this.displayUsers.sort();
-    this.count++;
   };
 
-  askFriend = async (username) =>{
+  nextPage = async () => {
+    let start = this.p * this.count;
+    if (this.p * this.count + this.p < this.notFriends.length) {
+      this.count++;
+      start = this.p * this.count;
+    }
+    await this.fillNotFriend(this.count, start);
+  };
 
+  previousPage = async () => {
+    if (this.count !== 0) {
+      this.count--;
+    }
+    const start = this.p * this.count;
+    await this.fillNotFriend(this.count, start);
+  };
+
+  search = async (n, start, filter) => {
+    this.count = 0;
+    await this.fillNotFriend(n, start);
+  };
+
+  fillNotFriend = async (n, start) => {
+
+    const friends = await this.httpService.getUserFriends();
+    const users = await this.httpService.getUserListExceptOne();
+    const demandsSent = await this.httpService.getUserDemandsSent();
+    const demandsReceived = await this.httpService.getUserDemandsReceived();
+
+    let friend;
+    let sent;
+    let received;
+    this.notFriends = [];
+
+    users.sort();
+
+    for (let i = 0; i < users.length; i++) {
+      friend = false;
+      sent = false;
+      received = false;
+      for (let k = 0; k < friends.length; k++) {
+        if (friends[k] === users[i].username) {
+          friend = true;
+          k = friends.length;
+        }
+      }
+      for (let k = 0; k < demandsSent.length; k++) {
+        if (demandsSent[k] === users[i].username) {
+          sent = true;
+          k = demandsSent.length;
+        }
+      }
+      for (let k = 0; k < demandsReceived.length; k++) {
+        if (demandsReceived[k] === users[i].username) {
+          received = true;
+          k = demandsReceived.length;
+        }
+      }
+      if (!friend) {
+        this.notFriends.push({user: users[i], demandSent: sent, demandReceived: received});
+      }
+    }
+    await this.displayUsersFunction(n, start, this.filter);
+  };
+
+  displayUsersFunction = async (n, start, filter) => {
+    let end;
+    this.displayUsers = [];
+
+    if (start < this.notFriends.length) {
+      if (this.notFriends.length > start + this.p) {
+        end = start + this.p;
+      } else {
+        end = this.notFriends.length;
+      }
+
+      for (let i = start; i < end; i++) {
+        if (this.notFriends[i].user.username.toUpperCase().includes(filter.toUpperCase())) {
+          this.displayUsers.push(
+            {
+              username: this.notFriends[i].user.username,
+              lastConnected: this.notFriends[i].user.lastConnected,
+              sent: this.notFriends[i].demandSent,
+              received: this.notFriends[i].demandReceived
+            });
+        }
+      }
+    }
+    this.nbPages = this.getnbPages();
+  };
+
+  askFriend = async (username) => {
     this.output = await this.httpService.askFriend(username);
-    await this.displayUsersFunction(this.count);
+    await this.fillNotFriend(this.count, this.p * this.count);
+  };
+
+  annulDemand = async (username) => {
+    this.output = await this.httpService.deleteDemand(this.glob.getNickname(), username);
+    await this.fillNotFriend(this.count, this.p * this.count);
   };
 
 }

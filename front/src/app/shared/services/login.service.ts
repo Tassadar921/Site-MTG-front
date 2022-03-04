@@ -25,11 +25,17 @@ export class LoginService {
     });
   };
 
-  setPlatform=()=>{
-    if(this.platform.is('mobile')|| this.platform.is('mobileweb')){
-      return 2;
-    }else{
-      return 4;
+  setPlatform=(ref)=>{
+      if (this.platform.is('mobile') || this.platform.is('mobileweb')) {
+        return 2;
+      } else {
+        if(ref === 'see') {
+        return 4;
+      }else{
+          if(ref ==='add'){
+            return 3;
+          }
+      }
     }
   };
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from '../../shared/services/http.service';
+import {GlobalVarsService} from '../../shared/services/global-vars.service';
 
 @Component({
   selector: 'app-demands',
@@ -16,6 +17,7 @@ export class DemandsComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
+    private glob: GlobalVarsService,
   ) {}
 
   async ngOnInit() {
@@ -33,7 +35,7 @@ export class DemandsComponent implements OnInit {
   };
 
   removeDemand = async (username)=>{
-    this.retour = await this.httpService.deleteDemandReceived(username);
+    this.retour = await this.httpService.deleteDemand(username, this.glob.getNickname());
     console.log(this.retour);
     this.demands = await this.httpService.getUserDemandsReceived();
     this.demandsLength = this.demands.length;
