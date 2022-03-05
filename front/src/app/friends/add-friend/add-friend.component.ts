@@ -16,11 +16,10 @@ export class AddFriendComponent implements OnInit {
   public nbPages;
   public filter = '';
 
-  // private friends = [];
+  private filteredNumber = 0;
   private count = 0;
   private p;
   private notFriends = [];
-  private filteredArray = [];
 
   constructor(
     private http: HttpClient,
@@ -32,7 +31,6 @@ export class AddFriendComponent implements OnInit {
 
   async ngOnInit() {
     this.p = this.loginServ.setPlatform('add');
-    this.nbPages = this.getnbPages();
     await this.fillNotFriend(0, 0);
     this.loginServ.refresh();
   }
@@ -47,7 +45,7 @@ export class AddFriendComponent implements OnInit {
 
   nextPage = async () => {
     let start = this.p * this.count;
-    if (this.p * this.count + this.p < this.notFriends.length) {
+    if (this.p * this.count + this.p < this.notFriends.length && this.p * this.count + this.p < this.filteredNumber) {
       this.count++;
       start = this.p * this.count;
     }
@@ -62,13 +60,22 @@ export class AddFriendComponent implements OnInit {
     await this.fillNotFriend(this.count, start);
   };
 
-  search = async (n, start, filter) => {
+  search = async (n, start) => {
     this.count = 0;
     await this.fillNotFriend(n, start);
   };
 
-  fillNotFriend = async (n, start) => {
+  askFriend = async (username) => {
+    this.output = await this.httpService.askFriend(username);
+    await this.fillNotFriend(this.count, this.p * this.count);
+  };
 
+  annulDemand = async (username) => {
+    this.output = await this.httpService.deleteDemand(this.glob.getNickname(), username);
+    await this.fillNotFriend(this.count, this.p * this.count);
+  };
+
+  fillNotFriend = async (n, start) => {
     const friends = await this.httpService.getUserFriends();
     const users = await this.httpService.getUserListExceptOne();
     const demandsSent = await this.httpService.getUserDemandsSent();
@@ -77,11 +84,16 @@ export class AddFriendComponent implements OnInit {
     let friend;
     let sent;
     let received;
+    this.filteredNumber = 0;
     this.notFriends = [];
 
     users.sort();
 
     for (let i = 0; i < users.length; i++) {
+      if (users[i].username.toUpperCase().includes(this.filter.toUpperCase())) {
+        this.filteredNumber++;
+      }
+
       friend = false;
       sent = false;
       received = false;
@@ -107,6 +119,7 @@ export class AddFriendComponent implements OnInit {
         this.notFriends.push({user: users[i], demandSent: sent, demandReceived: received});
       }
     }
+    this.nbPages = Math.ceil(this.filteredNumber/this.p);
     await this.displayUsersFunction(n, start, this.filter);
   };
 
@@ -133,17 +146,5 @@ export class AddFriendComponent implements OnInit {
         }
       }
     }
-    this.nbPages = this.getnbPages();
   };
-
-  askFriend = async (username) => {
-    this.output = await this.httpService.askFriend(username);
-    await this.fillNotFriend(this.count, this.p * this.count);
-  };
-
-  annulDemand = async (username) => {
-    this.output = await this.httpService.deleteDemand(this.glob.getNickname(), username);
-    await this.fillNotFriend(this.count, this.p * this.count);
-  };
-
 }

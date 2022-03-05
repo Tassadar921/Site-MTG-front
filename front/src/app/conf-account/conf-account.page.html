@@ -1,6 +1,6 @@
 <ion-grid>
   <ion-row *ngIf="redirect">
-    <ion-button (click)="forceRedirect()">Click here if you're not redirected</ion-button>
+    <ion-button (click)="redir('/welcome')">Click here if you're not redirected</ion-button>
   </ion-row>
   <div *ngIf="!redirect">
     <ion-row>
@@ -13,7 +13,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button (click)="toLogin()">Back to login</ion-button>
+        <ion-button (click)="redir('/home')">Back to login</ion-button>
       </ion-col>
     </ion-row>
   </div>

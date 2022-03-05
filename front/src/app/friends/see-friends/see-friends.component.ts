@@ -30,16 +30,13 @@ export class SeeFriendsComponent implements OnInit {
   async ngOnInit() {
     this.p = this.loginServ.setPlatform('see');
     this.loginServ.refresh();
-    this.users = await this.httpService.getUserListExceptOne();
-    this.nbPages = this.getnbPages();
     await this.displayFriendsFunction(0, 0, '');
-    this.friends = await this.httpService.getUserFriends();
   }
 
   getnbPages = () => {
-    if(this.friends.length) {
+    if (this.friends.length) {
       return Math.ceil(this.friends.length / this.p);
-    }else{
+    } else {
       return 1;
     }
   };
@@ -95,7 +92,6 @@ export class SeeFriendsComponent implements OnInit {
       }
     }
     this.nbPages = this.getnbPages();
-    //console.log(this.displayFriend);
   };
 
   deleteFromFriends = async (username) => {

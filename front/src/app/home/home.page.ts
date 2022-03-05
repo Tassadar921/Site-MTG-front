@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {GlobalVarsService} from '../shared/services/global-vars.service';
+import {HttpService} from '../shared/services/http.service';
 import {Router} from '@angular/router';
-import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +11,8 @@ import {environment} from '../../environments/environment';
 
 export class HomePage implements OnInit {
 
-  public iname='';
-  public ipassword='';
+  public iname = '';
+  public ipassword = '';
   public confPassword = '';
   public imail = '';
   public token;
@@ -34,13 +33,14 @@ export class HomePage implements OnInit {
   private retour;
 
   constructor(
-    private http: HttpClient,
+    private httpService: HttpService,
     private glob: GlobalVarsService,
     private router: Router,
   ) {
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   switch = (val) => { //toggle pour les components
     this.output = '';
@@ -53,28 +53,15 @@ export class HomePage implements OnInit {
     this.displayToken = 0;
   };
 
-  signUp() {
-
-    const data = {
-      mail: this.imail,
-      name: this.iname,
-      password: this.ipassword
-    };
-
+  signUp = async () => {
     this.output = '';
-
     if (this.ipassword && this.confPassword && this.ipassword === this.confPassword) {
-
       this.output = '';
-
-      this.http.post(environment.urlBack + 'mailToken', data).subscribe(response => {
-        this.retour = response;
-        this.output = this.retour.message;
-        if (this.retour.output === 1) {
-          this.displayToken = 1;
-        }
-      });
-
+      this.retour = await this.httpService.mailToken(this.imail, this.iname, this.ipassword);
+      this.output = this.retour.message;
+      if (this.retour.output === 1) {
+        this.displayToken = 1;
+      }
     } else {
       if (this.ipassword && this.confPassword && this.ipassword !== this.confPassword) {
         this.output = 'Mots de passe différents';
@@ -96,43 +83,35 @@ export class HomePage implements OnInit {
         }
       }
     }
-  }
+  };
 
-  signIn(nom, pass) {
-    const data = {
-      name: nom,
-      password: pass
-    };
-    if (nom && pass) {
-      this.http.post(environment.urlBack + 'login', data).pipe().subscribe(response => {
-        this.retour = response;
-        this.output = this.retour.message;
-        if (this.retour.co === true) {
-          this.login(nom);
-        }
-      });
+  signIn = async (namee, passwordd) => {
+    if (namee && passwordd) {
+      this.retour = await this.httpService.login(namee, passwordd);
+      console.log(this.retour);
+      this.output = this.retour.message;
+      if (this.retour.co === true) {
+        this.login(namee);
+      }
     } else {
-      if (!nom) {
+      if (!namee) {
         this.output = 'Nickname required';
       } else {
-        if (!pass) {
+        if (!passwordd) {
           this.output = 'Password required';
         }
       }
     }
   };
 
-  resetPassword = () => {
-    const data = {mail: this.recupMail};
-    this.http.post(environment.urlBack + 'sendResetPassword', data).pipe().subscribe(response => {
-      this.retour = response;
-      this.output = this.retour.message;
-    });
+  resetPassword = async () => {
+    this.output = await this.httpService.sendResetPassword(this.recupMail);
   };
 
-  login = async function(name) {
-    await this.glob.setNickname(name);
-    await this.glob.switchConnected();
+  login = (name) => {
+    this.glob.setNickname(name);
+    this.glob.switchConnected();
+    console.log('bouh');
     this.router.navigateByUrl('/welcome');
   };
 
@@ -161,7 +140,7 @@ export class HomePage implements OnInit {
   };
 
   sendPassword = () => {
-    this.output='';
+    this.output = '';
     this.exists = 2;
   };
 

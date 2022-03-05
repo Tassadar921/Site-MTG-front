@@ -44,6 +44,9 @@ export class MainMenuComponent implements OnInit {
     } else {
       this.hour = moment().format('h:mm:ss a')
         .slice(0, moment().format('h:mm:ss a').length - 6);
+      if(this.hour[0]==='1' && this.hour[1]==='2'){
+        this.hour = '00' + this.hour.slice(2,this.hour.length);
+      }
     }
   };
 

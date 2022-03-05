@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import { Clipboard } from '@angular/cdk/clipboard';
+import {Clipboard} from '@angular/cdk/clipboard';
 import {GlobalVarsService} from '../shared/services/global-vars.service';
+import {HttpService} from '../shared/services/http.service';
 
 @Component({
   selector: 'app-conf-account',
@@ -13,7 +12,7 @@ import {GlobalVarsService} from '../shared/services/global-vars.service';
 export class ConfAccountPage implements OnInit {
 
   public output;
-  public redirect=false;
+  public redirect = false;
 
   private token;
   private username;
@@ -25,58 +24,40 @@ export class ConfAccountPage implements OnInit {
   constructor(
     private getVarInURL: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
     private clipboard: Clipboard,
     private glob: GlobalVarsService,
-  ) { }
-
-  ngOnInit() {
-    this.getVarInURL.queryParams.subscribe(params => {
-      this.token=params.token;
-      this.username=params.name;
-      this.mail=params.mail;
-      this.password=params.password;
-    });
-
-    const data = {
-      name: this.username,
-      password: this.password,
-      mail: this.mail
-    };
-
-    const token = {
-      token: this.token,
-      mail: this.mail,
-    };
-
-    this.http.post(environment.urlBack + 'checkToken', token).pipe().subscribe(response=>{
-      this.retour=response;
-      this.output=this.retour.message;
-      if(this.retour.output===1){
-        this.http.post(environment.urlBack + 'signUp', data).pipe().subscribe(resp=>{
-          this.retour=resp;
-          this.output=this.retour.message;
-          if(this.retour.return===true) {
-            this.glob.setNickname(this.username);
-            this.redirect=true;
-            this.router.navigateByUrl('/welcome');
-          }
-        });
-      }
-    });
+    private httpService: HttpService,
+  ) {
   }
 
-  forceRedirect=()=>{
-    this.router.navigateByUrl('/welcome');
+  async ngOnInit() {
+    this.getVarInURL.queryParams.subscribe(params => {
+      this.token = params.token;
+      this.username = params.name;
+      this.mail = params.mail;
+      this.password = params.password;
+    });
+
+    this.retour = await this.httpService.checkToken(this.token, this.mail);
+    this.output = this.retour.message;
+    if (this.retour.output === 1) {
+      this.retour = await this.httpService.signUp(this.username, this.password, this.mail);
+      this.output = this.retour.message;
+      if (this.retour.return === true) {
+        this.glob.setNickname(this.username);
+        this.redirect = true;
+        this.router.navigateByUrl('/welcome');
+      }
+    }
   };
 
-  toLogin=()=>{
-    this.router.navigateByUrl('/home');
+  redir = (dest) => {
+    this.router.navigateByUrl(dest);
   };
 
-  copy=()=>{
+  copy = () => {
     this.clipboard.copy('noreply.tassadar.ovh@gmail.com');
-    this.output='Email adress copied to clipboard !';
+    this.output = 'Email adress copied to clipboard !';
   };
 
 }
