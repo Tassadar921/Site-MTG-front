@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Clipboard} from '@angular/cdk/clipboard';
-import {GlobalVarsService} from '../shared/services/global-vars.service';
+import {StorageService} from '../shared/services/storage.service';
 import {HttpService} from '../shared/services/http.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class ConfAccountPage implements OnInit {
     private getVarInURL: ActivatedRoute,
     private router: Router,
     private clipboard: Clipboard,
-    private glob: GlobalVarsService,
+    private storage: StorageService,
     private httpService: HttpService,
   ) {
   }
@@ -44,15 +44,15 @@ export class ConfAccountPage implements OnInit {
       this.retour = await this.httpService.signUp(this.username, this.password, this.mail);
       this.output = this.retour.message;
       if (this.retour.return === true) {
-        this.glob.setNickname(this.username);
+        await this.storage.setNickname(this.username);
         this.redirect = true;
-        this.router.navigateByUrl('/welcome');
+        await this.router.navigateByUrl('/welcome');
       }
     }
   };
 
-  redir = (dest) => {
-    this.router.navigateByUrl(dest);
+  redir = async (dest) => {
+    await this.router.navigateByUrl(dest);
   };
 
   copy = () => {

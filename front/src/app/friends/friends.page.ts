@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {HttpService} from '../shared/services/http.service';
-import {AddFriendComponent} from "./add-friend/add-friend.component";
-import {SeeFriendsComponent} from "./see-friends/see-friends.component";
 import {DemandsComponent} from './demands/demands.component';
 
 @Component({
@@ -12,6 +10,7 @@ import {DemandsComponent} from './demands/demands.component';
 
 export class FriendsPage implements OnInit {
 
+  @ViewChild(DemandsComponent)demandsComponent: DemandsComponent;
   public numberInvits;
   public main = 0;
   public secondary = 0;
@@ -19,8 +18,6 @@ export class FriendsPage implements OnInit {
   constructor(
     public httpService: HttpService,
   ) {}
-
-  @ViewChild(DemandsComponent)demandsComponent: DemandsComponent;
 
   async ngOnInit() {
     this.numberInvits = await this.httpService.getUserDemandsReceivedLength();

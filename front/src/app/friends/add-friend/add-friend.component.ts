@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LoginService} from '../../shared/services/login.service';
 import {HttpService} from '../../shared/services/http.service';
-import {GlobalVarsService} from '../../shared/services/global-vars.service';
+import {StorageService} from '../../shared/services/storage.service';
 
 @Component({
   selector: 'app-add-friend',
@@ -25,14 +25,14 @@ export class AddFriendComponent implements OnInit {
     private http: HttpClient,
     private loginServ: LoginService,
     private httpService: HttpService,
-    private glob: GlobalVarsService,
+    private storage: StorageService,
   ) {
   }
 
   async ngOnInit() {
     this.p = this.loginServ.setPlatform('add');
     await this.fillNotFriend(0, 0);
-    this.loginServ.refresh();
+    await this.loginServ.refresh();
   }
 
   getnbPages = () => {
@@ -71,7 +71,7 @@ export class AddFriendComponent implements OnInit {
   };
 
   annulDemand = async (username) => {
-    this.output = await this.httpService.deleteDemand(this.glob.getNickname(), username);
+    this.output = await this.httpService.deleteDemand(await this.storage.getNickname(), username);
     await this.fillNotFriend(this.count, this.p * this.count);
   };
 

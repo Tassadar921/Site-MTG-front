@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {GlobalVarsService} from '../../services/global-vars.service';
+import {StorageService} from '../../services/storage.service';
 import * as moment from 'moment';
 
 @Component({
@@ -16,16 +16,16 @@ export class MainMenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public glob: GlobalVarsService,
+    public storage: StorageService,
   ) {
     setInterval(this.refreshTime, 2000);
   }
 
   async ngOnInit() {
-    if(!await this.glob.getNickname()){
+    if(!await this.storage.getNickname()){
       await this.router.navigateByUrl('/home');
     }
-    this.name = await this.glob.getNickname();
+    this.name = await this.storage.getNickname();
   }
 
   refreshTime=() =>{
@@ -54,7 +54,7 @@ export class MainMenuComponent implements OnInit {
 
   redirect = async (direction) =>{
     if(direction==='home') {
-      await this.glob.setNickname('');
+      await this.storage.disconnect();
     }
     await this.router.navigateByUrl('/' + direction);
   };

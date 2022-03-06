@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {GlobalVarsService} from './global-vars.service';
+import {StorageService} from './storage.service';
 import {Platform} from '@ionic/angular';
 import {HttpService} from './http.service';
 
@@ -11,13 +11,13 @@ export class LoginService {
   public retour;
 
   constructor(
-    private glob: GlobalVarsService,
+    private storage: StorageService,
     private platform: Platform,
     private httpService: HttpService,
   ) {}
 
   refresh = async () => {
-    await this.httpService.lastConnected(await this.glob.getNickname());
+    await this.httpService.lastConnected(await this.storage.getNickname());
   };
 
   setPlatform=(ref)=>{

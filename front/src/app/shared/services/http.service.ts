@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {GlobalVarsService} from './global-vars.service';
 import {HttpClient} from '@angular/common/http';
+import {StorageService} from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class HttpService {
   private retour;
 
   constructor(
-    private glob: GlobalVarsService,
+    private storage: StorageService,
     private http: HttpClient,
   ) {
   }
@@ -29,11 +29,11 @@ export class HttpService {
     return this.retour;
   };
 
-  mailToken = async (maill, namee, passwordd) => {
+  mailToken = async (email, username, pass) => {
     const data = {
-      mail: maill,
-      name: namee,
-      password: passwordd
+      mail: email,
+      name: username,
+      password: pass
     };
     await this.http.post<string>(environment.urlBack + 'mailToken', data).toPromise().then(response => {
       this.retour = response;
@@ -50,10 +50,10 @@ export class HttpService {
   };
 
   ////////////////////////////// ACCOUNTS //////////////////////////////
-  signUp = async (username, passwordd, email) => {
+  signUp = async (username, pass, email) => {
     const data = {
       name: username,
-      password: passwordd,
+      password: pass,
       mail: email
     };
     await this.http.post<string>(environment.urlBack + 'signUp', data).toPromise().then(response => {
@@ -62,10 +62,10 @@ export class HttpService {
     return this.retour;
   };
 
-  login = async (namee, passwordd) => {
+  login = async (username, pass) => {
     const data = {
-      name: namee,
-      password: passwordd,
+      name: username,
+      password: pass,
     };
     await this.http.post<string>(environment.urlBack + 'login', data).toPromise().then(response => {
       this.retour = response;
@@ -73,10 +73,10 @@ export class HttpService {
     return this.retour;
   };
 
-  resetPassword = async (userId, passwordd) => {
+  resetPassword = async (userId, pass) => {
     const data = {
       id: userId,
-      password: passwordd
+      password: pass
     };
     await this.http.post<string>(environment.urlBack + 'resetPassword', data).toPromise().then(response => {
       this.retour = response;
@@ -93,7 +93,7 @@ export class HttpService {
   };
 
   getUserDemandsReceivedLength = async () => {
-    const data = {name: await this.glob.getNickname()};
+    const data = {name: await this.storage.getNickname()};
     await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsReceived', data).toPromise().then(res => {
       this.retour = res;
     });
@@ -101,7 +101,7 @@ export class HttpService {
   };
 
   getUserFriends = async () => {
-    const data = {name: await this.glob.getNickname()};
+    const data = {name: await this.storage.getNickname()};
     await this.http.post<Array<string>>(environment.urlBack + 'getUserFriends', data).toPromise().then(res => {
       this.retour = res;
     });
@@ -109,7 +109,7 @@ export class HttpService {
   };
 
   getUserListExceptOne = async () => {
-    const data = {name: await this.glob.getNickname()};
+    const data = {name: await this.storage.getNickname()};
     await this.http.post<Array<string>>(environment.urlBack + 'getUserListExceptOne', data).toPromise().then(res => {
       this.retour = res;
     });
@@ -117,7 +117,7 @@ export class HttpService {
   };
 
   getUserDemandsSent = async () => {
-    const data = {name: await this.glob.getNickname()};
+    const data = {name: await this.storage.getNickname()};
     await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsSent', data).toPromise().then(res => {
       this.retour = res;
     });
@@ -125,7 +125,7 @@ export class HttpService {
   };
 
   getUserDemandsReceived = async () => {
-    const data = {name: await this.glob.getNickname()};
+    const data = {name: await this.storage.getNickname()};
     await this.http.post<Array<string>>(environment.urlBack + 'getUserDemandsReceived', data).toPromise().then(res => {
       this.retour = res;
     });
@@ -133,7 +133,7 @@ export class HttpService {
   };
 
   askFriend = async (username) => {
-    const data = {from: await this.glob.getNickname(), to: username};
+    const data = {from: await this.storage.getNickname(), to: username};
     await this.http.post<Array<string>>(environment.urlBack + 'askFriend', data).toPromise().then(response => {
       this.retour = response;
     });
@@ -141,7 +141,7 @@ export class HttpService {
   };
 
   addFriend = async (username) => {
-    const data = {user1: await this.glob.getNickname(), user2: username};
+    const data = {user1: await this.storage.getNickname(), user2: username};
     await this.http.post<string>(environment.urlBack + 'addFriend', data).toPromise().then(response => {
       this.retour = response;
     });
@@ -149,7 +149,7 @@ export class HttpService {
   };
 
   deleteFriendship = async (username) => {
-    const data = {username1: username, username2: this.glob.getNickname()};
+    const data = {username1: username, username2: this.storage.getNickname()};
     await this.http.post<string>(environment.urlBack + 'deleteFriendship', data).toPromise().then(response => {
       this.retour = response;
     });

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from '../shared/services/login.service';
-import {GlobalVarsService} from '../shared/services/global-vars.service';
 
 @Component({
   selector: 'app-welcome',
@@ -13,7 +12,6 @@ export class WelcomePage implements OnInit {
 
   constructor(
     private loginServ: LoginService,
-    private glob: GlobalVarsService,
   ) { }
 
   async ngOnInit() {

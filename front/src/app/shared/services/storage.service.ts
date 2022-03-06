@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@capacitor/storage';
+import {Storage} from '@capacitor/storage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GlobalVarsService {
+export class StorageService {
 
   private retour;
 
@@ -16,4 +16,6 @@ export class GlobalVarsService {
   };
 
   setNickname = async (replace) => await Storage.set({key: 'username', value: replace});
+
+  disconnect = async () => await Storage.remove({ key: 'name' });
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GlobalVarsService} from '../shared/services/global-vars.service';
+import {StorageService} from '../shared/services/storage.service';
 import {HttpService} from '../shared/services/http.service';
 import {Router} from '@angular/router';
 
@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private httpService: HttpService,
-    private glob: GlobalVarsService,
+    private storage: StorageService,
     private router: Router,
   ) {
   }
@@ -84,18 +84,18 @@ export class HomePage implements OnInit {
     }
   };
 
-  signIn = async (namee, passwordd) => {
-    if (namee && passwordd) {
-      this.retour = await this.httpService.login(namee, passwordd);
+  signIn = async (name, password) => {
+    if (name && password) {
+      this.retour = await this.httpService.login(name, password);
       this.output = this.retour.message;
       if (this.retour.co === true) {
-        this.login(namee);
+        this.login(name);
       }
     } else {
-      if (!namee) {
+      if (!name) {
         this.output = 'Nickname required';
       } else {
-        if (!passwordd) {
+        if (!password) {
           this.output = 'Password required';
         }
       }
@@ -107,7 +107,7 @@ export class HomePage implements OnInit {
   };
 
   login = (name) => {
-    this.glob.setNickname(name);
+    this.storage.setNickname(name);
     this.router.navigateByUrl('/welcome');
   };
 
