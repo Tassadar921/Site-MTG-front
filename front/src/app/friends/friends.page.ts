@@ -27,19 +27,19 @@ export class FriendsPage implements OnInit {
     this.main = val;
   };
 
-  getNumberOfInvits = () => {
-    if(this.secondary && this.main) {
-      this.numberInvits = this.demandsComponent.demandsLength;
-      this.switchSecondary(this.secondary);
-    }
-  };
-
   switchSecondary = (val) => {
     this.secondary = val;
     if(this.secondary) {
       setTimeout(
         this.getNumberOfInvits,
         1000);
+    }
+  };
+
+  getNumberOfInvits = () => {
+    if(this.secondary && this.main) {
+      this.numberInvits = this.demandsComponent.demandsLength;
+      this.switchSecondary(this.secondary);
     }
   };
 }

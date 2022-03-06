@@ -8,6 +8,7 @@ import {LoginService} from '../shared/services/login.service';
 })
 export class UpdownLoadPage implements OnInit {
 
+  public main = 0;
   constructor(
     private loginServ: LoginService,
   ) { }
@@ -16,4 +17,7 @@ export class UpdownLoadPage implements OnInit {
     this.loginServ.refresh();
   }
 
+  switchMain = (val) => {
+    this.main = val;
+  };
 }

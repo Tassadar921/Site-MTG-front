@@ -142,9 +142,12 @@ export class HttpService {
 
   addFriend = async (username) => {
     const data = {user1: await this.storage.getNickname(), user2: username};
+    this.retour = await this.deleteDemand(await this.storage.getNickname(), username);
+    this.retour = await this.deleteDemand(username, await this.storage.getNickname());
     await this.http.post<string>(environment.urlBack + 'addFriend', data).toPromise().then(response => {
       this.retour = response;
     });
+
     return this.retour.message;
   };
 
