@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {GlobalVarsService} from './global-vars.service';
-import {environment} from '../../../environments/environment';
 import {Platform} from '@ionic/angular';
+import {HttpService} from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +11,13 @@ export class LoginService {
   public retour;
 
   constructor(
-    private http: HttpClient,
     private glob: GlobalVarsService,
     private platform: Platform,
+    private httpService: HttpService,
   ) {}
 
-  refresh = () => {
-    const data = {name: this.glob.getNickname()};
-
-    this.http.post<string>(environment.urlBack + 'lastConnected', data).toPromise().then(response => {
-      this.retour = response;
-    });
+  refresh = async () => {
+    await this.httpService.lastConnected(await this.glob.getNickname());
   };
 
   setPlatform=(ref)=>{

@@ -15,8 +15,8 @@ import {MainMenuComponent} from '../shared/components/main-menu/main-menu.compon
     CommonModule,
     FormsModule,
     IonicModule,
-    WelcomePageRoutingModule
+    WelcomePageRoutingModule,
   ],
-  declarations: [WelcomePage, MainMenuComponent]
+  declarations: [WelcomePage, MainMenuComponent],
 })
 export class WelcomePageModule {}

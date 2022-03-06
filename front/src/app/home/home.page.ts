@@ -39,8 +39,7 @@ export class HomePage implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   switch = (val) => { //toggle pour les components
     this.output = '';
@@ -88,7 +87,6 @@ export class HomePage implements OnInit {
   signIn = async (namee, passwordd) => {
     if (namee && passwordd) {
       this.retour = await this.httpService.login(namee, passwordd);
-      console.log(this.retour);
       this.output = this.retour.message;
       if (this.retour.co === true) {
         this.login(namee);
@@ -110,8 +108,6 @@ export class HomePage implements OnInit {
 
   login = (name) => {
     this.glob.setNickname(name);
-    this.glob.switchConnected();
-    console.log('bouh');
     this.router.navigateByUrl('/welcome');
   };
 

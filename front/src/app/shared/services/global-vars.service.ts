@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@capacitor/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalVarsService {
 
-  private connected=true;
-  private nickname='Tassadar';
+  private retour;
 
-  constructor() { }
+  constructor() {}
 
-  getConnected=()=>this.connected;
-  switchConnected=()=>this.connected ? this.connected=false : this.connected=true;
+  getNickname = async () => {
+    this.retour = await Storage.get({key: 'username'});
+    return this.retour.value;
+  };
 
-  getNickname=()=>this.nickname;
-  setNickname=(replace)=>this.nickname=replace;
-
+  setNickname = async (replace) => await Storage.set({key: 'username', value: replace});
 }

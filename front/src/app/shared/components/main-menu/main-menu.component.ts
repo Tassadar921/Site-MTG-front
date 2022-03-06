@@ -12,6 +12,7 @@ export class MainMenuComponent implements OnInit {
 
   public today;
   public hour;
+  public name;
 
   constructor(
     private router: Router,
@@ -20,10 +21,11 @@ export class MainMenuComponent implements OnInit {
     setInterval(this.refreshTime, 2000);
   }
 
-  ngOnInit() {
-    if(this.glob.getConnected()===false){
-      this.router.navigateByUrl('/home');
+  async ngOnInit() {
+    if(!await this.glob.getNickname()){
+      await this.router.navigateByUrl('/home');
     }
+    this.name = await this.glob.getNickname();
   }
 
   refreshTime=() =>{
@@ -50,11 +52,10 @@ export class MainMenuComponent implements OnInit {
     }
   };
 
-  redirect = (direction) =>{
+  redirect = async (direction) =>{
     if(direction==='home') {
-      this.glob.setNickname('');
-      this.glob.switchConnected();
+      await this.glob.setNickname('');
     }
-    this.router.navigateByUrl('/' + direction);
+    await this.router.navigateByUrl('/' + direction);
   };
 }
