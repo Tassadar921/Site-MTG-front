@@ -29,7 +29,7 @@ export class SeeFriendsComponent implements OnInit {
 
   async ngOnInit() {
     this.p = this.loginServ.setPlatform('see');
-    this.loginServ.refresh();
+    await this.loginServ.refresh();
     await this.displayFriendsFunction(0, 0, '');
   }
 

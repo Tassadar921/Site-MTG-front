@@ -1,13 +1,17 @@
 <ion-grid>
   <ion-row>
     <ion-col>
-      <ion-title>Search</ion-title>
+    </ion-col>
+    <ion-col>
+      <ion-title>My decks</ion-title>
+    </ion-col>
+    <ion-col>
+      <ion-icon name="cloud-upload" id="uploadHover ? upload: uploadHoverId" (mouseover)="switchUpload()"></ion-icon>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>
-      <ion-searchbar placeholder="test" [(ngModel)]="filter"></ion-searchbar>
+      <ion-searchbar placeholder="Search a deck" [(ngModel)]="filter"></ion-searchbar>
     </ion-col>
   </ion-row>
-  {{filter}}
 </ion-grid>

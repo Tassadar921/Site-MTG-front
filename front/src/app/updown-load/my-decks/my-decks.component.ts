@@ -8,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class MyDecksComponent implements OnInit {
 
   public filter = '';
+  public uploadHover = 1;
 
   constructor() { }
 
   ngOnInit() {}
+
+  switchUpload = () => {
+    console.log('test');
+  }
 
 }

@@ -1,3 +1,12 @@
 ion-row{
   text-align:center;
 }
+
+#upload{
+  font-size: 2em;
+}
+
+ion-col:hover #upload{
+  background: green;
+  border-radius:15px;
+}

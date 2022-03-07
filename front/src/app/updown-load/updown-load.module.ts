@@ -11,6 +11,7 @@ import { UpdownLoadPage } from './updown-load.page';
 import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
 import {MyDecksComponent} from './my-decks/my-decks.component';
 import {ViewDecksComponent} from './view-decks/view-decks.component';
+import {SharedWithMeComponent} from './shared-with-me/shared-with-me.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import {ViewDecksComponent} from './view-decks/view-decks.component';
     IonicModule,
     UpdownLoadPageRoutingModule
   ],
-  declarations: [UpdownLoadPage, MainMenuComponent, MyDecksComponent, ViewDecksComponent]
+  declarations: [UpdownLoadPage, MainMenuComponent, MyDecksComponent, ViewDecksComponent, SharedWithMeComponent]
 })
 export class UpdownLoadPageModule {}

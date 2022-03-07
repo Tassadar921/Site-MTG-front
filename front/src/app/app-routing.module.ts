@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'welcome', // A CHANGER
+    redirectTo: 'welcome', // redirect to login if no storage name
     pathMatch: 'full'
   },
   {

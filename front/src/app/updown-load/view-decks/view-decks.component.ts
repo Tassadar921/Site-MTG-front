@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewDecksComponent implements OnInit {
 
+  public filter = '';
+
   constructor() { }
 
   ngOnInit() {}
