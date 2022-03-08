@@ -6,7 +6,9 @@
       <ion-title>My decks</ion-title>
     </ion-col>
     <ion-col>
-      <ion-icon name="cloud-upload" id="uploadHover ? upload: uploadHoverId" (mouseover)="switchUpload()"></ion-icon>
+      <ion-button fill="clear" size="large" style="margin:0px;" title="Upload a deck">
+        <ion-icon name="cloud-upload" slot="icon-only" color="success"></ion-icon>
+      </ion-button>
     </ion-col>
   </ion-row>
   <ion-row>

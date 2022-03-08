@@ -16,21 +16,15 @@ export class LoginService {
     private httpService: HttpService,
   ) {}
 
-  refresh = async () => {
+  refresh = async () => { //pour chaque changement de page, update de lastconnected pour la session en cours
     await this.httpService.lastConnected(await this.storage.getNickname());
   };
 
-  setPlatform=(ref)=>{
+  setPlatform=()=>{ //nb d'éléments affichés quand on a un système de pages
       if (this.platform.is('mobile') || this.platform.is('mobileweb')) {
-        return 2;
+        return 5;
       } else {
-        if(ref === 'see') {
-        return 4;
-      }else{
-          if(ref ==='add'){
-            return 3;
-          }
-      }
+        return 10;
     }
   };
 }

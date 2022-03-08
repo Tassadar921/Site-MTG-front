@@ -1,37 +1,39 @@
 <app-main-menu></app-main-menu>
-<ion-grid>
-  <ion-row>
-    <ion-segment value="0">
-      <ion-segment-button value="0" (click)="switchMain(0)">
-        <ion-icon name="albums"></ion-icon>
-      </ion-segment-button>
-      <ion-segment-button value="1" (click)="switchMain(1)">
-        <ion-icon name="share-social"></ion-icon>
-      </ion-segment-button>
-      <ion-segment-button value="2" (click)="switchMain(2)">
-        <ion-icon name="globe"></ion-icon>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-row>
-  <div *ngIf="main === 0">
+<ion-content>
+  <ion-grid>
     <ion-row>
-      <ion-col>
-        <app-my-decks></app-my-decks>
-      </ion-col>
+      <ion-segment value="0">
+        <ion-segment-button value="0" (click)="switchMain(0)">
+          <ion-icon name="albums"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="1" (click)="switchMain(1)">
+          <ion-icon name="share-social"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="2" (click)="switchMain(2)">
+          <ion-icon name="globe"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
     </ion-row>
-  </div>
-  <div *ngIf="main ===1">
-    <ion-row>
-      <ion-col>
-        <app-shared-with-me></app-shared-with-me>
-      </ion-col>
-    </ion-row>
-  </div>
-  <div *ngIf="main ===2">
-    <ion-row>
-      <ion-col>
-        <app-view-decks></app-view-decks>
-      </ion-col>
-    </ion-row>
-  </div>
-</ion-grid>
+    <div *ngIf="main === 0">
+      <ion-row>
+        <ion-col>
+          <app-my-decks></app-my-decks>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="main ===1">
+      <ion-row>
+        <ion-col>
+          <app-shared-with-me></app-shared-with-me>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="main ===2">
+      <ion-row>
+        <ion-col>
+          <app-view-decks></app-view-decks>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+</ion-content>

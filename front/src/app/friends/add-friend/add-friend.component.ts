@@ -30,7 +30,7 @@ export class AddFriendComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.p = this.loginServ.setPlatform('add');
+    this.p = this.loginServ.setPlatform();
     await this.fillNotFriend(0, 0);
     await this.loginServ.refresh();
   }
