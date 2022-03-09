@@ -6,11 +6,12 @@
       <ion-title>My decks</ion-title>
     </ion-col>
     <ion-col>
-      <ion-button fill="clear" size="large" style="margin:0px;" title="Upload a deck">
+      <ion-button fill="clear" size="large" style="margin:0px;" title="Upload a deck" (click)="handleFileSelect($event)">
         <ion-icon name="cloud-upload" slot="icon-only" color="success"></ion-icon>
       </ion-button>
     </ion-col>
   </ion-row>
+  {{uploadedFile}}
   <ion-row>
     <ion-col>
       <ion-searchbar placeholder="Search a deck" [(ngModel)]="filter"></ion-searchbar>
