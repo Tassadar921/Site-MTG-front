@@ -9,25 +9,12 @@ export class MyDecksComponent implements OnInit {
 
   public filter = ''; // pour plus tard
   public uploadedFile; // valeur du ngModel
-  public fileSelector; //objet html
 
   constructor() { }
 
-  ngOnInit() {
-    this.buildFileSelector();
-  }
+  ngOnInit() {}
 
-  buildFileSelector = () => { // build de l'input dans le ts
-    this.fileSelector = document.createElement('input');
-    this.fileSelector.setAttribute('type', 'file');
-    this.fileSelector.setAttribute('ngModel','uploadedFile');
-    this.fileSelector.
+  test = () => {
+    console.log(typeof this.uploadedFile);
   };
-
-  handleFileSelect = (e) => { //trigger au click
-    e.preventDefault();
-    this.fileSelector.click();
-    console.log(this.fileSelector);
-  };
-
 }

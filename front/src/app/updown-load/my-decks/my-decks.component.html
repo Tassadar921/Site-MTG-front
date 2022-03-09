@@ -1,12 +1,23 @@
+<ion-popover trigger="openPopover" size="auto">
+  <ng-template>
+    <ion-title size="small">Format .json, .txt ou .cod</ion-title>
+    <ion-item>
+      <ion-label>Deck :</ion-label>
+      <ion-input id="upload" type="file" [(ngModel)]="uploadedFile" accept=".json, .txt, .cod"></ion-input>
+    </ion-item>
+    <ion-button color="success" (click)="test()">Submit deck</ion-button>
+  </ng-template>
+</ion-popover>
+
 <ion-grid>
   <ion-row>
     <ion-col>
-    </ion-col>
-    <ion-col>
       <ion-title>My decks</ion-title>
     </ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col>
-      <ion-button fill="clear" size="large" style="margin:0px;" title="Upload a deck" (click)="handleFileSelect($event)">
+      <ion-button fill="clear" size="large" style="margin:0px;" title="Upload a deck" id="openPopover">
         <ion-icon name="cloud-upload" slot="icon-only" color="success"></ion-icon>
       </ion-button>
     </ion-col>
