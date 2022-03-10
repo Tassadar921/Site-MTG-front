@@ -160,6 +160,8 @@ export class HttpService {
   };
 
   deleteDemand = async (send, receive) => {
+    console.log('sender : ', send);
+    console.log('receiver : ', receive);
     const data = {sender: send, receiver: receive};
     await this.http.post<string>(environment.urlBack + 'deleteDemand', data).toPromise().then(response => {
       this.retour = response;

@@ -22,8 +22,7 @@ export class DemandsComponent implements OnInit {
 
   async ngOnInit() {
     this.demands = await this.httpService.getUserDemandsReceived();
-    this.retour = await this.httpService.getUserDemandsReceived();
-    this.demandsLength = this.retour.length;
+    this.demandsLength = this.demands.length;
   }
 
   addFriend= async (username)=>{
@@ -35,7 +34,7 @@ export class DemandsComponent implements OnInit {
   };
 
   removeDemand = async (username)=>{
-    this.retour = await this.httpService.deleteDemand(username, this.storage.getNickname());
+    this.retour = await this.httpService.deleteDemand(username, await this.storage.getNickname());
     console.log(this.retour);
     this.demands = await this.httpService.getUserDemandsReceived();
     this.demandsLength = this.demands.length;
