@@ -11,6 +11,7 @@ export class MyDecksComponent implements OnInit {
   public filter = ''; // pour plus tard
   public uploadedFile; // valeur du ngModel
   public path;
+  public file;
 
   private cardImageBase64;
 
@@ -27,29 +28,18 @@ export class MyDecksComponent implements OnInit {
 
   test = () => {
     console.log(typeof this.uploadedFile);
-    console.log(this.uploadedFile.files);
+    // console.log(this.uploadedFile.files);
   };
 
-  upload = async (event) => {
-    // Get a reference to the file that has just been added to the input
-    const file = event.target.files[0];
+  changeFile = (event) => {
+    this.file = event.target.files[0];
+  };
 
-    // Create a form data object using the FormData API
-    const formData = new FormData();
-
-    // Add the file that was just added to the form data
-    formData.set('file', file, file.name);
-
-    // POST formData to server using Fetch API
-    console.log(formData.get('file'));
-
-    const reader = new FileReader();
-    console.log('avant : ', file);
-    reader.readAsText(file);
-    console.log('après : ', file);
-
-    const imgBase64Path = event.target.result;
-    this.cardImageBase64 = imgBase64Path;
-    console.log(this.cardImageBase64);
+  upload = async () => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(this.file);
+    fileReader.onload = async () => {
+      console.log('a : ', await fileReader.result);
+    };
   };
 }
