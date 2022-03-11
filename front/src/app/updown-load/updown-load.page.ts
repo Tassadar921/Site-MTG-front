@@ -13,8 +13,8 @@ export class UpdownLoadPage implements OnInit {
     private loginServ: LoginService,
   ) { }
 
-  ngOnInit() {
-    this.loginServ.refresh();
+  async ngOnInit() {
+    await this.loginServ.refresh();
   }
 
   switchMain = (val) => {
