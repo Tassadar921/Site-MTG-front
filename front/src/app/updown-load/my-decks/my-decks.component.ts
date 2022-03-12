@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-my-decks',
@@ -13,33 +12,56 @@ export class MyDecksComponent implements OnInit {
   public path;
   public file;
 
-  private cardImageBase64;
-
-  constructor(
-    // private file: File,
-    private http: HttpClient,
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-    // this.file.checkDir(this.file.dataDirectory, 'mydir').then(_ => console.log('Directory exists')).catch(err =>
-    //   console.log('Directory doesn\'t exist'));
   }
-
-  test = () => {
-    console.log(typeof this.uploadedFile);
-    // console.log(this.uploadedFile.files);
-  };
 
   changeFile = (event) => {
     this.file = event.target.files[0];
   };
 
   upload = async () => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(this.file);
-    fileReader.onload = async () => {
-      console.log('a : ', await fileReader.result);
-    };
+    if (this.file) {
+      const fileReader = new FileReader();
+      fileReader.readAsText(this.file);
+      fileReader.onload = async () => {
+        console.log(fileReader.result);
+        let tmp = fileReader.result;
+        const json = this.txtToJson(fileReader.result);
+      };
+    }
+  };
+
+  txtToJson = (file) => {
+    file = file.split(/\r\n|\n/);
+    console.log(file);
+    let json = [];
+    let ln;
+    const chars = 'azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN, \'-/';
+    let tmp;
+    for (const line of file) {
+      let intoChain = false;
+      let nbr = 0;
+      let cardname = '';
+      ln = line.split(' ');
+      nbr = ln[0];
+      for (const col of ln) {
+        if (chars.includes(col[0])) {
+          intoChain = true;
+        }
+        if (intoChain && chars.includes(col[0])) {
+          cardname+=col + ' ';
+        }
+      }
+      if(line) {
+        tmp = {cardName: cardname.slice(0, cardname.length - 1), quantity: nbr};
+        console.log(tmp);
+        json.push(tmp);
+      }
+    }
+    console.log(json);
+    return json;
   };
 }
