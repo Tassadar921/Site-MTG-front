@@ -3,7 +3,7 @@
     <ion-title size="small">Format .json, .txt ou .cod</ion-title>
     <ion-item>
       <ion-label>Deck :</ion-label>
-      <ion-input id="upload" type="file" (change)="changeFile($event)" accept=".json, .txt, .cod"></ion-input>
+      <ion-input id="upload" type="file" [(ngModel)]="deckType" (change)="changeFile($event)" accept=".txt, .cod"></ion-input>
     </ion-item>
     <ion-button color="success" (click)="upload()">Submit deck</ion-button>
   </ng-template>

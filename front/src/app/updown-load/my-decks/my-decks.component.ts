@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ExportFormatService} from '../../shared/services/export-format.service';
 
 @Component({
   selector: 'app-my-decks',
@@ -11,57 +12,37 @@ export class MyDecksComponent implements OnInit {
   public uploadedFile; // valeur du ngModel
   public path;
   public file;
+  public deckType;
 
-  constructor() {
-  }
+  constructor(
+    private exportFormat: ExportFormatService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   changeFile = (event) => {
     this.file = event.target.files[0];
+    this.deckType = event.target.value.split('.')[event.target.value.split('.').length-1];
   };
 
   upload = async () => {
     if (this.file) {
+      let json;
       const fileReader = new FileReader();
       fileReader.readAsText(this.file);
       fileReader.onload = async () => {
         console.log(fileReader.result);
-        let tmp = fileReader.result;
-        const json = this.txtToJson(fileReader.result);
+        if(this.deckType==='txt') {
+          json = this.exportFormat.txtToJson(fileReader.result);
+        }else if (this.deckType==='json'){
+          //au cas où on le remet un jour
+        }else if (this.deckType==='cod'){
+          json = this.exportFormat.codToJson(fileReader.result);
+        }
+        console.log(json);
       };
     }
   };
 
-  txtToJson = (file) => {
-    file = file.split(/\r\n|\n/);
-    console.log(file);
-    let json = [];
-    let ln;
-    const chars = 'azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN, \'-/';
-    let tmp;
-    for (const line of file) {
-      let intoChain = false;
-      let nbr = 0;
-      let cardname = '';
-      ln = line.split(' ');
-      nbr = ln[0];
-      for (const col of ln) {
-        if (chars.includes(col[0])) {
-          intoChain = true;
-        }
-        if (intoChain && chars.includes(col[0])) {
-          cardname+=col + ' ';
-        }
-      }
-      if(line) {
-        tmp = {cardName: cardname.slice(0, cardname.length - 1), quantity: nbr};
-        console.log(tmp);
-        json.push(tmp);
-      }
-    }
-    console.log(json);
-    return json;
-  };
+
 }

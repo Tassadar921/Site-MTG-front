@@ -37,3 +37,12 @@
     </div>
   </ion-grid>
 </ion-content>
+
+<ion-button id="test">test</ion-button>
+
+<ion-modal trigger="test">
+  <ng-template>
+    <p>test</p>
+    <ion-button (click)="dismiss()" color="danger">close</ion-button>
+  </ng-template>
+</ion-modal>
