@@ -9,6 +9,7 @@ export class ExportFormatService {
 
   txtToJson = (file) => {
     file = file.split(/\r\n|\n/);
+    let count = 0;
     const json = [];
     let ln;
     const chars = 'azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN, \'-/';
@@ -31,15 +32,17 @@ export class ExportFormatService {
         }
       }
       if(line && !isNaN(nbr)) {
+        count += Number(nbr);
         tmp = {cardName: cardname.slice(0, cardname.length - 1), quantity: nbr};
         json.push(tmp);
       }
     }
-    return json;
+    return {deck: json, cards: count};
   };
 
   codToJson = (file) => {
     const json = [];
+    let count = 0;
     let ln;
     let nbr;
     let cardname = '';
@@ -66,11 +69,12 @@ export class ExportFormatService {
           }
         }
         if(line && !isNaN(nbr)) {
+          count += Number(nbr);
           tmp = {cardName: cardname.slice(6, cardname.length-3), quantity: nbr};
           json.push(tmp);
         }
       }
     }
-    return json;
+    return {deck: json, cards: count};
   };
 }

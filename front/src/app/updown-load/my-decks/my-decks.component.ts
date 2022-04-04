@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ExportFormatService} from '../../shared/services/export-format.service';
 import {ModalController} from '@ionic/angular';
+import {ActionSheetController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-decks',
@@ -14,10 +15,14 @@ export class MyDecksComponent implements OnInit {
   public path;
   public file;
   public deckType;
+  public uploadedText;
+  public outputText = '';
+  public outputFile = '';
 
   constructor(
     private exportFormat: ExportFormatService,
     private modal: ModalController,
+    private actionSheet: ActionSheetController,
   ) {}
 
   ngOnInit() {}
@@ -27,24 +32,66 @@ export class MyDecksComponent implements OnInit {
     this.deckType = event.target.value.split('.')[event.target.value.split('.').length-1];
   };
 
-  upload = async () => {
+  uploadText = async () => {
+    if(this.uploadedText){
+      this.outputText = '';
+      await this.checkingJson(this.exportFormat.txtToJson(this.uploadedText));
+    } else{
+      this.outputText = 'Enter a text first';
+    }
+  };
+
+  uploadFile = async () => {
     if (this.file) {
-      let json;
+      let retour;
       const fileReader = new FileReader();
       fileReader.readAsText(this.file);
       fileReader.onload = async () => {
-        console.log(fileReader.result);
         if(this.deckType==='txt') {
-          json = this.exportFormat.txtToJson(fileReader.result);
+          retour = this.exportFormat.txtToJson(fileReader.result);
         }else if (this.deckType==='json'){
-          //au cas où on le remet un jour
+          //au cas où on en a besoin un jour
         }else if (this.deckType==='cod'){
-          json = this.exportFormat.codToJson(fileReader.result);
+          retour = this.exportFormat.codToJson(fileReader.result);
         }
-        console.log(json);
+        await this.checkingJson(retour);
       };
+    }else{
+      this.outputFile = 'Something went wrong';
+    }
+  };
+
+  checkingJson = async (data) => {
+    if(data.cards!==100){
+      await this.presentActionSheet(data.deck);
+    }else{
+      await this.deckSave(data.deck);
     }
   };
 
   dismiss = () => this.modal.dismiss();
+
+  deckSave = async (json) => {
+    console.log('saving the deck');
+  };
+
+  presentActionSheet = async (json) => {
+    const actionSheet = await this.actionSheet.create({
+      header: 'Less than 100 cards in the deck, save anyway ?',
+      buttons: [{
+        text: 'Yes',
+        role: 'destructive',
+        icon: 'cloud-upload',
+        handler: async () => {
+          await this.deckSave(json);
+        }
+      }, {
+        text: 'No',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {}
+      }]
+    });
+    await actionSheet.present();
+  };
 }

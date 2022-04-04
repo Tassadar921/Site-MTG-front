@@ -1,33 +1,43 @@
-<ion-modal trigger="inputFile" >
+<ion-modal trigger="inputFile">
   <ng-template>
-    <ion-row>
-      <ion-col>
-        <ion-title>Format .json, .txt ou .cod</ion-title>
-      </ion-col>
-    </ion-row>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-title>Format .json, .txt ou .cod</ion-title>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col>
           <ion-input id="upload" type="file" [(ngModel)]="deckType" (change)="changeFile($event)"
                      accept=".txt, .cod"></ion-input>
         </ion-col>
       </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button color="success" (click)="upload()">Submit deck</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-footer>
       <ion-row>
         <ion-col>
-          <ion-button color="danger" (click)="dismiss()">Close</ion-button>
+          <ion-button color="success" (click)="uploadFile()">Submit deck</ion-button>
         </ion-col>
       </ion-row>
-    </ion-footer>
+      <ion-row>
+        <ion-col>
+          {{outputText}}
+        </ion-col>
+      </ion-row>
+    <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
+      <ion-footer>
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" (click)="dismiss()">Close</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </div>
+    </ion-grid>
   </ng-template>
 </ion-modal>
 
 <ion-modal trigger="inputText">
   <ng-template>
+    <ion-grid>
     <ion-row>
       <ion-col>
         <ion-title>titre</ion-title>
@@ -35,9 +45,30 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button color="danger" (click)="dismiss()">Close</ion-button>
+        <ion-textarea rows="20" id="text" inputmode="text" type="text" [(ngModel)]="uploadedText"
+                      placeholder="Paste your decklist here"></ion-textarea>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="uploadText()">Submit</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        {{outputText}}
+      </ion-col>
+    </ion-row>
+    <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
+      <ion-footer>
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" (click)="dismiss()">Close</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </div>
+    </ion-grid>
   </ng-template>
 </ion-modal>
 
