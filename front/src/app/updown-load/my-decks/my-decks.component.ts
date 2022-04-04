@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ExportFormatService} from '../../shared/services/export-format.service';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-decks',
@@ -16,6 +17,7 @@ export class MyDecksComponent implements OnInit {
 
   constructor(
     private exportFormat: ExportFormatService,
+    private modal: ModalController,
   ) {}
 
   ngOnInit() {}
@@ -44,5 +46,5 @@ export class MyDecksComponent implements OnInit {
     }
   };
 
-
+  dismiss = () => this.modal.dismiss();
 }

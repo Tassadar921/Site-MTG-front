@@ -10,7 +10,6 @@ import * as moment from 'moment';
 })
 export class MainMenuComponent implements OnInit {
 
-  public today;
   public hour;
   public name;
 
@@ -26,6 +25,7 @@ export class MainMenuComponent implements OnInit {
       await this.router.navigateByUrl('/home');
     }
     this.name = await this.storage.getNickname();
+    this.refreshTime();
   }
 
   refreshTime=() =>{

@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 import {HttpService} from '../shared/services/http.service';
 
 @Component({
@@ -26,7 +24,6 @@ export class ResetPasswordPage implements OnInit {
   constructor(
     private getVarInURL: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
     private httpService: HttpService,
   ) {
   }

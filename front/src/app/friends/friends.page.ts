@@ -38,7 +38,9 @@ export class FriendsPage implements OnInit {
   };
 
   getNumberOfInvits = () => {
-    this.numberInvits = this.demandsComponent.demandsLength;
-    this.switchSecondary(this.secondary);
+    if (this.secondary && this.main) {
+      this.numberInvits = this.demandsComponent.demandsLength;
+      this.switchSecondary(this.secondary);
+    }
   };
 }
