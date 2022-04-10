@@ -176,4 +176,22 @@ export class HttpService {
     });
     return this.retour;
   };
+
+  ////////////////////////////// DECKS //////////////////////////////
+
+  uploadDeck = async (deckList, deckName, forEveryone) => {
+    const data = {name: deckName, list: deckList, public: forEveryone, owner: await this.storage.getNickname()};
+    await this.http.post<string>(environment.urlBack + 'uploadDeck', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
+
+  getUserDecks = async () => {
+    const data = {username: await this.storage.getNickname()};
+    await this.http.post<string>(environment.urlBack + 'getUserDecks', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ExportFormatService} from '../../shared/services/export-format.service';
 import {ModalController} from '@ionic/angular';
 import {ActionSheetController} from '@ionic/angular';
+import {HttpService} from '../../shared/services/http.service';
 
 @Component({
   selector: 'app-my-decks',
@@ -11,21 +12,30 @@ import {ActionSheetController} from '@ionic/angular';
 export class MyDecksComponent implements OnInit {
 
   public filter = ''; // pour plus tard
-  public uploadedFile; // valeur du ngModel
-  public path;
   public file;
   public deckType;
   public uploadedText;
   public outputText = '';
   public outputFile = '';
+  public deckName = '';
+  public outputSubmit;
+
+  private retour;
+  private json = {};
 
   constructor(
     private exportFormat: ExportFormatService,
     private modal: ModalController,
     private actionSheet: ActionSheetController,
+    private http: HttpService,
   ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.retour = await this.http.getUserDecks();
+    console.log(this.retour.list);
+  }
+
+  test = () => console.log('test');
 
   changeFile = (event) => {
     this.file = event.target.files[0];
@@ -35,7 +45,12 @@ export class MyDecksComponent implements OnInit {
   uploadText = async () => {
     if(this.uploadedText){
       this.outputText = '';
-      await this.checkingJson(this.exportFormat.txtToJson(this.uploadedText));
+      this.retour = this.exportFormat.txtToJson(this.uploadedText);
+      if(this.retour.cards === 0){
+        this.outputText = 'Doesn\'t seem to be a deck';
+      }else {
+        await this.checkingJson(this.retour);
+      }
     } else{
       this.outputText = 'Enter a text first';
     }
@@ -43,18 +58,23 @@ export class MyDecksComponent implements OnInit {
 
   uploadFile = async () => {
     if (this.file) {
-      let retour;
       const fileReader = new FileReader();
       fileReader.readAsText(this.file);
       fileReader.onload = async () => {
         if(this.deckType==='txt') {
-          retour = this.exportFormat.txtToJson(fileReader.result);
+          this.retour = this.exportFormat.txtToJson(fileReader.result);
         }else if (this.deckType==='json'){
           //au cas où on en a besoin un jour
         }else if (this.deckType==='cod'){
-          retour = this.exportFormat.codToJson(fileReader.result);
+          this.retour = this.exportFormat.codToJson(fileReader.result);
         }
-        await this.checkingJson(retour);
+        console.log(this.retour);
+        if(this.retour.cards === 0){
+          this.outputFile = 'Doesn\'t seem to be a deck';
+        }else {
+          this.outputFile='';
+          await this.checkingJson(this.retour);
+        }
       };
     }else{
       this.outputFile = 'Something went wrong';
@@ -65,14 +85,24 @@ export class MyDecksComponent implements OnInit {
     if(data.cards!==100){
       await this.presentActionSheet(data.deck);
     }else{
-      await this.deckSave(data.deck);
+      this.json=data.deck;
+      await this.deckSave();
     }
   };
 
-  dismiss = () => this.modal.dismiss();
+  dismissModal = () => this.modal.dismiss();
 
-  deckSave = async (json) => {
-    console.log('saving the deck');
+  deckSave = async () => {
+    console.log('name : ', this.deckName);
+    console.log('list : ', this.json);
+    // this.http.uploadDeck(json.deck, )
+    this.outputSubmit = this.retour.output;
+  };
+
+  trigger = async (e) => {
+    if(e.key==='Enter'){
+      await this.deckSave();
+    }
   };
 
   presentActionSheet = async (json) => {
@@ -83,7 +113,8 @@ export class MyDecksComponent implements OnInit {
         role: 'destructive',
         icon: 'cloud-upload',
         handler: async () => {
-          await this.deckSave(json);
+          this.json = json;
+          await this.deckSave();
         }
       }, {
         text: 'No',

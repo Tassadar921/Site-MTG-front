@@ -14,23 +14,30 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button color="success" (click)="uploadFile()">Submit deck</ion-button>
+          {{outputFile}}
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          {{outputText}}
+          <ion-button color="success" id="nameFileDeck">Submit deck</ion-button>
         </ion-col>
       </ion-row>
-    <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
-      <ion-footer>
-        <ion-row>
-          <ion-col>
-            <ion-button color="danger" (click)="dismiss()">Close</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-footer>
-    </div>
+      <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
+        <ion-footer>
+          <ion-row>
+            <ion-col>
+              <ion-text style="color:red; font-weight: bold;">
+                {{outputFile}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button color="danger" (click)="dismissModal()">Close</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-footer>
+      </div>
     </ion-grid>
   </ng-template>
 </ion-modal>
@@ -38,36 +45,38 @@
 <ion-modal trigger="inputText">
   <ng-template>
     <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-title>titre</ion-title>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-textarea rows="20" id="text" inputmode="text" type="text" [(ngModel)]="uploadedText"
-                      placeholder="Paste your decklist here"></ion-textarea>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="uploadText()">Submit</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        {{outputText}}
-      </ion-col>
-    </ion-row>
-    <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
-      <ion-footer>
-        <ion-row>
-          <ion-col>
-            <ion-button color="danger" (click)="dismiss()">Close</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-footer>
-    </div>
+      <ion-row>
+        <ion-col>
+          <ion-title>titre</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-textarea rows="20" id="text" inputmode="text" type="text" [(ngModel)]="uploadedText"
+                        placeholder="Paste your decklist here"></ion-textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button id="nameTextDeck">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text style="color:red; font-weight: bold;">
+            {{outputText}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
+        <ion-footer>
+          <ion-row>
+            <ion-col>
+              <ion-button color="danger" (click)="dismissModal()">Close</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-footer>
+      </div>
     </ion-grid>
   </ng-template>
 </ion-modal>
@@ -90,7 +99,6 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  {{uploadedFile}}
   <ion-row>
     <ion-col>
       <ion-searchbar placeholder="Search a deck" [(ngModel)]="filter"></ion-searchbar>
@@ -98,4 +106,36 @@
   </ion-row>
 </ion-grid>
 
-{{path}}
+<ion-popover trigger="nameTextDeck" side="top">
+  <ng-template>
+    <form>
+      <ion-title>Name your deck</ion-title>
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input type="text" (keyup)="trigger($event.key)" [(ngModel)]="deckName" required="true"
+                   [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-button color="success" (click)="uploadText()" type="submit">Submit deck</ion-button>
+      <div *ngIf="outputSubmit">
+        <p>Server response : {{outputSubmit}}</p>
+      </div>
+    </form>
+  </ng-template>
+</ion-popover>
+
+<ion-popover trigger="nameFileDeck" side="top"  (didPresent)="test()">
+  <ng-template>
+    <form>
+      <ion-title>Name your deck</ion-title>
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input type="text" (keyup)="trigger($event.key)" [(ngModel)]="deckName" required="true"
+                   [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-button color="success" (click)="uploadFile()" type="submit">Submit deck</ion-button>
+      <div *ngIf="outputSubmit">
+        <p>Server response : {{outputSubmit}}</p>
+      </div>
+    </form>
+  </ng-template>
+</ion-popover>

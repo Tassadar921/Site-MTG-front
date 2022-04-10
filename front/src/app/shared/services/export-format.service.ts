@@ -54,18 +54,18 @@ export class ExportFormatService {
       cardname='';
       if(line.includes('<card')){
         ln=line.split(' ');
-        for(let i=0;i<ln.length;i++){
-          if(ln[i].includes('number')){
-            nbr = ln[i].split('"')[ln[i].split('"').length-2];
+        for(const col of ln){
+          if(col.includes('number')){
+            nbr = col.split('"')[col.split('"').length-2];
           }
-          if(ln[i].includes('name')){
+          if(col.includes('name')){
             increment = true;
           }
           if(increment){
             if(cardname){
               cardname += ' ';
             }
-            cardname +=ln[i];
+            cardname += col;
           }
         }
         if(line && !isNaN(nbr)) {
