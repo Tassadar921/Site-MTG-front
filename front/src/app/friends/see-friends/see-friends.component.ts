@@ -96,7 +96,7 @@ export class SeeFriendsComponent implements OnInit {
 
   deleteFromFriends = async (username) => {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Confirm friendship deletion with ' + username + ' ?',
+      header: 'Delete ' + username + ' from friends ?',
       buttons: [{
         text: 'Yes',
         icon: 'checkmark',

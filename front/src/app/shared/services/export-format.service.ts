@@ -33,6 +33,9 @@ export class ExportFormatService {
       }
       if(line && !isNaN(nbr)) {
         count += Number(nbr);
+        if(cardname.includes('\'')){
+          cardname = cardname.replace('\'', '$');
+        }
         tmp = {cardName: cardname.slice(0, cardname.length - 1), quantity: nbr};
         json.push(tmp);
       }
@@ -70,6 +73,9 @@ export class ExportFormatService {
         }
         if(line && !isNaN(nbr)) {
           count += Number(nbr);
+          if(cardname.includes('\'')){
+            cardname = cardname.replace('\'', '$');
+          }
           tmp = {cardName: cardname.slice(6, cardname.length-3), quantity: nbr};
           json.push(tmp);
         }
