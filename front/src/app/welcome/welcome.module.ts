@@ -8,7 +8,7 @@ import { WelcomePageRoutingModule } from './welcome-routing.module';
 
 import { WelcomePage } from './welcome.page';
 
-import {MainMenuComponent} from '../shared/components/main-menu/main-menu.component';
+import {ComponentsModule} from '../shared/components/components/components.module';
 
 @NgModule({
   imports: [
@@ -16,7 +16,8 @@ import {MainMenuComponent} from '../shared/components/main-menu/main-menu.compon
     FormsModule,
     IonicModule,
     WelcomePageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [WelcomePage, MainMenuComponent],
+  declarations: [WelcomePage],
 })
 export class WelcomePageModule {}

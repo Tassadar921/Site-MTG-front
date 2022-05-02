@@ -8,7 +8,7 @@ import { FriendsPageRoutingModule } from './friends-routing.module';
 
 import { FriendsPage } from './friends.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import { ComponentsModule} from '../shared/components/components/components.module';
 
 import { SeeFriendsComponent } from './see-friends/see-friends.component';
 import { AddFriendComponent } from './add-friend/add-friend.component';
@@ -19,8 +19,9 @@ import { DemandsComponent } from './demands/demands.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    FriendsPageRoutingModule
+    FriendsPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [FriendsPage, MainMenuComponent, SeeFriendsComponent, AddFriendComponent, DemandsComponent]
+  declarations: [FriendsPage, SeeFriendsComponent, AddFriendComponent, DemandsComponent]
 })
 export class FriendsPageModule {}

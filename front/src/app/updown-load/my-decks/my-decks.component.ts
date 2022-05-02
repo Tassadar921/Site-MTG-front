@@ -25,6 +25,7 @@ export class MyDecksComponent implements OnInit {
   public count = 0;
   public nbPages = 1;
   public output;
+  public selectedDeck = '';
 
   private retour;
   private json = {};
@@ -89,7 +90,7 @@ export class MyDecksComponent implements OnInit {
 
   checkingJson = async (data) => {
     if (data.cards !== 100) {
-      await this.presentActionSheet(data.deck);
+      await this.lessThan100Cards(data.deck);
     } else {
       this.json = data.deck;
       await this.deckSave();
@@ -112,6 +113,8 @@ export class MyDecksComponent implements OnInit {
     this.retour = await this.http.uploadDeck(this.json, this.deckName, this.visibility);
     this.outputFile = this.retour.message;
     this.outputText = this.retour.message;
+    this.count = 0;
+    await this.displayDecksFunction(0, 0, this.filter);
   };
 
   trigger = async (e) => {
@@ -120,7 +123,7 @@ export class MyDecksComponent implements OnInit {
     }
   };
 
-  presentActionSheet = async (json) => {
+  lessThan100Cards = async (json) => {
     const actionSheet = await this.actionSheet.create({
       header: 'Less than 100 cards in the deck, save anyway ?',
       buttons: [{
@@ -223,12 +226,42 @@ export class MyDecksComponent implements OnInit {
     await actionSheet.present();
   };
 
+  deckClicked = async (deckname) => {
+    this.selectedDeck = deckname;
+    const actionSheet = await this.actionSheet.create({
+      header: 'What do you want to do with ' + this.selectedDeck + ' ?',
+      buttons: [{
+        text: 'Edit',
+        icon: 'pencil',
+        role: 'destructive',
+        handler: async () => {
+          console.log('on edit ', this.selectedDeck);
+        }
+      },
+        {
+          text: 'Share',
+          icon: 'person-add',
+          role: 'destructive',
+          handler: () => {
+            console.log('on partage ', this.selectedDeck);
+          }
+        },
+        {
+          text: 'Delete',
+          icon: 'trash',
+          role: 'destructive',
+          handler: () => {
+            console.log('on delete ', this.selectedDeck);
+          }
+        }]
+    });
+    await actionSheet.present();
+  };
+
   editDeck = (deckName) => {
     console.log('go edit ' + deckName);
     //redirect avec deckname dans url
   };
 
-  shareWith = (deckName) => {
-    console.log('go share le deck ' + deckName + ' avec quelqu\'un');
-  };
+  shareWith = (deckName) => this.selectedDeck = deckName;
 }

@@ -8,15 +8,16 @@ import { EditorPageRoutingModule } from './editor-routing.module';
 
 import { EditorPage } from './editor.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import { ComponentsModule} from '../shared/components/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditorPageRoutingModule
+    EditorPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [EditorPage, MainMenuComponent]
+  declarations: [EditorPage]
 })
 export class EditorPageModule {}

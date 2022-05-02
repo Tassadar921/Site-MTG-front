@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DeckInputTextComponent } from './deck-input-text.component';
+import { TestComponent } from './test.component';
 
-describe('DeckInputTextComponent', () => {
-  let component: DeckInputTextComponent;
-  let fixture: ComponentFixture<DeckInputTextComponent>;
+describe('TestComponent', () => {
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeckInputTextComponent ],
+      declarations: [ TestComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DeckInputTextComponent);
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

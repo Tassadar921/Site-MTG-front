@@ -8,7 +8,7 @@ import { UpdownLoadPageRoutingModule } from './updown-load-routing.module';
 
 import { UpdownLoadPage } from './updown-load.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import {ComponentsModule} from '../shared/components/components/components.module';
 import {MyDecksComponent} from './my-decks/my-decks.component';
 import {ViewDecksComponent} from './view-decks/view-decks.component';
 import {SharedWithMeComponent} from './shared-with-me/shared-with-me.component';
@@ -18,8 +18,9 @@ import {SharedWithMeComponent} from './shared-with-me/shared-with-me.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    UpdownLoadPageRoutingModule
+    UpdownLoadPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [UpdownLoadPage, MainMenuComponent, MyDecksComponent, ViewDecksComponent, SharedWithMeComponent]
+  declarations: [UpdownLoadPage, MyDecksComponent, ViewDecksComponent, SharedWithMeComponent]
 })
 export class UpdownLoadPageModule {}

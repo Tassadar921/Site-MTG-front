@@ -8,15 +8,16 @@ import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { SettingsPage } from './settings.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import {ComponentsModule} from '../shared/components/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SettingsPageRoutingModule
+    SettingsPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [SettingsPage, MainMenuComponent]
+  declarations: [SettingsPage]
 })
 export class SettingsPageModule {}

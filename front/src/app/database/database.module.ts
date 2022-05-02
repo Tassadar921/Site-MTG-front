@@ -8,15 +8,16 @@ import { DatabasePageRoutingModule } from './database-routing.module';
 
 import { DatabasePage } from './database.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import { ComponentsModule} from '../shared/components/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DatabasePageRoutingModule
+    DatabasePageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [DatabasePage, MainMenuComponent]
+  declarations: [DatabasePage]
 })
 export class DatabasePageModule {}

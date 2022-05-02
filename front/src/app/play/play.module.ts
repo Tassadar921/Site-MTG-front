@@ -8,15 +8,16 @@ import { PlayPageRoutingModule } from './play-routing.module';
 
 import { PlayPage } from './play.page';
 
-import { MainMenuComponent } from '../shared/components/main-menu/main-menu.component';
+import { ComponentsModule} from '../shared/components/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PlayPageRoutingModule
+    PlayPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [PlayPage, MainMenuComponent]
+  declarations: [PlayPage]
 })
 export class PlayPageModule {}
