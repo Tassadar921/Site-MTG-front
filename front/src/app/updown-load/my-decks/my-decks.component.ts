@@ -251,7 +251,7 @@ export class MyDecksComponent implements OnInit {
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            console.log('on delete ', this.selectedDeck);
+            this.deleteDeck(deckname);
           }
         }]
     });
