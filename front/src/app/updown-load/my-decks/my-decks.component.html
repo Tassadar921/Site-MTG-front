@@ -3,7 +3,7 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-title>Format .json, .txt ou .cod</ion-title>
+          <ion-title>Format txt ou cod</ion-title>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -122,73 +122,5 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <ion-row>
-    <ion-col>
-      <ion-text style="color:red;">
-        {{output}}
-      </ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-      <ion-searchbar placeholder="Search a deck" [(ngModel)]="filter" (ionChange)="search(0,0, filter)"
-                     style="text-align:center;"></ion-searchbar>
-    </ion-col>
-  </ion-row>
-  <ion-row style="text-align:center;">
-    <ion-col>
-      <ion-button (click)="previousPage()">
-        <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-    <ion-col>
-      Page {{count + 1}}/{{this.nbPages}}
-    </ion-col>
-    <ion-col>
-      <ion-button (click)="nextPage()">
-        <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-  <div *ngFor="let line of displayDecks">
-    <ion-row style="font-size:1.3em">
-      <ion-item button="true" (click)="deckClicked(line.name)" style="width:100%; text-align:center">
-        <ion-col>
-          <ion-label style="text-align:center;">
-            <ion-text style="text-decoration: underline; font-weight: bold; margin-top:5px; font-size: 2em;">{{line.name}}</ion-text>
-          </ion-label>
-        </ion-col>
-        <ion-col>
-          <ion-text class="italic">
-            last update :
-            <br>{{line.lastUpdated}}
-            <br>by
-            <ion-text style="text-decoration: underline; font-weight: bold;">{{line.who}}</ion-text>
-          </ion-text>
-        </ion-col>
-      </ion-item>
-    </ion-row>
-    <ion-item-divider></ion-item-divider>
-  </div>
-  <ion-row style="text-align:center;">
-    <ion-col>
-      Page {{count + 1}}/{{this.nbPages}}
-    </ion-col>
-  </ion-row>
-  <ion-row style="text-align:center;">
-    <ion-col>
-      <ion-button (click)="previousPage()">
-        <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-    <ion-col>
-      {{myDecks.length}}<br>
-      <ion-icon name="people"></ion-icon>
-    </ion-col>
-    <ion-col>
-      <ion-button (click)="nextPage()">
-        <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
 </ion-grid>
+<app-view-my-decks></app-view-my-decks>

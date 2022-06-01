@@ -8,7 +8,7 @@ import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { SettingsPage } from './settings.page';
 
-import {ComponentsModule} from '../shared/components/components/components.module';
+import {ComponentsModule} from '../shared/components/components.module';
 
 @NgModule({
   imports: [

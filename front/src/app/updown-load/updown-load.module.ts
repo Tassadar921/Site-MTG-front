@@ -8,7 +8,7 @@ import { UpdownLoadPageRoutingModule } from './updown-load-routing.module';
 
 import { UpdownLoadPage } from './updown-load.page';
 
-import {ComponentsModule} from '../shared/components/components/components.module';
+import {ComponentsModule} from '../shared/components/components.module';
 import {MyDecksComponent} from './my-decks/my-decks.component';
 import {ViewDecksComponent} from './view-decks/view-decks.component';
 import {SharedWithMeComponent} from './shared-with-me/shared-with-me.component';

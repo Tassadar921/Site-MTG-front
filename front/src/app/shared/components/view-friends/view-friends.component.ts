@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {LoginService} from '../../shared/services/login.service';
-import {HttpService} from '../../shared/services/http.service';
+import { Component, OnInit } from '@angular/core';
+import {LoginService} from '../../services/login.service';
+import {HttpService} from '../../services/http.service';
 import {ActionSheetController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-see-friends',
-  templateUrl: './see-friends.component.html',
-  styleUrls: ['./see-friends.component.scss'],
+  selector: 'app-view-friends',
+  templateUrl: './view-friends.component.html',
+  styleUrls: ['./view-friends.component.scss'],
 })
-export class SeeFriendsComponent implements OnInit {
+export class ViewFriendsComponent implements OnInit {
 
   public friends = [];
   public displayFriend = [];
@@ -19,6 +19,7 @@ export class SeeFriendsComponent implements OnInit {
 
   private users = [];
   private p;
+  private retour;
 
   constructor(
     private loginServ: LoginService,
@@ -101,7 +102,8 @@ export class SeeFriendsComponent implements OnInit {
         text: 'Yes',
         icon: 'checkmark',
         handler: async () => {
-          await this.httpService.deleteFriendship(username);
+          this.retour = await this.httpService.deleteFriendship(username);
+          this.output = this.retour.output;
           await this.displayFriendsFunction(0, 0, this.filter);
           this.count = 0;
         }

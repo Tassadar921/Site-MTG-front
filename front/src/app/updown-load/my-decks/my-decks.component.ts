@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ExportFormatService} from '../../shared/services/export-format.service';
 import {ModalController} from '@ionic/angular';
 import {ActionSheetController} from '@ionic/angular';
 import {HttpService} from '../../shared/services/http.service';
 import {LoginService} from '../../shared/services/login.service';
+import {ViewMyDecksComponent} from '../../shared/components/view-my-decks/view-my-decks.component';
+import {ComponentsModule} from '../../shared/components/components.module';
 
 @Component({
   selector: 'app-my-decks',
@@ -12,7 +14,8 @@ import {LoginService} from '../../shared/services/login.service';
 })
 export class MyDecksComponent implements OnInit {
 
-  public filter = ''; // pour plus tard
+  @ViewChild(ViewMyDecksComponent) viewMyDecks: ViewMyDecksComponent;
+
   public file;
   public deckType;
   public uploadedText;
@@ -20,16 +23,9 @@ export class MyDecksComponent implements OnInit {
   public outputFile = '';
   public deckName = '';
   public visibility = true;
-  public myDecks = [];
-  public displayDecks = [];
-  public count = 0;
-  public nbPages = 1;
-  public output;
-  public selectedDeck = '';
 
   private retour;
   private json = {};
-  private p;
 
   constructor(
     private exportFormat: ExportFormatService,
@@ -37,17 +33,14 @@ export class MyDecksComponent implements OnInit {
     private actionSheet: ActionSheetController,
     private http: HttpService,
     private loginServ: LoginService,
-  ) {
-  }
+  ) {}
 
-  async ngOnInit() {
-    this.p = this.loginServ.setPlatform();
-    await this.displayDecksFunction(0, 0, '');
-  }
+  async ngOnInit() {}
 
   changeFile = (event) => {
     this.file = event.target.files[0];
     this.deckType = event.target.value.split('.')[event.target.value.split('.').length - 1];
+    this.deckName = event.target.value.split('\\')[event.target.value.split('\\').length-1].split('.')[0];
   };
 
   uploadText = async () => {
@@ -113,8 +106,8 @@ export class MyDecksComponent implements OnInit {
     this.retour = await this.http.uploadDeck(this.json, this.deckName, this.visibility);
     this.outputFile = this.retour.message;
     this.outputText = this.retour.message;
-    this.count = 0;
-    await this.displayDecksFunction(0, 0, this.filter);
+    this.viewMyDecks.count = 0;
+    await this.viewMyDecks.displayDecksFunction(0, 0, this.viewMyDecks.filter);
   };
 
   trigger = async (e) => {
@@ -144,124 +137,4 @@ export class MyDecksComponent implements OnInit {
     });
     await actionSheet.present();
   };
-
-  getnbPages = () => {
-    if (this.myDecks.length) {
-      return Math.ceil(this.myDecks.length / this.p);
-    } else {
-      return 1;
-    }
-  };
-
-  nextPage = async () => {
-    let start = this.p * this.count;
-    if (this.p * this.count + this.p < this.myDecks.length) {
-      this.count++;
-      start = this.p * this.count;
-    }
-    await this.displayDecksFunction(this.count, start, this.filter);
-  };
-
-  previousPage = async () => {
-    if (this.count !== 0) {
-      this.count--;
-    }
-    const start = this.p * this.count;
-    await this.displayDecksFunction(this.count, start, this.filter);
-  };
-
-  search = async (n, start, filter) => {
-    this.count = 0;
-    await this.displayDecksFunction(n, start, filter);
-  };
-
-  displayDecksFunction = async (n, start, filter) => {
-    this.retour = await this.http.getUserDecks();
-    this.myDecks = this.retour.list;
-
-    let end;
-
-    this.displayDecks = [];
-
-    if (start < this.myDecks.length) {
-      if (this.myDecks.length > start + this.p) {
-        end = start + this.p;
-      } else {
-        end = this.myDecks.length;
-      }
-
-      for (let i = start; i < end; i++) {
-        if (this.myDecks[i]) {
-          if (this.myDecks[i].name.toUpperCase().includes(filter.toUpperCase())) {
-            this.displayDecks.push({
-              name: this.myDecks[i].name,
-              lastUpdated: this.myDecks[i].lastUpdated,
-              who: this.myDecks[i].who
-            });
-          }
-        }
-      }
-      this.nbPages = this.getnbPages();
-    }
-  };
-
-  deleteDeck = async (deckName) => {
-    const actionSheet = await this.actionSheet.create({
-      header: 'Are you sure to delete ' + deckName + ' ?',
-      buttons: [{
-        text: 'Yes',
-        icon: 'checkmark',
-        handler: async () => {
-          this.output = await this.http.deleteDeck(deckName);
-          await this.displayDecksFunction(0, 0, this.filter);
-          this.count = 0;
-        }
-      }, {
-        text: 'No',
-        icon: 'close',
-        handler: () => {
-        }
-      }]
-    });
-    await actionSheet.present();
-  };
-
-  deckClicked = async (deckname) => {
-    this.selectedDeck = deckname;
-    const actionSheet = await this.actionSheet.create({
-      header: 'What do you want to do with ' + this.selectedDeck + ' ?',
-      buttons: [{
-        text: 'Edit',
-        icon: 'pencil',
-        role: 'destructive',
-        handler: async () => {
-          console.log('on edit ', this.selectedDeck);
-        }
-      },
-        {
-          text: 'Share',
-          icon: 'person-add',
-          role: 'destructive',
-          handler: () => {
-            console.log('on partage ', this.selectedDeck);
-          }
-        },
-        {
-          text: 'Delete',
-          icon: 'trash',
-          role: 'destructive',
-          handler: () => {
-            console.log('on delete ', this.selectedDeck);
-          }
-        }]
-    });
-    await actionSheet.present();
-  };
-
-  editDeck = (deckName) => {
-    console.log('go edit ' + deckName);
-    //redirect avec deckname dans url
-  };
-
-  shareWith = (deckName) => this.selectedDeck = deckName;
 }

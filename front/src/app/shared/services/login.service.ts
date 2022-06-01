@@ -22,9 +22,9 @@ export class LoginService {
 
   setPlatform=()=>{ //nb d'éléments affichés quand on a un système de pages
       if (this.platform.is('mobile') || this.platform.is('mobileweb')) {
-        return 5;
-      } else {
         return 10;
+      } else {
+        return 20;
     }
   };
 }

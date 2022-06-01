@@ -8,7 +8,7 @@ import { EditorPageRoutingModule } from './editor-routing.module';
 
 import { EditorPage } from './editor.page';
 
-import { ComponentsModule} from '../shared/components/components/components.module';
+import { ComponentsModule} from '../shared/components/components.module';
 
 @NgModule({
   imports: [

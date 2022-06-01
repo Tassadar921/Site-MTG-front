@@ -8,7 +8,7 @@ import { PlayPageRoutingModule } from './play-routing.module';
 
 import { PlayPage } from './play.page';
 
-import { ComponentsModule} from '../shared/components/components/components.module';
+import { ComponentsModule} from '../shared/components/components.module';
 
 @NgModule({
   imports: [

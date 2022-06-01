@@ -8,9 +8,8 @@ import { FriendsPageRoutingModule } from './friends-routing.module';
 
 import { FriendsPage } from './friends.page';
 
-import { ComponentsModule} from '../shared/components/components/components.module';
+import { ComponentsModule} from '../shared/components/components.module';
 
-import { SeeFriendsComponent } from './see-friends/see-friends.component';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { DemandsComponent } from './demands/demands.component';
 
@@ -22,6 +21,6 @@ import { DemandsComponent } from './demands/demands.component';
     FriendsPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [FriendsPage, SeeFriendsComponent, AddFriendComponent, DemandsComponent]
+  declarations: [FriendsPage, AddFriendComponent, DemandsComponent]
 })
 export class FriendsPageModule {}

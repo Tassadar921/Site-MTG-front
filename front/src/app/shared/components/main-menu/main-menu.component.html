@@ -1,11 +1,14 @@
-<ion-grid>
-  <ion-row>
-    <ion-col>
-      <ion-header>
-        <ion-menu-button color="white"></ion-menu-button>
-      </ion-header>
-    </ion-col>
-  </ion-row>
+  <ion-grid style="width:95%">
+    <ion-row>
+      <ion-col>
+        <ion-fab vertical="top" horizontal="end">
+          <ion-menu-button color="secondary" fill="clear" shape="round">
+            <ion-icon name="menu" style="font-size:2em"></ion-icon>
+          </ion-menu-button>
+        </ion-fab>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <!-- /////////////////////// MENU CONTENT /////////////////////// -->
   <ion-menu side="start" menuId="custom" contentId="main">
@@ -88,4 +91,3 @@
   </ion-menu>
 
   <ion-router-outlet id="main"></ion-router-outlet>
-</ion-grid>

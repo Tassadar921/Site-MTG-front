@@ -2,6 +2,11 @@
   <ion-row>
     <ion-searchbar type='text' [(ngModel)]="filter"  (ionChange)="search(0,0, filter)" style="text-align:center;"></ion-searchbar>
   </ion-row>
+  <ion-row>
+    <ion-col>
+      <p style="color:red;">{{output}}</p>
+    </ion-col>
+  </ion-row>
   <ion-row style="text-align:center;">
     <ion-col>
       <ion-button (click)="previousPage()">

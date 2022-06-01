@@ -8,7 +8,7 @@ import { WelcomePageRoutingModule } from './welcome-routing.module';
 
 import { WelcomePage } from './welcome.page';
 
-import {ComponentsModule} from '../shared/components/components/components.module';
+import {ComponentsModule} from '../shared/components/components.module';
 
 @NgModule({
   imports: [

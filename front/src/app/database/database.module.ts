@@ -8,7 +8,7 @@ import { DatabasePageRoutingModule } from './database-routing.module';
 
 import { DatabasePage } from './database.page';
 
-import { ComponentsModule} from '../shared/components/components/components.module';
+import { ComponentsModule} from '../shared/components/components.module';
 
 @NgModule({
   imports: [

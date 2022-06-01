@@ -36,7 +36,6 @@ export class ResetPasswordPage implements OnInit {
       this.password = params.password;
     });
     this.retour = await this.httpService.getUserIdByUsername(this.username);
-    this.output = this.retour.message;
     this.userId = this.retour.id;
   }
 

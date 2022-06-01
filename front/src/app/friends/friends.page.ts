@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {HttpService} from '../shared/services/http.service';
 import {DemandsComponent} from './demands/demands.component';
+import {ComponentsModule} from '../shared/components/components.module';
 
 @Component({
   selector: 'app-friends',
@@ -11,6 +12,7 @@ import {DemandsComponent} from './demands/demands.component';
 export class FriendsPage implements OnInit {
 
   @ViewChild(DemandsComponent) demandsComponent: DemandsComponent;
+
   public numberInvits;
   public main = 0;
   public secondary = 0;

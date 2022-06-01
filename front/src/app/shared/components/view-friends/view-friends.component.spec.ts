@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SeeFriendsComponent } from './see-friends.component';
+import { ViewFriendsComponent } from './view-friends.component';
 
-describe('SeeFriendsComponent', () => {
-  let component: SeeFriendsComponent;
-  let fixture: ComponentFixture<SeeFriendsComponent>;
+describe('ViewFriendsComponent', () => {
+  let component: ViewFriendsComponent;
+  let fixture: ComponentFixture<ViewFriendsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SeeFriendsComponent ],
+      declarations: [ ViewFriendsComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SeeFriendsComponent);
+    fixture = TestBed.createComponent(ViewFriendsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

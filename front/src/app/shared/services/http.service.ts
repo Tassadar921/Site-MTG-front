@@ -152,11 +152,11 @@ export class HttpService {
   };
 
   deleteFriendship = async (username) => {
-    const data = {username1: username, username2: this.storage.getNickname()};
+    const data = {username1: username, username2: await this.storage.getNickname()};
     await this.http.post<string>(environment.urlBack + 'deleteFriendship', data).toPromise().then(response => {
       this.retour = response;
     });
-    return this.retour.message;
+    return this.retour;
   };
 
   deleteDemand = async (send, receive) => {
@@ -202,4 +202,20 @@ export class HttpService {
     });
     return this.retour.output;
   };
+
+  shareDeckWith = async (deckName, username) => {
+    const data = {username: await this.storage.getNickname(), name: deckName, with: username};
+    await this.http.post<string>(environment.urlBack + 'shareDeckWith', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour.output;
+  };
+
+  // getListSharedWith = async (deckName) => {
+  //   const data = {username: await this.storage.getNickname(), name: deckName};
+  //   await this.http.post<string>(environment.urlBack + 'shareWith', data).toPromise().then(response => {
+  //     this.retour = response;
+  //   });
+  //   return this.retour.output;
+  // };
 }
