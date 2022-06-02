@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {HttpService} from '../../services/http.service';
-import {ActionSheetController} from '@ionic/angular';
+import {ActionSheetController, NavParams, ViewWillLeave, ModalController} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-friends',
   templateUrl: './view-friends.component.html',
   styleUrls: ['./view-friends.component.scss'],
 })
-export class ViewFriendsComponent implements OnInit {
+export class ViewFriendsComponent implements OnInit, ViewWillLeave{
 
   public friends = [];
   public displayFriend = [];
@@ -16,22 +17,37 @@ export class ViewFriendsComponent implements OnInit {
   public count = 0;
   public filter = '';
   public nbPages;
+  public chosenFriends = ' ';
 
   private users = [];
   private p;
   private retour;
 
   constructor(
-    private loginServ: LoginService,
-    private httpService: HttpService,
+    private login: LoginService,
+    private http: HttpService,
     private actionSheetController: ActionSheetController,
-  ) {
+    public router: Router,
+    private navParams: NavParams,
+    private modalController: ModalController
+  ) {}
+
+  ionViewWillLeave() {
+    this.http.shareDeckWith(this.navParams.get('deck'), this.chosenFriends);
   }
 
   async ngOnInit() {
-    this.p = this.loginServ.setPlatform();
-    await this.loginServ.refresh();
+    this.p = this.login.setPlatform();
+    await this.login.refresh();
     await this.displayFriendsFunction(0, 0, '');
+    if(this.router.url==='/updown-load'){
+      this.retour = await this.http.getListSharedWith(this.navParams.get('deck'));
+      this.chosenFriends = this.retour.output;
+      if(this.chosenFriends===null){
+        this.chosenFriends=' ';
+      }
+      console.log(this.chosenFriends);
+    }
   }
 
   getnbPages = () => {
@@ -65,8 +81,8 @@ export class ViewFriendsComponent implements OnInit {
   };
 
   displayFriendsFunction = async (n, start, filter) => {
-    this.friends = await this.httpService.getUserFriends();
-    this.users = await this.httpService.getUserListExceptOne();
+    this.friends = await this.http.getUserFriends();
+    this.users = await this.http.getUserListExceptOne();
 
     let end;
 
@@ -102,7 +118,7 @@ export class ViewFriendsComponent implements OnInit {
         text: 'Yes',
         icon: 'checkmark',
         handler: async () => {
-          this.retour = await this.httpService.deleteFriendship(username);
+          this.retour = await this.http.deleteFriendship(username);
           this.output = this.retour.output;
           await this.displayFriendsFunction(0, 0, this.filter);
           this.count = 0;
@@ -121,4 +137,10 @@ export class ViewFriendsComponent implements OnInit {
     console.log('on va inviter ' + username.friend);
     //ON VERRA PLUS TARD
   };
+
+  closeActionSheet = () => this.modalController.dismiss();
+
+  addToChosenFriends = (username) => this.chosenFriends+=username + ' ';
+
+  deleteFromChosenFriends = (username) => this.chosenFriends = this.chosenFriends.replace(username, '');
 }

@@ -24,6 +24,13 @@ export class MyDecksComponent implements OnInit {
   public deckName = '';
   public visibility = true;
 
+  public blue = false;
+  public white = false;
+  public green = false;
+  public black = false;
+  public red = false;
+  public colorless = false;
+
   private retour;
   private json = {};
 
@@ -32,10 +39,12 @@ export class MyDecksComponent implements OnInit {
     private modal: ModalController,
     private actionSheet: ActionSheetController,
     private http: HttpService,
-    private loginServ: LoginService,
+    private login: LoginService,
   ) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    this.retour = await this.http.getDeckListSharedWith(this.login.getDevice());
+  }
 
   changeFile = (event) => {
     this.file = event.target.files[0];
@@ -103,7 +112,15 @@ export class MyDecksComponent implements OnInit {
   };
 
   deckSave = async () => {
-    this.retour = await this.http.uploadDeck(this.json, this.deckName, this.visibility);
+    const colors = {
+      white: Number(this.white),
+      blue: Number(this.blue),
+      black: Number(this.black),
+      red: Number(this.red),
+      green: Number(this.green),
+      colorless: Number(this.colorless)
+    };
+    this.retour = await this.http.uploadDeck(this.json, this.deckName, this.visibility, colors);
     this.outputFile = this.retour.message;
     this.outputText = this.retour.message;
     this.viewMyDecks.count = 0;
@@ -138,4 +155,30 @@ export class MyDecksComponent implements OnInit {
     await actionSheet.present();
   };
 
+  selectedColor = (color) => {
+    switch(color){
+      case 'blue':
+        this.colorless = false;
+        break;
+      case 'white':
+        this.colorless = false;
+        break;
+      case 'black':
+        this.colorless = false;
+        break;
+      case 'red':
+        this.colorless = false;
+        break;
+      case 'green':
+        this.colorless = false;
+        break;
+      case 'colorless':
+        this.blue = false;
+        this.white = false;
+        this.black = false;
+        this.red = false;
+        this.green = false;
+        break;
+    }
+  };
 }

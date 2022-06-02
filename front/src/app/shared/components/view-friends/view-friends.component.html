@@ -1,20 +1,21 @@
 <ion-grid>
   <ion-row>
-    <ion-searchbar type='text' [(ngModel)]="filter"  (ionChange)="search(0,0, filter)" style="text-align:center;"></ion-searchbar>
+    <ion-searchbar type='text' [(ngModel)]="filter" (ionChange)="search(0,0, filter)"
+                   style="text-align:center;"></ion-searchbar>
   </ion-row>
   <ion-row>
     <ion-col>
       <p style="color:red;">{{output}}</p>
     </ion-col>
   </ion-row>
-  <ion-row style="text-align:center;">
+  <ion-row>
     <ion-col>
       <ion-button (click)="previousPage()">
         <ion-icon name="arrow-undo" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-col>
     <ion-col>
-      Page {{count+1}}/{{this.nbPages}}
+      Page {{count + 1}}/{{this.nbPages}}
     </ion-col>
     <ion-col>
       <ion-button (click)="nextPage()">
@@ -33,7 +34,7 @@
           </ion-label>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="router.url==='/friends'">
         <ion-col>
           <ion-button color="success" (click)="invite(line)">Invite</ion-button>
         </ion-col>
@@ -41,11 +42,21 @@
           <ion-button color="danger" (click)="deleteFromFriends(line.friend)">Delete</ion-button>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="router.url==='/updown-load'">
+        <ion-col>
+          <ion-button color="success" (click)="addToChosenFriends(line.friend)"
+                      *ngIf="!chosenFriends.includes(' ' + line.friend + ' ')">Share
+          </ion-button>
+          <ion-button color="danger" (click)="deleteFromChosenFriends(line.friend)"
+                      *ngIf="chosenFriends.includes(' ' + line.friend + ' ')">Stop sharing
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </div>
   </div>
   <ion-row style="text-align:center;">
     <ion-col>
-      Page {{count+1}}/{{this.nbPages}}
+      Page {{count + 1}}/{{this.nbPages}}
     </ion-col>
   </ion-row>
   <ion-row style="text-align:center;">
@@ -55,12 +66,18 @@
       </ion-button>
     </ion-col>
     <ion-col>
-      {{friends.length}}<br><ion-icon name="people"></ion-icon>
+      {{friends.length}}<br>
+      <ion-icon name="people"></ion-icon>
     </ion-col>
     <ion-col>
       <ion-button (click)="nextPage()">
         <ion-icon name="arrow-redo" slot="icon-only"></ion-icon>
       </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="router.url==='/updown-load'">
+    <ion-col>
+      <ion-button color="danger" (click)="closeActionSheet()">Close</ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>

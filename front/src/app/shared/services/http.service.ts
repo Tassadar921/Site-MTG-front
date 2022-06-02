@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {StorageService} from './storage.service';
+import {LoginService} from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,7 @@ export class HttpService {
   constructor(
     private storage: StorageService,
     private http: HttpClient,
-  ) {
-  }
+    ) {}
 
   ////////////////////////////// MAILS //////////////////////////////
 
@@ -179,16 +179,16 @@ export class HttpService {
 
   ////////////////////////////// DECKS //////////////////////////////
 
-  uploadDeck = async (deckList, deckName, forEveryone) => {
-    const data = {name: deckName, list: deckList, public: forEveryone, owner: await this.storage.getNickname()};
+  uploadDeck = async (deckList, deckName, forEveryone, color) => {
+    const data = {name: deckName, list: deckList, public: forEveryone, owner: await this.storage.getNickname(), colors: color};
     await this.http.post<string>(environment.urlBack + 'uploadDeck', data).toPromise().then(response => {
       this.retour = response;
     });
     return this.retour;
   };
 
-  getUserDecks = async () => {
-    const data = {username: await this.storage.getNickname()};
+  getUserDecks = async (deviceType) => {
+    const data = {username: await this.storage.getNickname(), platform: deviceType};
     await this.http.post<string>(environment.urlBack + 'getUserDecks', data).toPromise().then(response => {
       this.retour = response;
     });
@@ -208,14 +208,22 @@ export class HttpService {
     await this.http.post<string>(environment.urlBack + 'shareDeckWith', data).toPromise().then(response => {
       this.retour = response;
     });
-    return this.retour.output;
+    return this.retour;
   };
 
-  // getListSharedWith = async (deckName) => {
-  //   const data = {username: await this.storage.getNickname(), name: deckName};
-  //   await this.http.post<string>(environment.urlBack + 'shareWith', data).toPromise().then(response => {
-  //     this.retour = response;
-  //   });
-  //   return this.retour.output;
-  // };
+  getListSharedWith = async (deckName) => {
+    const data = {username: await this.storage.getNickname(), name: deckName};
+    await this.http.post<string>(environment.urlBack + 'getListSharedWith', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
+
+  getDeckListSharedWith = async (deviceType) => {
+    const data = {username: await this.storage.getNickname(), platform: deviceType};
+    await this.http.post<string>(environment.urlBack + 'getDeckListSharedWith', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LoginService} from '../../services/login.service';
-import {ActionSheetController} from '@ionic/angular';
+import {ActionSheetController, ModalController} from '@ionic/angular';
 import {HttpService} from '../../services/http.service';
+import {ViewFriendsComponent} from '../view-friends/view-friends.component';
 
 @Component({
   selector: 'app-view-my-decks',
@@ -9,6 +10,8 @@ import {HttpService} from '../../services/http.service';
   styleUrls: ['./view-my-decks.component.scss'],
 })
 export class ViewMyDecksComponent implements OnInit {
+
+  @ViewChild(ViewFriendsComponent) viewFriends: ViewFriendsComponent;
 
   public filter = '';
   public output;
@@ -24,6 +27,7 @@ export class ViewMyDecksComponent implements OnInit {
     private login: LoginService,
     private actionSheet: ActionSheetController,
     private http: HttpService,
+    private modalController: ModalController,
   ){}
 
   async ngOnInit() {
@@ -62,7 +66,7 @@ export class ViewMyDecksComponent implements OnInit {
   };
 
   displayDecksFunction = async (n, start, filter) => {
-    this.retour = await this.http.getUserDecks();
+    this.retour = await this.http.getUserDecks(this.login.getDevice());
     this.myDecks = this.retour.list;
 
     let end;
@@ -79,11 +83,25 @@ export class ViewMyDecksComponent implements OnInit {
       for (let i = start; i < end; i++) {
         if (this.myDecks[i]) {
           if (this.myDecks[i].name.toUpperCase().includes(filter.toUpperCase())) {
-            this.displayDecks.push({
-              name: this.myDecks[i].name,
-              lastUpdated: this.myDecks[i].lastUpdated,
-              who: this.myDecks[i].who
-            });
+            if(this.login.getDevice()==='large') {
+              this.displayDecks.push({
+                name: this.myDecks[i].name,
+                lastUpdated: this.myDecks[i].lastUpdated,
+                who: this.myDecks[i].who,
+                white: this.myDecks[i].white,
+                blue: this.myDecks[i].blue,
+                black: this.myDecks[i].black,
+                red: this.myDecks[i].red,
+                green: this.myDecks[i].green,
+                colorless: this.myDecks[i].colorless,
+              });
+            }else{
+              this.displayDecks.push({
+                name: this.myDecks[i].name,
+                lastUpdated: this.myDecks[i].lastUpdated,
+                who: this.myDecks[i].who,
+              });
+            }
           }
         }
       }
@@ -129,7 +147,11 @@ export class ViewMyDecksComponent implements OnInit {
           role: 'destructive',
           id:'test',
           handler: async () => {
-            await this.shareWith(deckName);
+            const shareWithModal = await this.modalController.create({
+              component: ViewFriendsComponent,
+              componentProps: {deck: deckName}
+            });
+            await shareWithModal.present();
           }
         },
         {
@@ -148,10 +170,4 @@ export class ViewMyDecksComponent implements OnInit {
     console.log('go edit ' + deckName);
     //redirect avec deckname dans url
   };
-
-  shareWith = async (deckName) => { //TRIGGER QUAND ON AURA LA LISTE DES JOUEURS NON PARTAGES
-    console.log('PARTAGEEEE');
-    // this.retour = await this.http.shareDeckWith(deckName, '');
-  };
-
 }

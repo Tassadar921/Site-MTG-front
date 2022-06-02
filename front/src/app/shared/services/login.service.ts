@@ -13,11 +13,11 @@ export class LoginService {
   constructor(
     private storage: StorageService,
     private platform: Platform,
-    private httpService: HttpService,
+    private http: HttpService,
   ) {}
 
   refresh = async () => { //pour chaque changement de page, update de lastconnected pour la session en cours
-    await this.httpService.lastConnected(await this.storage.getNickname());
+    await this.http.lastConnected(await this.storage.getNickname());
   };
 
   setPlatform=()=>{ //nb d'éléments affichés quand on a un système de pages
@@ -25,6 +25,14 @@ export class LoginService {
         return 10;
       } else {
         return 20;
+    }
+  };
+
+  getDevice=()=>{
+    if(this.platform.is('mobile') || this.platform.is('mobileweb')){
+      return 'small';
+    }else{
+      return 'large';
     }
   };
 }
