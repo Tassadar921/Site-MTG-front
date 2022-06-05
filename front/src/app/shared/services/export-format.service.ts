@@ -34,7 +34,7 @@ export class ExportFormatService {
       if(line && !isNaN(nbr)) {
         count += Number(nbr);
         tmp = {cardName: cardname.slice(0, cardname.length - 1), quantity: nbr};
-        json.push(tmp);
+        json.push([tmp]);
       }
     }
     return {deck: json, cards: count};
@@ -71,7 +71,7 @@ export class ExportFormatService {
         if(line && !isNaN(nbr)) {
           count += Number(nbr);
           tmp = {cardName: cardname.slice(6, cardname.length-3), quantity: nbr};
-          json.push(tmp);
+          json.push([tmp]);
         }
       }
     }

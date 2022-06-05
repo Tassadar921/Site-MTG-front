@@ -6,6 +6,7 @@ import {IonicModule} from '@ionic/angular';
 import {MainMenuComponent} from './main-menu/main-menu.component';
 import {ViewMyDecksComponent} from './view-my-decks/view-my-decks.component';
 import {ViewFriendsComponent} from './view-friends/view-friends.component';
+import {ViewDecksComponent} from './view-decks/view-decks.component';
 
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -15,6 +16,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MainMenuComponent,
     ViewMyDecksComponent,
     ViewFriendsComponent,
+    ViewDecksComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MainMenuComponent,
     ViewMyDecksComponent,
     ViewFriendsComponent,
+    ViewDecksComponent,
   ],
 })
 export class ComponentsModule { }

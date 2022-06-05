@@ -36,6 +36,7 @@
     "@ionic-native/network": "^5.36.0",
     "@ionic/angular": "^6.0.0",
     "add": "^2.0.6",
+    "angular-draggable-droppable": "^6.1.0",
     "body-parser": "^1.19.1",
     "cordova": "^11.0.0",
     "cordova-clipboard": "^1.3.0",

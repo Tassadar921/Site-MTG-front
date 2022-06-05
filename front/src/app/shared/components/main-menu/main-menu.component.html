@@ -1,93 +1,89 @@
-  <ion-grid style="width:95%">
-    <ion-row>
-      <ion-col>
-        <ion-fab vertical="top" horizontal="end">
-          <ion-menu-button color="secondary" fill="clear" shape="round">
-            <ion-icon name="menu" style="font-size:2em"></ion-icon>
-          </ion-menu-button>
-        </ion-fab>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!-- /////////////////////// MENU CONTENT /////////////////////// -->
-  <ion-menu side="start" menuId="custom" contentId="main">
+<ion-row>
+  <ion-col>
     <ion-header>
-      <ion-toolbar color="light">
-        <ion-title>{{name}}</ion-title>
-        <ion-note slot="end" style="margin-right:10px;">
-          {{hour}}
-        </ion-note>
-      </ion-toolbar>
+      <ion-menu-button color="white"></ion-menu-button>
     </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item button="true" (click)="redirect('welcome')">
-          <ion-icon color="secondary" class="start" name="home"></ion-icon>
-          <ion-label>Home</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-list-header color="light">
-          <ion-icon color="secondary" class="start" name="book"></ion-icon>
-          <strong>Database</strong>
-        </ion-list-header>
-        <ion-item button="true" (click)="redirect('database')">
-          <ion-icon color="secondary" class="start" name="search"></ion-icon>
-          <ion-label>Search</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-list-header color="light">
-          <ion-icon color="secondary" class="start" name="game-controller"></ion-icon>
-          <strong>Play</strong>
-        </ion-list-header>
-        <ion-item button="true" (click)="redirect('play')">
-          <ion-icon color="secondary" class="start" name="enter"></ion-icon>
-          <ion-label>Enter</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-list-header color="light">
-          <ion-icon color="secondary" class="start" name="albums"></ion-icon>
-          <strong>Deck</strong>
-        </ion-list-header>
-        <ion-item button="true" (click)="redirect('updown-load')">
-          <ion-icon color="secondary" class="start" name="cloud-download"></ion-icon>
-          <ion-label>Upload/Download deck</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-        <ion-item button="true" (click)="redirect('editor')">
-          <ion-icon color="secondary" class="start" name="create"></ion-icon>
-          <ion-label>Deck editor</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-list-header color="light">
-          <ion-icon color="secondary" class="start" name="person"></ion-icon>
-          <strong>Account</strong>
-        </ion-list-header>
-        <ion-item button="true" (click)="redirect('settings')">
-          <ion-icon color="secondary" class="start" name="settings"></ion-icon>
-          <ion-label>Settings</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-        <ion-item button="true" (click)="redirect('friends')">
-          <ion-icon color="secondary" class="start" name="people"></ion-icon>
-          <ion-label>Friends</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-        <ion-item button="true" (click)="redirect('home')">
-          <ion-icon color="secondary" class="start" name="exit"></ion-icon>
-          <ion-label>Disconnect</ion-label>
-          <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
+  </ion-col>
+</ion-row>
 
-  <ion-router-outlet id="main"></ion-router-outlet>
+<!-- /////////////////////// MENU CONTENT /////////////////////// -->
+<ion-menu side="start" menuId="custom" contentId="main">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-title>{{name}}</ion-title>
+      <ion-note slot="end" style="margin-right:10px;">
+        {{hour}}
+      </ion-note>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button="true" (click)="redirect('welcome')">
+        <ion-icon color="secondary" class="start" name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header color="light">
+        <ion-icon color="secondary" class="start" name="book"></ion-icon>
+        <strong>Database</strong>
+      </ion-list-header>
+      <ion-item button="true" (click)="redirect('database')">
+        <ion-icon color="secondary" class="start" name="search"></ion-icon>
+        <ion-label>Search</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header color="light">
+        <ion-icon color="secondary" class="start" name="game-controller"></ion-icon>
+        <strong>Play</strong>
+      </ion-list-header>
+      <ion-item button="true" (click)="redirect('play')">
+        <ion-icon color="secondary" class="start" name="enter"></ion-icon>
+        <ion-label>Enter</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header color="light">
+        <ion-icon color="secondary" class="start" name="albums"></ion-icon>
+        <strong>Deck</strong>
+      </ion-list-header>
+      <ion-item button="true" (click)="redirect('updown-load')">
+        <ion-icon color="secondary" class="start" name="cloud-download"></ion-icon>
+        <ion-label>Upload/Download deck</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+      <ion-item button="true" (click)="redirect('editor')">
+        <ion-icon color="secondary" class="start" name="create"></ion-icon>
+        <ion-label>Deck editor</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header color="light">
+        <ion-icon color="secondary" class="start" name="person"></ion-icon>
+        <strong>Account</strong>
+      </ion-list-header>
+      <ion-item button="true" (click)="redirect('settings')">
+        <ion-icon color="secondary" class="start" name="settings"></ion-icon>
+        <ion-label>Settings</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+      <ion-item button="true" (click)="redirect('friends')">
+        <ion-icon color="secondary" class="start" name="people"></ion-icon>
+        <ion-label>Friends</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+      <ion-item button="true" (click)="redirect('home')">
+        <ion-icon color="secondary" class="start" name="exit"></ion-icon>
+        <ion-label>Disconnect</ion-label>
+        <ion-icon color="secondary" name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="main"></ion-router-outlet>

@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   templateUrl: './view-friends.component.html',
   styleUrls: ['./view-friends.component.scss'],
 })
-export class ViewFriendsComponent implements OnInit, ViewWillLeave{
+export class ViewFriendsComponent implements OnInit, ViewWillLeave {
 
   public friends = [];
   public displayFriend = [];
@@ -30,7 +30,8 @@ export class ViewFriendsComponent implements OnInit, ViewWillLeave{
     public router: Router,
     private navParams: NavParams,
     private modalController: ModalController
-  ) {}
+  ) {
+  }
 
   ionViewWillLeave() {
     this.http.shareDeckWith(this.navParams.get('deck'), this.chosenFriends);
@@ -40,11 +41,11 @@ export class ViewFriendsComponent implements OnInit, ViewWillLeave{
     this.p = this.login.setPlatform();
     await this.login.refresh();
     await this.displayFriendsFunction(0, 0, '');
-    if(this.router.url==='/updown-load'){
+    if (this.router.url === '/updown-load') {
       this.retour = await this.http.getListSharedWith(this.navParams.get('deck'));
       this.chosenFriends = this.retour.output;
-      if(this.chosenFriends===null){
-        this.chosenFriends=' ';
+      if (this.chosenFriends === null) {
+        this.chosenFriends = ' ';
       }
       console.log(this.chosenFriends);
     }
@@ -140,7 +141,7 @@ export class ViewFriendsComponent implements OnInit, ViewWillLeave{
 
   closeActionSheet = () => this.modalController.dismiss();
 
-  addToChosenFriends = (username) => this.chosenFriends+=username + ' ';
+  addToChosenFriends = (username) => this.chosenFriends += username + ' ';
 
   deleteFromChosenFriends = (username) => this.chosenFriends = this.chosenFriends.replace(username, '');
 }

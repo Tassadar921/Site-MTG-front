@@ -29,12 +29,12 @@
   </ion-row>
   <div *ngFor="let line of displayDecks">
     <ion-row style="font-size:1.3em">
-      <ion-item button="true" (click)="deckClicked(line.name)" style="width:100%; text-align:center">
+      <ion-item button="true" (click)="deckClicked(line.deckName, line.id)" style="width:100%; text-align:center">
         <ion-col>
-          <ion-label style="text-align:center;">
-            <ion-text
-              style="text-decoration: underline; font-weight: bold; margin-top:5px; font-size: 2em;">{{line.name}}</ion-text>
-          </ion-label>
+          <ion-text
+            style="text-decoration: underline; font-weight: bold; margin-top:5px; font-size: 1.5em;">
+            {{line.deckName}}
+          </ion-text>
         </ion-col>
         <ion-col *ngIf="login.getDevice()==='large'">
           <ion-img [src]="'./assets/img/white.png'" *ngIf="line.white" class="icon"></ion-img>
@@ -49,7 +49,7 @@
             last update :
             <br>{{line.lastUpdated}}
             <br>by
-            <ion-text style="text-decoration: underline; font-weight: bold;">{{line.who}}</ion-text>
+            <ion-text style="text-decoration: underline; font-weight: bold;">{{line.whoModifiedLast}}</ion-text>
           </ion-text>
         </ion-col>
       </ion-item>

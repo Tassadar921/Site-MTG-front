@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpService} from '../../shared/services/http.service';
-import {LoginService} from '../../shared/services/login.service';
-import {RoutingService} from '../routing.service';
+import {HttpService} from '../../services/http.service';
+import {LoginService} from '../../services/login.service';
+import {Router} from '@angular/router';
+import {ModalController} from '@ionic/angular';
+import {RoutingService} from '../../../updown-load/routing.service';
 
 @Component({
-  selector: 'app-shared-with-me',
-  templateUrl: './shared-with-me.component.html',
-  styleUrls: ['./shared-with-me.component.scss'],
+  selector: 'app-view-decks',
+  templateUrl: './view-decks.component.html',
+  styleUrls: ['./view-decks.component.scss'],
 })
-export class SharedWithMeComponent implements OnInit {
+export class ViewDecksComponent implements OnInit {
 
   public filter = '';
   public displayDecks = [];
   public nbPages;
   public count = 0;
-  public sharedWithMeDecks = [];
+  public publicDecks = [];
 
   private retour;
   private p;
@@ -22,7 +24,7 @@ export class SharedWithMeComponent implements OnInit {
   constructor(
     private http: HttpService,
     public login: LoginService,
-    public routing: RoutingService,
+    public routing: RoutingService
   ) {}
 
   async ngOnInit() {
@@ -31,8 +33,8 @@ export class SharedWithMeComponent implements OnInit {
   }
 
   getnbPages = () => {
-    if (this.sharedWithMeDecks.length) {
-      return Math.ceil(this.sharedWithMeDecks.length / this.p);
+    if (this.publicDecks.length) {
+      return Math.ceil(this.publicDecks.length / this.p);
     } else {
       return 1;
     }
@@ -40,7 +42,7 @@ export class SharedWithMeComponent implements OnInit {
 
   nextPage = async () => {
     let start = this.p * this.count;
-    if (this.p * this.count + this.p < this.sharedWithMeDecks.length) {
+    if (this.p * this.count + this.p < this.publicDecks.length) {
       this.count++;
       start = this.p * this.count;
     }
@@ -61,24 +63,24 @@ export class SharedWithMeComponent implements OnInit {
   };
 
   displayDecksFunction = async (n, start, filter) => {
-    this.retour = await this.http.getDeckListSharedWith(this.login.getDevice());
-    this.sharedWithMeDecks = this.retour.output;
+    this.retour = await this.http.getVisibleDecks(this.login.getDevice());
+    this.publicDecks = this.retour.output;
 
     let end;
 
     this.displayDecks = [];
 
-    if (start < this.sharedWithMeDecks.length) {
-      if (this.sharedWithMeDecks.length > start + this.p) {
+    if (start < this.publicDecks.length) {
+      if (this.publicDecks.length > start + this.p) {
         end = start + this.p;
       } else {
-        end = this.sharedWithMeDecks.length;
+        end = this.publicDecks.length;
       }
 
       for (let i = start; i < end; i++) {
-        if (this.sharedWithMeDecks[i]) {
-          if (this.sharedWithMeDecks[i].deckName.toUpperCase().includes(filter.toUpperCase())) {
-            this.displayDecks.push(this.sharedWithMeDecks[i]);
+        if (this.publicDecks[i]) {
+          if (this.publicDecks[i].deckName.toUpperCase().includes(filter.toUpperCase())) {
+            this.displayDecks.push(this.publicDecks[i]);
           }
         }
       }

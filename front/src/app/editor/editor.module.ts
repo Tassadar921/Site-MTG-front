@@ -9,6 +9,9 @@ import { EditorPageRoutingModule } from './editor-routing.module';
 import { EditorPage } from './editor.page';
 
 import { ComponentsModule} from '../shared/components/components.module';
+import {EditingCardComponent} from './editing-card/editing-card.component';
+
+import {DragAndDropModule} from 'angular-draggable-droppable';
 
 @NgModule({
   imports: [
@@ -16,8 +19,9 @@ import { ComponentsModule} from '../shared/components/components.module';
     FormsModule,
     IonicModule,
     EditorPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    DragAndDropModule
   ],
-  declarations: [EditorPage]
+  declarations: [EditorPage,EditingCardComponent]
 })
 export class EditorPageModule {}

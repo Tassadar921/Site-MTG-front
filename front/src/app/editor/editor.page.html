@@ -1,1 +1,102 @@
 <app-main-menu></app-main-menu>
+
+<ion-modal trigger="deckChoice" id="modal" (ionModalDidDismiss)="getDeck()">
+  <ng-template>
+    <ion-content>
+      <app-view-decks></app-view-decks>
+      <ion-row>
+        <ion-col>
+          <ion-button color="danger" (click)="dismissModal()">Close</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+  <ion-grid style="width:100%">
+    <ion-row>
+      <ion-col size="9" [style]="'height:'+platform.height()+'px'">
+        <ion-content>
+          <div *ngFor="let line of list" id="container">
+            <div *ngIf="line.canHaveMore" class="quantityLessDisplay">
+              <ion-button fill="clear" (click)="line.quantity=line.quantity-1" size="large">
+                <ion-icon name="remove-circle" slot="icon-only" color="danger"></ion-icon>
+              </ion-button>
+            </div>
+            <div *ngIf="line.canHaveMore" class="quantityDisplay" (click)="openModal(line.cardName, line.quantity)">
+              {{line.quantity}}
+            </div>
+            <div *ngIf="line.canHaveMore" class="quantityMoreDisplay">
+              <ion-button fill="clear" (click)="line.quantity=line.quantity+1" size="large">
+                <ion-icon name="add-circle" slot="icon-only" color="danger"></ion-icon>
+              </ion-button>
+            </div>
+            <div *ngIf="!line.canHaveMore" class="deleteDisplay">
+              <ion-button fill="clear" (click)="delete(line.cardName)" size="large" class="trashButton">
+                <ion-icon name="trash" slot="icon-only" color="danger"></ion-icon>
+              </ion-button>
+            </div>
+            <img
+              [src]="'https://api.scryfall.com/cards/named?exact=' + line.cardName + '&format=image'"
+              class="card"
+              (click)="openModal(line.cardName, line.quantity)"
+              mwlDraggable
+              dropData='{"name":"{{line.cardName}}", "text":"{{line.text}}", "types":"{{line.types}}"}'>
+          </div>
+        </ion-content>
+      </ion-col>
+      <ion-col size="3">
+        <ion-row>
+          <ion-col>
+            <ion-button id="deckChoice">load</ion-button>
+          </ion-col>
+          <ion-col *ngIf="selectedDeck && selectedDeck.canModify">
+            <ion-button (click)="toggleMode()" color="danger" *ngIf="mode==='look'">go edit Mode</ion-button>
+            <ion-button (click)="toggleMode()" color="danger" *ngIf="mode==='edit'">go look Mode</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="selectedDeck">
+          <ion-col style="text-decoration:underline; font-size:2em; font-weight:bold;">
+            {{selectedDeck.deckName}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            {{nbrCards}} cards
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col *ngIf="selectedDeck">
+            <ion-img [src]="'./assets/img/white.png'" *ngIf="selectedDeck.white" class="icon"></ion-img>
+            <ion-img [src]="'./assets/img/blue.png'" *ngIf="selectedDeck.blue" class="icon"></ion-img>
+            <ion-img [src]="'./assets/img/black.png'" *ngIf="selectedDeck.black" class="icon"></ion-img>
+            <ion-img [src]="'./assets/img/red.png'" *ngIf="selectedDeck.red" class="icon"></ion-img>
+            <ion-img [src]="'./assets/img/green.png'" *ngIf="selectedDeck.green" class="icon"></ion-img>
+            <ion-img [src]="'./assets/img/colorless.png'" *ngIf="selectedDeck.colorless" class="icon"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p style="color:red; font-size:2em;">{{output}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="selectedDeck">
+          <ion-col>
+            <ion-img [src]="'https://api.scryfall.com/cards/named?exact=' + selectedDeck.commander + '&format=image'"
+                     *ngIf="selectedDeck.commander"
+                     id="commander"
+                     mwlDroppable
+                     [style]="'width:'+platform.width()*(0.25*0.85)+'px; height:'+platform.width()*(0.25*0.85)*(88/66)+'px'"
+                     (drop)="onDropCommander($event.dropData)">
+            </ion-img>
+            <div *ngIf="!selectedDeck.commander"
+                 id="dropptableCommander"
+                 mwlDroppable
+                 [style]="'width:'+platform.width()*(0.25*0.85)+'px; height:'+platform.width()*(0.25*0.85)*(88/66)+'px'"
+                 (drop)="onDropCommander($event.dropData)">
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>

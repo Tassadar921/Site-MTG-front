@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {StorageService} from './storage.service';
-import {LoginService} from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -203,16 +202,16 @@ export class HttpService {
     return this.retour.output;
   };
 
-  shareDeckWith = async (deckName, username) => {
-    const data = {username: await this.storage.getNickname(), name: deckName, with: username};
+  shareDeckWith = async (deckId, list) => {
+    const data = {id: deckId, with: list, owner: await this.storage.getNickname()};
     await this.http.post<string>(environment.urlBack + 'shareDeckWith', data).toPromise().then(response => {
       this.retour = response;
     });
     return this.retour;
   };
 
-  getListSharedWith = async (deckName) => {
-    const data = {username: await this.storage.getNickname(), name: deckName};
+  getListSharedWith = async (deckId) => {
+    const data = {id: deckId};
     await this.http.post<string>(environment.urlBack + 'getListSharedWith', data).toPromise().then(response => {
       this.retour = response;
     });
@@ -222,6 +221,31 @@ export class HttpService {
   getDeckListSharedWith = async (deviceType) => {
     const data = {username: await this.storage.getNickname(), platform: deviceType};
     await this.http.post<string>(environment.urlBack + 'getDeckListSharedWith', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
+
+  getVisibleDecks = async (deviceType) => {
+    const data = {username: await this.storage.getNickname(), platform: deviceType};
+    await this.http.post<string>(environment.urlBack + 'getVisibleDecks', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
+
+  getDeck = async (deckId) => {
+    const data = {username: await this.storage.getNickname(), id: deckId};
+    await this.http.post<string>(environment.urlBack + 'getDeck', data).toPromise().then(response => {
+      this.retour = response;
+    });
+    return this.retour;
+  };
+
+  ////////////////////////////// SCRYFALL REQUESTS //////////////////////////////
+
+  getCardInfo = async (name) => {
+    await this.http.get<string>('https://api.scryfall.com/cards/named?exact='+name+'&format=json').toPromise().then(response => {
       this.retour = response;
     });
     return this.retour;
