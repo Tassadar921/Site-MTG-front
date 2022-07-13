@@ -11,6 +11,7 @@ import { UpdownLoadPage } from './updown-load.page';
 import {ComponentsModule} from '../shared/components/components.module';
 import {SharedWithMeComponent} from './shared-with-me/shared-with-me.component';
 import {MyDecksComponent} from './my-decks/my-decks.component';
+import {LocalComponentsModule} from './my-decks/local-components.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {MyDecksComponent} from './my-decks/my-decks.component';
     FormsModule,
     IonicModule,
     UpdownLoadPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    LocalComponentsModule
   ],
   declarations: [UpdownLoadPage, SharedWithMeComponent, MyDecksComponent]
 })

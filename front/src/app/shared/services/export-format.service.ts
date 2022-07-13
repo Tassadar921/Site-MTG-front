@@ -37,6 +37,8 @@ export class ExportFormatService {
         json.push([tmp]);
       }
     }
+    console.log(json);
+    console.log(count);
     return {deck: json, cards: count};
   };
 

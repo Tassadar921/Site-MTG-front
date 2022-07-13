@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
+import {TransfertService} from '../editor/transfert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,15 @@ export class RoutingService {
 
   constructor(
     private router: Router,
-    private modal: ModalController
+    private modal: ModalController,
+    private transfert: TransfertService,
   ) { }
 
-  viewInEditor = (deckId) => {
+  viewInEditor = async (deckId) => {
     if(this.router.url.split('?')[0]==='/editor'){
-      this.modal.dismiss();
+      await this.modal.dismiss();
     }
-    this.router.navigateByUrl('/editor?deckId='+deckId);
+    this.transfert.deckId = deckId;
+    await this.router.navigateByUrl('/editor?deckId='+deckId);
   };
 }

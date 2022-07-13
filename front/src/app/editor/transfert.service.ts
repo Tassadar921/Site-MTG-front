@@ -4,8 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TransfertService {
+
   public deleted = false;
   public quantity = 0;
+  public deckId = '';
 
   constructor() {}
 
@@ -16,5 +18,6 @@ export class TransfertService {
   reinit = () => {
     this.quantity = 0;
     this.deleted = false;
+    this.deckId = '';
   };
 }

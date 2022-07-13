@@ -4,9 +4,14 @@ $cardHeight:$coefCard*$cardWidth;
 
 ion-col{
   text-align:center;
+  position: static;
 }
 
-#container{
+#controller{
+  position:absolute;
+}
+
+.container{
   display: inline-block;
 }
 
@@ -14,32 +19,51 @@ ion-col{
   --width: 100%;
 }
 
-#commander{
+.commander{
   margin-left:auto;
   margin-right:auto;
+  position:relative;
+  display: inline-block;
 }
 
-#dropptableCommander{
+.commander:hover{
+  box-shadow: 0 0 23px 15px rgba(22, 225, 218, 0.8);
+  cursor: pointer;
+}
+
+.droppableCommander{
   border:solid 1px white;
-  margin-left:auto;
-  margin-right:auto;
-  z-index:1;
+  position:relative;
+  display: inline-block;
+  overflow-wrap: break-word;
 }
 
 .card{
   width:$cardWidth;
   margin:5px;
+  z-index:-1;
 }
 
-.card:hover{
-  box-shadow: 0px 0px 23px 15px rgba(80,255,28,0.8);
+.container:hover{
+  box-shadow: 0 0 23px 15px rgba(22, 225, 218, 0.8);
   cursor: pointer;
   position:relative;
 }
 
+.colorError{
+  position:absolute;
+  margin-top:$cardHeight*0.017;
+  margin-left:$cardWidth*0.025;
+  height: $cardHeight;
+  width: $cardWidth;
+  background: rgba(243, 10, 10, 0.3);
+  z-index:1;
+  pointer-events: none;
+}
+
 .quantityDisplay{
   position:absolute;
-  margin-top:$cardHeight*0.8;
+  margin-top:$cardHeight*0.85;
   margin-left:$cardWidth*0.425;
   background: rgba(255, 222, 0, 0.5);
   color:black;
@@ -47,21 +71,21 @@ ion-col{
   font-size:2em;
   width:$cardWidth*0.2;
   height:$cardWidth*0.2;
-  border-radius:13px;
+  border-radius:20px;
   text-align:center;
   pointer-events: none;
   z-index:10;
 }
 
 .quantityLessDisplay{
-  margin-top:$cardHeight*0.77;
+  margin-top:$cardHeight*0.805;
   margin-left:$cardWidth*0.12;
   position:absolute;
   z-index:10;
 }
 
 .quantityMoreDisplay{
-  margin-top:$cardHeight*0.77;
+  margin-top:$cardHeight*0.805;
   margin-left:$cardWidth*0.54;
   position:absolute;
   z-index:10;
@@ -72,6 +96,20 @@ ion-col{
   margin-top:$cardHeight*0.8;
   margin-left:$cardWidth*0.37;
   z-index:10;
+}
+
+.otherSide{
+  position:absolute;
+  margin-left:$cardWidth*0.56;
+  margin-top:$cardHeight*0.12;
+  ion-button{
+    -webkit-filter: drop-shadow(3px 3px 3px black);
+    background: rgba(152, 9, 208, 0.3);
+    border-radius:40px;
+  }
+  ion-button:hover{
+    background: rgba(152, 9, 208, 0.6);
+  }
 }
 
 .trashButton{
@@ -89,4 +127,9 @@ ion-col{
 .icon{
   width:50px;
   display: inline-block;
+}
+
+#inputName{
+  background: rgba(72, 69, 69, 0.75);
+  border-radius:15px;
 }

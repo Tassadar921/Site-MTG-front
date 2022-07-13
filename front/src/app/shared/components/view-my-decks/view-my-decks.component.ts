@@ -3,7 +3,7 @@ import {LoginService} from '../../services/login.service';
 import {ActionSheetController, ModalController} from '@ionic/angular';
 import {HttpService} from '../../services/http.service';
 import {ViewFriendsComponent} from '../view-friends/view-friends.component';
-import {Router} from '@angular/router';
+import {HttpLinkService} from '../../../updown-load/my-decks/http-link.service';
 import {RoutingService} from '../../../updown-load/routing.service';
 
 @Component({
@@ -17,7 +17,6 @@ export class ViewMyDecksComponent implements OnInit {
 
   public filter = '';
   public output;
-  public count = 0;
   public nbPages = 1;
   public displayDecks = [];
   public myDecks = [];
@@ -32,7 +31,8 @@ export class ViewMyDecksComponent implements OnInit {
     private actionSheet: ActionSheetController,
     private http: HttpService,
     private modalController: ModalController,
-    private routing: RoutingService
+    private routing: RoutingService,
+    public httpLink: HttpLinkService,
   ){}
 
   async ngOnInit() {
@@ -49,24 +49,24 @@ export class ViewMyDecksComponent implements OnInit {
   };
 
   nextPage = async () => {
-    let start = this.p * this.count;
-    if (this.p * this.count + this.p < this.myDecks.length) {
-      this.count++;
-      start = this.p * this.count;
+    let start = this.p * this.httpLink.count;
+    if (this.p * this.httpLink.count + this.p < this.myDecks.length) {
+      this.httpLink.count++;
+      start = this.p * this.httpLink.count;
     }
-    await this.displayDecksFunction(this.count, start, this.filter);
+    await this.displayDecksFunction(this.httpLink.count, start, this.filter);
   };
 
   previousPage = async () => {
-    if (this.count !== 0) {
-      this.count--;
+    if (this.httpLink.count !== 0) {
+      this.httpLink.count--;
     }
-    const start = this.p * this.count;
-    await this.displayDecksFunction(this.count, start, this.filter);
+    const start = this.p * this.httpLink.count;
+    await this.displayDecksFunction(this.httpLink.count, start, this.filter);
   };
 
   search = async (n, start, filter) => {
-    this.count = 0;
+    this.httpLink.count = 0;
     await this.displayDecksFunction(n, start, filter);
   };
 
@@ -105,7 +105,7 @@ export class ViewMyDecksComponent implements OnInit {
         handler: async () => {
           this.output = await this.http.deleteDeck(deckName);
           await this.displayDecksFunction(0, 0, this.filter);
-          this.count = 0;
+          this.httpLink.count = 0;
         }
       }, {
         text: 'No',

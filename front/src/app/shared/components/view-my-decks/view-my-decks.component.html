@@ -19,7 +19,7 @@
       </ion-button>
     </ion-col>
     <ion-col>
-      Page {{count + 1}}/{{this.nbPages}}
+      Page {{httpLink.count + 1}}/{{this.nbPages}}
     </ion-col>
     <ion-col>
       <ion-button (click)="nextPage()">
@@ -58,7 +58,7 @@
   </div>
   <ion-row style="text-align:center;">
     <ion-col>
-      Page {{count + 1}}/{{this.nbPages}}
+      Page {{httpLink.count + 1}}/{{this.nbPages}}
     </ion-col>
   </ion-row>
   <ion-row style="text-align:center;">

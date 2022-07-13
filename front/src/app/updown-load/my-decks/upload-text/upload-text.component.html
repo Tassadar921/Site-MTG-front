@@ -1,0 +1,65 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-title>Paste decklist</ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-textarea rows="15" id="text" inputmode="text" type="text"
+                      [(ngModel)]="linkWithBack.uploadedText"
+                      placeholder="Paste your decklist here"></ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-input type="text" (keyup)="linkWithBack.trigger($event.key, 'text')"
+                   [(ngModel)]="linkWithBack.deckName" required="true"
+                   [ngModelOptions]="{standalone: true}" placeholder="Name your deck"
+                   style="border: 1px solid grey; border-radius:15px;"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>Private</ion-text>
+        <ion-toggle [(ngModel)]="linkWithBack.visibility"></ion-toggle>
+        <ion-text>Public</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngFor="let el of linkWithBack.colors">
+        <ion-row>
+          <ion-img [src]="'./assets/img/'+el.name+'.png'" class="icon"></ion-img>
+        </ion-row>
+        <ion-row>
+          <ion-checkbox (ionChange)="linkWithBack.selectedColor(el.name)" [(ngModel)]="el.checked"></ion-checkbox>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text style="color:red; font-weight: bold;">
+          {{linkWithBack.output}}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <div style="position: fixed; left: 0; bottom: 10px; right: 0;">
+      <ion-row>
+        <ion-col>
+          <ion-button color="danger" (click)="linkWithBack.dismissModal()">Close</ion-button>
+        </ion-col>
+        <ion-col *ngIf="linkWithBack.uploadedText
+      && linkWithBack.deckName
+      && ((linkWithBack.colors[0].checked
+      ||linkWithBack.colors[1].checked
+      ||linkWithBack.colors[2].checked
+      ||linkWithBack.colors[3].checked
+      ||linkWithBack.colors[4].checked
+      )||linkWithBack.colors[5].checked)">
+          <ion-button color="success" id="submit" (click)="linkWithBack.uploadText()">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+</ion-content>
